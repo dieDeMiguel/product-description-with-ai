@@ -19,7 +19,7 @@ const Editor = forwardRef<
 
   useImperativeHandle(ref, () => ({
     appendText: async (text: string) => {
-      if (editorRef.current) {
+      if (editorRef?.current) {
         try {
           const data = await editorRef?.current?.save();
           const lastBlockIndex = data?.blocks?.length - 1;
@@ -29,7 +29,7 @@ const Editor = forwardRef<
             data?.blocks[lastBlockIndex]?.type === "paragraph"
           ) {
             const updatedText = data?.blocks[lastBlockIndex]?.data?.text + text;
-            await editorRef.current?.blocks?.update(
+            await editorRef?.current?.blocks?.update(
               lastBlockIndex?.toString(),
               {
                 type: "paragraph",
@@ -45,10 +45,6 @@ const Editor = forwardRef<
           console.error("Error appendText:", error);
         }
       }
-    },
-    sanitizeConfigL: (config: Record<string, unknown>) => {
-      // Implement the sanitization logic here
-      return config;
     },
   }));
 
