@@ -1,4 +1,3 @@
-// hooks/useInitializeEditor.ts
 "use client";
 
 import { loadEditorTools } from "@/utils/editor/loadEditorTools";
@@ -14,7 +13,6 @@ const useInitializeEditor = (
     const initializeEditor = async () => {
       if (!ref.current) {
         const tools = await loadEditorTools();
-
         try {
           const editor = new EditorJS({
             holder: `${sectionID}`,
@@ -58,7 +56,7 @@ const useInitializeEditor = (
         }
       }
     };
-  }, [ref, inlineToolbar, sectionID]);
+  }, [ref, sectionID]);
 };
 
 export default useInitializeEditor;

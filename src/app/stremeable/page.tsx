@@ -7,26 +7,29 @@ import { debounce } from "lodash";
 import { useEffect, useRef } from "react";
 import { generateStream } from "../actions/stremeable";
 
-export const maxDuration = 30;
+export const maxDuration = 100;
+
+export interface EditorHandle {
+  appendText: (text: string) => Promise<void>;
+}
 
 export default function Home() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const editorInstance = useRef<any>(null);
+  const editorInstance = useRef<EditorHandle | null>(null);
   const paragraphBuffer = useRef<string>("");
 
   const appendTextDebounced = useRef(
     debounce(async () => {
-      if (paragraphBuffer.current.trim() !== "") {
-        if (editorInstance.current) {
+      if (paragraphBuffer?.current?.trim() !== "") {
+        if (editorInstance?.current) {
           try {
-            await editorInstance.current.appendText(paragraphBuffer.current);
+            await editorInstance?.current?.appendText(paragraphBuffer?.current);
             paragraphBuffer.current = "";
           } catch (error) {
             console.error("Error appending text:", error);
           }
         }
       }
-    }, 130)
+    }, maxDuration)
   ).current;
 
   const handleStream = async () => {
