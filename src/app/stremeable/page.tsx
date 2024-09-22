@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { EditorHandle } from "@/interfaces/editorHandle";
 
-export const maxDuration = 60;
+export const maxDuration = 150;
 
 export default function Home() {
   const editorInstance = useRef<EditorHandle | null>(null);
