@@ -1,3 +1,11 @@
 {
-  "cSpell.words": ["editorjs", "openai", "Streamable", "stremeable"]
+  "cSpell.words": [
+    "clsx",
+    "editorjs",
+    "nextjs",
+    "openai",
+    "Streamable",
+    "stremeable",
+    "tailwindcss"
+  ]
 }
