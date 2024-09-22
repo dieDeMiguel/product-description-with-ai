@@ -28,7 +28,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <main className="grid">{children}</main>
+        <main className="min-h-screen p-4 grid place-items-center">
+          {children}
+        </main>
       </body>
     </html>
   );

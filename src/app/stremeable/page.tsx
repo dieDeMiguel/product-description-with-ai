@@ -1,28 +1,31 @@
-// pages/index.tsx
 "use client";
 
 import Editor from "@/components/editor";
 import { readStreamableValue } from "ai/rsc";
 import { debounce } from "lodash";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { generateStream } from "../actions/stremeable";
 
-export const maxDuration = 100;
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { EditorHandle } from "@/interfaces/editorHandle";
 
-export interface EditorHandle {
-  appendText: (text: string) => Promise<void>;
-}
+export const maxDuration = 60;
 
 export default function Home() {
   const editorInstance = useRef<EditorHandle | null>(null);
   const paragraphBuffer = useRef<string>("");
 
+  const [prompt, setPrompt] = useState<string>(
+    "Create a short press release for a new product launch. Make it about:"
+  );
+
   const appendTextDebounced = useRef(
     debounce(async () => {
-      if (paragraphBuffer?.current?.trim() !== "") {
-        if (editorInstance?.current) {
+      if (paragraphBuffer.current.trim() !== "") {
+        if (editorInstance.current) {
           try {
-            await editorInstance?.current?.appendText(paragraphBuffer?.current);
+            await editorInstance.current.appendText(paragraphBuffer.current);
             paragraphBuffer.current = "";
           } catch (error) {
             console.error("Error appending text:", error);
@@ -33,16 +36,18 @@ export default function Home() {
   ).current;
 
   const handleStream = async () => {
-    const { output } = await generateStream(
-      "Create a short press release for a new product launch. Make it about a new wind turbine from Vestas which has high performance capabilities"
-    );
+    try {
+      const { output } = await generateStream(prompt);
 
-    for await (const delta of readStreamableValue(output)) {
-      paragraphBuffer.current += delta;
-      appendTextDebounced();
+      for await (const delta of readStreamableValue(output)) {
+        paragraphBuffer.current += delta;
+        appendTextDebounced();
+      }
+
+      appendTextDebounced.flush();
+    } catch (error) {
+      console.error("Error generating stream:", error);
     }
-
-    appendTextDebounced.flush();
   };
 
   useEffect(() => {
@@ -50,17 +55,26 @@ export default function Home() {
       appendTextDebounced.cancel();
     };
   }, [appendTextDebounced]);
-
   return (
-    <div className="h-full flex flex-col justify-center items-center p-xl gap-l">
-      <div className="button">
-        <button onClick={handleStream}>Ask</button>
+    <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-5 gap-6 p-4">
+      <div className="md:col-span-2 flex flex-col gap-4">
+        <Textarea
+          value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
+          placeholder="Escribe el prompt para la nota de prensa..."
+          className="h-40 resize-none"
+        />
+        <Button onClick={handleStream} className="w-full">
+          Ask
+        </Button>
       </div>
-      <Editor
-        ref={editorInstance}
-        sectionID="editor"
-        wrapperClassName="bg-white w-[730px] h-full rounded-lg margin-auto"
-      />
+      <div className="md:col-span-3 bg-white rounded-lg p-4 shadow-md h-full overflow-auto">
+        <Editor
+          ref={editorInstance}
+          sectionID="editor"
+          wrapperClassName="h-full"
+        />
+      </div>
     </div>
   );
 }

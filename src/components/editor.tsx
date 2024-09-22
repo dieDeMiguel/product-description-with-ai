@@ -1,7 +1,6 @@
 "use client";
-
-import { EditorHandle } from "@/app/stremeable/page";
 import useInitializeEditor from "@/hooks/useInitializeEditor";
+import { EditorHandle } from "@/interfaces/editorHandle";
 import { cn } from "@/utils/cn";
 import EditorJS from "@editorjs/editorjs";
 import { forwardRef, useImperativeHandle, useRef } from "react";
@@ -46,6 +45,10 @@ const Editor = forwardRef<
           console.error("Error appendText:", error);
         }
       }
+    },
+    sanitizeConfigL: (config: Record<string, unknown>) => {
+      // Implement the sanitization logic here
+      return config;
     },
   }));
 
