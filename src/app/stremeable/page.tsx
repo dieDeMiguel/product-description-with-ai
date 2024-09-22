@@ -15,9 +15,8 @@ export const maxDuration = 60;
 export default function Home() {
   const editorInstance = useRef<EditorHandle | null>(null);
   const paragraphBuffer = useRef<string>("");
-
   const [prompt, setPrompt] = useState<string>(
-    "Create a short press release for a new product launch. Make it about:"
+    "Create a short press release for a new product launch. Make it about: A new Tesla Model X electric car."
   );
 
   const appendTextDebounced = useRef(
@@ -55,6 +54,7 @@ export default function Home() {
       appendTextDebounced.cancel();
     };
   }, [appendTextDebounced]);
+
   return (
     <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-5 gap-6 p-4">
       <div className="md:col-span-2 flex flex-col gap-4">
@@ -65,7 +65,7 @@ export default function Home() {
           className="h-40 resize-none"
         />
         <Button onClick={handleStream} className="w-full">
-          Ask
+          Generate
         </Button>
       </div>
       <div className="md:col-span-3 bg-white rounded-lg p-4 shadow-md h-full overflow-auto">

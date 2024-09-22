@@ -6,7 +6,7 @@ export const loadEditorTools = async () => {
   return {
     paragraph: {
       class: Paragraph,
-      inlineToolbar: ["link", "bold", "italic", "underline"],
+      inlineToolbar: ["link", "bold", "italic"],
     },
     embed: {
       class: Embed,
@@ -14,7 +14,7 @@ export const loadEditorTools = async () => {
     },
     list: {
       class: List,
-      inlineToolbar: ["link", "bold", "italic", "underline"],
+      inlineToolbar: ["link", "bold", "italic"],
       readOnly: true,
       toolbox: [
         {
@@ -25,7 +25,7 @@ export const loadEditorTools = async () => {
     },
     unordered: {
       class: List,
-      inlineToolbar: ["link", "bold", "italic", "underline"],
+      inlineToolbar: ["link", "bold", "italic"],
       readOnly: true,
       toolbox: [
         {
