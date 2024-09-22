@@ -23,23 +23,20 @@ const Editor = forwardRef<
         try {
           const data = await editorRef?.current?.save();
           const lastBlockIndex = data?.blocks?.length - 1;
+
           if (
             lastBlockIndex >= 0 &&
             data?.blocks[lastBlockIndex]?.type === "paragraph"
           ) {
             const updatedText = data?.blocks[lastBlockIndex]?.data?.text + text;
-            const blockId = data.blocks[lastBlockIndex].id;
-            if (blockId && updatedText?.trim()?.length > 0) {
-              const block = editorRef?.current?.blocks?.getById(blockId);
-              if (block) {
-                await editorRef.current.blocks.update(blockId, {
-                  type: "paragraph",
-                  data: { text: updatedText },
-                });
+
+            await editorRef?.current?.blocks?.update(
+              lastBlockIndex.toString(),
+              {
+                type: "paragraph",
+                data: { text: updatedText },
               }
-            } else {
-              console.warn(`Block with id "${blockId}" not found`);
-            }
+            );
           } else {
             await editorRef?.current?.blocks?.insert("paragraph", {
               text: text,

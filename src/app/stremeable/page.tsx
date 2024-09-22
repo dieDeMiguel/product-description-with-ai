@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { EditorHandle } from "@/interfaces/editorHandle";
 
-export const maxDuration = 150;
+export const maxDuration = 50;
 
 export default function Home() {
   const editorInstance = useRef<EditorHandle | null>(null);
@@ -21,8 +21,8 @@ export default function Home() {
 
   const appendTextDebounced = useRef(
     debounce(async () => {
-      if (paragraphBuffer.current.trim() !== "") {
-        if (editorInstance.current) {
+      if (paragraphBuffer?.current?.trim().length > 2) {
+        if (editorInstance?.current) {
           try {
             await editorInstance.current.appendText(paragraphBuffer.current);
             paragraphBuffer.current = "";

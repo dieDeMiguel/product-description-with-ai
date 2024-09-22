@@ -6,7 +6,7 @@ export const loadEditorTools = async () => {
   return {
     paragraph: {
       class: Paragraph,
-      inlineToolbar: ["link", "bold", "italic"],
+      inlineToolbar: ["link", "bold", "italic", "underline"],
     },
     embed: {
       class: Embed,
