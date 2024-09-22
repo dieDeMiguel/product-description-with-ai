@@ -43,7 +43,7 @@ const useInitializeEditor = (
         editorInstance.destroy();
       }
     };
-  }, [ref, inlineToolbar, content]);
+  }, [ref, content]);
 };
 
 export default useInitializeEditor;

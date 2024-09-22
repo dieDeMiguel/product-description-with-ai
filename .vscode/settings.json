@@ -6,6 +6,7 @@
     "openai",
     "Streamable",
     "stremeable",
-    "tailwindcss"
+    "tailwindcss",
+    "uuidv"
   ]
 }

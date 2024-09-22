@@ -1,6 +1,7 @@
 "use client";
 
 import Editor from "@/components/editor";
+import mutateApiResponse from "@/utils/mutateApiResponse";
 import { readStreamableValue } from "ai/rsc";
 import { useState } from "react";
 import { generateStream } from "../actions/stremeable";
@@ -28,8 +29,11 @@ export default function Home() {
       >
         Ask
       </button>
-      <div>{generation}</div>
-      <Editor sectionID="editor" content={null} />
+      <Editor
+        sectionID="editor"
+        wrapperClassName="bg-white w=full h-full rounded-lg xl:w-1/2 margin-auto"
+        content={mutateApiResponse(generation)}
+      />
     </div>
   );
 }

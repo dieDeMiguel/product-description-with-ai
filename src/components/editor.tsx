@@ -29,9 +29,9 @@ export default function Editor({
   return (
     <div className={wrapperClassName}>
       <div
-        id={`custom-${sectionID}`}
-        key={`custom-key-${sectionID}`}
-        className={cn("prose bg-custom-white py-editor-padding", className)}
+        id={`${sectionID}`}
+        key={`${sectionID}`}
+        className={cn("py-editor-padding", className)}
       />
     </div>
   );
