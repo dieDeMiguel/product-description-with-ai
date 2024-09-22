@@ -1,3 +1,4 @@
+// hooks/useInitializeEditor.ts
 "use client";
 
 import { loadEditorTools } from "@/utils/editor/loadEditorTools";
@@ -14,20 +15,34 @@ const useInitializeEditor = (
       if (!ref.current) {
         const tools = await loadEditorTools();
 
-        const editor = new EditorJS({
-          holder: `${sectionID}`,
-          tools: tools as unknown as { [toolName: string]: ToolConstructable },
-          inlineToolbar: inlineToolbar,
-          hideToolbar: true,
-          data: {
-            time: new Date().getTime(),
-            blocks: [],
-          },
-          i18n: {
-            messages: {},
-          },
-        });
-        ref.current = editor;
+        try {
+          const editor = new EditorJS({
+            holder: `${sectionID}`,
+            tools: tools as unknown as {
+              [toolName: string]: ToolConstructable;
+            },
+            inlineToolbar: inlineToolbar,
+            hideToolbar: true,
+            data: {
+              time: new Date().getTime(),
+              blocks: [
+                {
+                  type: "paragraph",
+                  data: {
+                    text: "",
+                  },
+                },
+              ],
+            },
+            i18n: {
+              messages: {},
+            },
+          });
+          ref.current = editor;
+          console.log("EditorJS initialized successfully");
+        } catch (error) {
+          console.error("Error initializing EditorJS:", error);
+        }
       }
     };
 
@@ -36,7 +51,11 @@ const useInitializeEditor = (
     return () => {
       const editorInstance = ref.current;
       if (editorInstance && typeof editorInstance.destroy === "function") {
-        editorInstance.destroy();
+        try {
+          editorInstance.destroy();
+        } catch (error) {
+          console.error("Error destroying EditorJS:", error);
+        }
       }
     };
   }, [ref, inlineToolbar, sectionID]);

@@ -2,7 +2,7 @@
 
 import useInitializeEditor from "@/hooks/useInitializeEditor";
 import { cn } from "@/utils/cn";
-import EditorJS, { OutputBlockData } from "@editorjs/editorjs";
+import EditorJS from "@editorjs/editorjs";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 
 const Editor = forwardRef(
@@ -23,12 +23,31 @@ const Editor = forwardRef(
     useInitializeEditor(editorRef, true, sectionID);
 
     useImperativeHandle(ref, () => ({
-      insertBlock: async (block: OutputBlockData) => {
+      appendText: async (text: string) => {
         if (editorRef.current) {
           try {
-            await editorRef.current.blocks.insert(block.type, block.data);
+            const data = await editorRef?.current?.save();
+            const lastBlockIndex = data?.blocks?.length - 1;
+            if (
+              lastBlockIndex >= 0 &&
+              data?.blocks[lastBlockIndex]?.type === "paragraph"
+            ) {
+              const updatedText =
+                data?.blocks[lastBlockIndex]?.data?.text + text;
+              await editorRef?.current?.blocks?.update(
+                lastBlockIndex?.toString(),
+                {
+                  type: "paragraph",
+                  data: { text: updatedText },
+                }
+              );
+            } else {
+              await editorRef?.current?.blocks?.insert("paragraph", {
+                text: text,
+              });
+            }
           } catch (error) {
-            console.error("Error inserting block:", error);
+            console.error("Error appending text:", error);
           }
         }
       },

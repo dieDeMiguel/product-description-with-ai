@@ -3,7 +3,8 @@
 
 import Editor from "@/components/editor";
 import { readStreamableValue } from "ai/rsc";
-import { useRef } from "react";
+import { debounce } from "lodash";
+import { useEffect, useRef } from "react";
 import { generateStream } from "../actions/stremeable";
 
 export const maxDuration = 30;
@@ -11,6 +12,22 @@ export const maxDuration = 30;
 export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editorInstance = useRef<any>(null);
+  const paragraphBuffer = useRef<string>("");
+
+  const appendTextDebounced = useRef(
+    debounce(async () => {
+      if (paragraphBuffer.current.trim() !== "") {
+        if (editorInstance.current) {
+          try {
+            await editorInstance.current.appendText(paragraphBuffer.current);
+            paragraphBuffer.current = "";
+          } catch (error) {
+            console.error("Error appending text:", error);
+          }
+        }
+      }
+    }, 130)
+  ).current;
 
   const handleStream = async () => {
     const { output } = await generateStream(
@@ -18,20 +35,18 @@ export default function Home() {
     );
 
     for await (const delta of readStreamableValue(output)) {
-      if (editorInstance.current) {
-        try {
-          await editorInstance.current.insertBlock({
-            type: "paragraph",
-            data: {
-              text: delta,
-            },
-          });
-        } catch (error) {
-          console.error("Error during streaming insertion:", error);
-        }
-      }
+      paragraphBuffer.current += delta;
+      appendTextDebounced();
     }
+
+    appendTextDebounced.flush();
   };
+
+  useEffect(() => {
+    return () => {
+      appendTextDebounced.cancel();
+    };
+  }, [appendTextDebounced]);
 
   return (
     <div className="h-full flex flex-col justify-center items-center p-xl gap-l">
