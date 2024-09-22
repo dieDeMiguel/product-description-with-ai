@@ -13,25 +13,27 @@ export default function Home() {
   const [generation, setGeneration] = useState<string>("");
 
   return (
-    <div className="w-full h-full grid">
-      <button
-        onClick={async () => {
-          const { output } = await generateStream(
-            "Create a short press release for a new product launch. Make it about a new wind turbine from Vestas which has high performance capabilities"
-          );
-
-          for await (const delta of readStreamableValue(output)) {
-            setGeneration(
-              (currentGeneration) => `${currentGeneration}${delta}`
+    <div className="h-full flex flex-col justify-center items-center p-xl gap-l">
+      <div className="button">
+        <button
+          onClick={async () => {
+            const { output } = await generateStream(
+              "Create a short press release for a new product launch. Make it about a new wind turbine from Vestas which has high performance capabilities"
             );
-          }
-        }}
-      >
-        Ask
-      </button>
+
+            for await (const delta of readStreamableValue(output)) {
+              setGeneration(
+                (currentGeneration) => `${currentGeneration}${delta}`
+              );
+            }
+          }}
+        >
+          Ask
+        </button>
+      </div>
       <Editor
         sectionID="editor"
-        wrapperClassName="bg-white w=full h-full rounded-lg xl:w-1/2 margin-auto"
+        wrapperClassName="bg-white w-[730px] h-full rounded-lg margin-auto"
         content={mutateApiResponse(generation)}
       />
     </div>

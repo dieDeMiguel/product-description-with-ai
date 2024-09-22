@@ -31,7 +31,7 @@ export default function Editor({
       <div
         id={`${sectionID}`}
         key={`${sectionID}`}
-        className={cn("py-editor-padding", className)}
+        className={cn("text-black", className)}
       />
     </div>
   );
