@@ -1,11 +1,9 @@
 "use client";
 
+import useInitializeEditor from "@/hooks/useInitializeEditor";
 import { cn } from "@/utils/cn";
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import { useRef } from "react";
-
-import useInitializeEditor from "@/hooks/useInitializeEditor";
-import "./editor.css";
 
 export default function Editor({
   sectionID,
@@ -26,7 +24,7 @@ export default function Editor({
 }) {
   const ref = useRef<EditorJS | null>(null);
 
-  useInitializeEditor(ref, content, true);
+  useInitializeEditor(ref, content, true, sectionID);
 
   return (
     <div className={wrapperClassName}>

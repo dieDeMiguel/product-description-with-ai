@@ -1,8 +1,9 @@
 "use client";
 
+import Editor from "@/components/editor";
 import { readStreamableValue } from "ai/rsc";
 import { useState } from "react";
-import { generate } from "../actions/stremeable";
+import { generateStream } from "../actions/stremeable";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -14,7 +15,9 @@ export default function Home() {
     <div className="w-full h-full grid">
       <button
         onClick={async () => {
-          const { output } = await generate("Why is the sky blue?");
+          const { output } = await generateStream(
+            "Create a short press release for a new product launch. Make it about a new wind turbine from Vestas which has high performance capabilities"
+          );
 
           for await (const delta of readStreamableValue(output)) {
             setGeneration(
@@ -25,8 +28,8 @@ export default function Home() {
       >
         Ask
       </button>
-
       <div>{generation}</div>
+      <Editor sectionID="editor" content={null} />
     </div>
   );
 }

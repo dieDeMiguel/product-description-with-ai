@@ -5,7 +5,8 @@ import { MutableRefObject, useEffect } from "react";
 const useInitializeEditor = (
   ref: MutableRefObject<EditorJS | null>,
   content: OutputData | null,
-  inlineToolbar: boolean
+  inlineToolbar: boolean,
+  sectionID: string
 ) => {
   useEffect(() => {
     const initializeEditor = async () => {
@@ -16,6 +17,7 @@ const useInitializeEditor = (
 
         const editor = new EditorJS({
           minHeight: 0,
+          holder: `${sectionID}`,
           tools: tools as unknown as { [toolName: string]: ToolConstructable },
           inlineToolbar: inlineToolbar,
           hideToolbar: true,
