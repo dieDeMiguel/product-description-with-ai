@@ -2,37 +2,50 @@
 
 import useInitializeEditor from "@/hooks/useInitializeEditor";
 import { cn } from "@/utils/cn";
-import EditorJS, { OutputData } from "@editorjs/editorjs";
-import { useRef } from "react";
+import EditorJS, { OutputBlockData } from "@editorjs/editorjs";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 
-export default function Editor({
-  sectionID,
-  className = "",
-  wrapperClassName = "",
-  content,
-}: {
-  sectionID: string;
-  className?: string;
-  wrapperClassName?: string;
-  translationKey?: string;
-  placeholderClass?: string;
-  hidden?: boolean;
-  allowNewBlocks?: boolean;
-  isReadOnly?: boolean;
-  content: OutputData | null;
-  inlineToolbar?: boolean;
-}) {
-  const ref = useRef<EditorJS | null>(null);
+const Editor = forwardRef(
+  (
+    {
+      sectionID,
+      className = "",
+      wrapperClassName = "",
+    }: {
+      sectionID: string;
+      className?: string;
+      wrapperClassName?: string;
+    },
+    ref
+  ) => {
+    const editorRef = useRef<EditorJS | null>(null);
 
-  useInitializeEditor(ref, content, true, sectionID);
+    useInitializeEditor(editorRef, true, sectionID);
 
-  return (
-    <div className={wrapperClassName}>
-      <div
-        id={`${sectionID}`}
-        key={`${sectionID}`}
-        className={cn("text-black", className)}
-      />
-    </div>
-  );
-}
+    useImperativeHandle(ref, () => ({
+      insertBlock: async (block: OutputBlockData) => {
+        if (editorRef.current) {
+          try {
+            await editorRef.current.blocks.insert(block.type, block.data);
+          } catch (error) {
+            console.error("Error inserting block:", error);
+          }
+        }
+      },
+    }));
+
+    return (
+      <div className={wrapperClassName}>
+        <div
+          id={`${sectionID}`}
+          key={`${sectionID}`}
+          className={cn("text-black", className)}
+        />
+      </div>
+    );
+  }
+);
+
+Editor.displayName = "Editor";
+
+export default Editor;
