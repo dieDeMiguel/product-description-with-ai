@@ -1,6 +1,5 @@
 "use client";
 
-import Editor from "@/components/editor";
 import { readStreamableValue } from "ai/rsc";
 import { debounce } from "lodash";
 import { useEffect, useRef, useState } from "react";
@@ -68,13 +67,13 @@ export default function Home() {
           Generate
         </Button>
       </div>
-      <div className="md:col-span-3 bg-white rounded-lg p-4 shadow-md h-full overflow-auto">
+      {/* <div className="md:col-span-3 bg-white rounded-lg p-4 shadow-md h-full overflow-auto">
         <Editor
           ref={editorInstance}
           sectionID="editor"
           wrapperClassName="h-full"
         />
-      </div>
+      </div> */}
     </div>
   );
 }
