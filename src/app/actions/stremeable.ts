@@ -6,6 +6,7 @@ import { streamText } from "ai";
 import { createStreamableValue } from "ai/rsc";
 
 export async function generateStream(input: string) {
+  console.log("Generating stream with input:", input);
   const stream = createStreamableValue("");
   let buffer = "";
 
@@ -17,15 +18,26 @@ export async function generateStream(input: string) {
   for await (const delta of textStream) {
     buffer += delta;
 
-    await inngest.send({
-      name: "generate/stream-press-release",
-      data: { chunk: buffer },
-    });
+    // Split buffer into words and append each word individually
+    const words = buffer.split(" ");
+    for (let i = 0; i < words.length - 1; i++) {
+      const word = words[i] + " ";
+      stream.append(word);
 
-    buffer = "";
+      await inngest.send({
+        name: "generate/stream-press-release",
+        data: { chunk: word },
+      });
+    }
+
+    // Keep the last word in the buffer (it might be incomplete)
+    buffer = words[words.length - 1];
   }
 
   if (buffer) {
+    // Append any remaining buffer content
+    stream.append(buffer);
+
     await inngest.send({
       name: "generate/stream-press-release",
       data: { chunk: buffer },
