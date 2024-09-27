@@ -3,6 +3,6 @@
     "env": {
       "NEXT_PUBLIC_INNGEST_API_KEY": "@inngest-api-key"
     },
-    "buildCommand": "npm run build && npm run inngest"
+    "buildCommand": "next build && npm run inngest"
   }
 }
