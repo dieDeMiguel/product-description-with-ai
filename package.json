@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "inngest": "inngest dev"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.61",
