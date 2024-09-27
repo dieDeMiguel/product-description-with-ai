@@ -12,12 +12,13 @@ import { debounce } from "lodash";
 
 export const maxDuration = 50;
 const baseInstruction =
-  "Create a press release for the German market. Avoid including 'for immediate release' and any contact information at the end. The press release is about:";
+  "Create a press release for the German market. Avoid including 'for immediate release' and any contact information at the end, also no '#' on the content. The press release is about:";
 
 export default function Home() {
   const editorInstance = useRef<EditorHandle | null>(null);
   const paragraphBuffer = useRef<string>("");
   const [userInput, setUserInput] = useState<string>("");
+  const [isGenerating, setIsGenerating] = useState<boolean>(false);
 
   const appendTextDebounced = useRef(
     debounce(async () => {
@@ -35,6 +36,7 @@ export default function Home() {
   ).current;
 
   const handleStream = async () => {
+    setIsGenerating(true);
     try {
       const prompt = `${baseInstruction} ${userInput}`;
       const { output } = await generateStream(prompt);
@@ -43,8 +45,10 @@ export default function Home() {
         appendTextDebounced();
       }
       appendTextDebounced.flush();
+      setIsGenerating(false);
     } catch (error) {
       console.error("Error generating stream:", error);
+      setIsGenerating(false);
     }
   };
 
@@ -60,11 +64,15 @@ export default function Home() {
         <Textarea
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
-          placeholder="The press release is about..."
+          placeholder="The press release is about... (min. 10 characters)"
           className="h-40 resize-none"
         />
-        <Button onClick={handleStream} className="w-full">
-          Generate
+        <Button
+          onClick={handleStream}
+          className="w-full"
+          disabled={userInput.length < 10}
+        >
+          {isGenerating ? "Generating..." : "Generate Press Release"}
         </Button>
       </div>
       <div className="md:col-span-3 bg-white rounded-lg p-4 shadow-md h-full overflow-auto">
