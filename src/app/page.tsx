@@ -8,7 +8,9 @@ import { inngest } from "@/inngest/client";
 
 export default function Home() {
   const paragraphBuffer = useRef<string>("");
-  const [userInput, setUserInput] = useState<string>("");
+  const [userInput, setUserInput] = useState<string>(
+    "A new tesla model x car with offroad capabilities"
+  );
 
   const handleStream = async () => {
     await inngest.send({
@@ -32,7 +34,7 @@ export default function Home() {
           Generate
         </Button>
       </div>
-      <h3>{paragraphBuffer.current}</h3>
+      <h3 className="content">{paragraphBuffer.current}</h3>
     </div>
   );
 }
