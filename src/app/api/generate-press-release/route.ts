@@ -1,4 +1,4 @@
-import { pressRelease } from "@/ai/press-release";
+import { inngest } from "@/inngest/client";
 import { setGeneratedPressRelease } from "@/store/pressReleaseStore";
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuid } from "uuid";
@@ -16,8 +16,15 @@ export async function POST(request: NextRequest) {
 
     const id = uuid();
     setGeneratedPressRelease(id, "");
+    const reviewPromise = await inngest.send({
+      name: "generate/press-release",
+      data: {
+        id,
+        prompt,
+      },
+    });
 
-    await pressRelease(prompt, id);
+    console.log("reviewPromise", reviewPromise);
 
     return NextResponse.json({ id }, { status: 200 });
   } catch (error) {
