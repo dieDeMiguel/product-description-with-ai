@@ -1,3 +1,4 @@
+import { setPressRelease, setPressReleaseCompleted } from "@/db";
 import { openai } from "@ai-sdk/openai";
 import { streamText } from "ai";
 
@@ -16,30 +17,19 @@ const SYSTEM_CONTEXT = `You are a highly experienced press release writer for th
     End with a strong closing statement that encourages action or further engagement.
     The press release is about: `;
 
-export async function* pressRelease(prompt: string): AsyncGenerator<string> {
+export async function* pressRelease(
+  id: string,
+  prompt: string
+): AsyncGenerator<string> {
   const fullPrompt = `${SYSTEM_CONTEXT} ${prompt}`;
   const { textStream } = await streamText({
     model: openai("gpt-3.5-turbo"),
     prompt: fullPrompt,
   });
-
-  let buffer = "";
-
-  for await (const delta of textStream) {
-    buffer += delta;
-    // Split buffer into words and yield each word individually
-    const words = buffer.split(" ");
-    for (let i = 0; i < words.length - 1; i++) {
-      const word = words[i] + " ";
-      yield word;
-    }
-    // Keep the last word in the buffer (it might be incomplete)
-    buffer = words[words.length - 1];
+  let pressRelease = "";
+  for await (const text of textStream) {
+    pressRelease += text;
+    await setPressRelease(+id, pressRelease);
   }
-
-  // Yield the final word
-  if (buffer) {
-    yield buffer;
-  }
-  yield "__DONE__";
+  await setPressReleaseCompleted(+id, true);
 }
