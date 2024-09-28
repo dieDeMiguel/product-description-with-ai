@@ -35,5 +35,7 @@ export async function pressRelease(prompt: string) {
     // Keep the last word in the buffer (it might be incomplete)
     buffer = words[words.length - 1];
   }
+  // Append the final buffer to the result
+  result += buffer;
   return result;
 }

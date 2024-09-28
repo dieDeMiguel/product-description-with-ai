@@ -1,8 +1,5 @@
+import { pressRelease } from "@/ai/press-release";
 import { NextRequest, NextResponse } from "next/server";
-
-import { inngest } from "@/inngest/client";
-import { setGeneratedPressRelease } from "@/store/pressReleaseStore";
-import { v4 as uuidv4 } from "uuid"; // Install uuid: npm install uuid
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,23 +12,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate a unique identifier for this press release
-    const id = uuidv4();
+    const generatedText = await pressRelease(prompt);
 
-    // Trigger the Inngest function with the prompt and id
-    await inngest.send({
-      name: "generate/press-release",
-      data: {
-        prompt,
-        id,
-      },
-    });
-
-    // Optionally, store the initial state in an in-memory store
-    // Note: In-memory stores are ephemeral and not suitable for production
-    setGeneratedPressRelease(id, "");
-
-    return NextResponse.json({ id }, { status: 200 });
+    return NextResponse.json({ text: generatedText }, { status: 200 });
   } catch (error) {
     console.error("Error in POST /api/generate-press-release:", error);
     return NextResponse.json(

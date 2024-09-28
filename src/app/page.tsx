@@ -1,25 +1,24 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
 
 export default function PressReleaseGenerator() {
   const [userInput, setUserInput] = useState<string>(
     "A new Tesla Model X car with offroad capabilities"
   );
+  const [generatedText, setGeneratedText] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
-  const router = useRouter();
 
-  const handleSubmit = async () => {
+  const handleGenerate = async () => {
     if (userInput.trim().length < 10) {
       alert("Please enter a prompt with at least 10 characters.");
       return;
     }
 
     setIsGenerating(true);
+    setGeneratedText("");
 
     try {
       const response = await fetch("/api/generate-press-release", {
@@ -36,13 +35,10 @@ export default function PressReleaseGenerator() {
       }
 
       const data = await response.json();
-      const { id } = data; // Assume the API returns an identifier
-
-      // Redirect to the display page with the identifier
-      router.push(`/press-release/${id}`);
+      setGeneratedText(data.text);
     } catch (error) {
       console.error("Error generating press release:", error);
-      alert("An error occurred while generating the press release.");
+      setGeneratedText("An error occurred while generating the press release.");
     } finally {
       setIsGenerating(false);
     }
@@ -57,9 +53,16 @@ export default function PressReleaseGenerator() {
         placeholder="The press release is about..."
         className="h-40 resize-none mb-4"
       />
-      <Button onClick={handleSubmit} className="w-full" disabled={isGenerating}>
+      <Button
+        onClick={handleGenerate}
+        className="w-full"
+        disabled={isGenerating}
+      >
         {isGenerating ? "Generating..." : "Generate Press Release"}
       </Button>
+      <div className="mt-6">
+        <h3 className="content whitespace-pre-wrap">{generatedText}</h3>
+      </div>
     </div>
   );
 }
