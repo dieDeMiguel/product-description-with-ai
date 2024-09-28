@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS pressReleases (
+  id SERIAL PRIMARY KEY,
+  pressRelease TEXT,
+  pressRelease_completed BOOLEAN DEFAULT FALSE
+);
