@@ -41,4 +41,5 @@ export async function* pressRelease(prompt: string): AsyncGenerator<string> {
   if (buffer) {
     yield buffer;
   }
+  yield "__DONE__";
 }

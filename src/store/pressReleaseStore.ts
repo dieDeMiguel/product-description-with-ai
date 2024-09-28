@@ -1,7 +1,8 @@
-// src/store/pressReleaseStore.ts
-
 type PressReleaseStore = {
-  [key: string]: string;
+  [key: string]: {
+    text: string;
+    isComplete: boolean;
+  };
 };
 
 const store: PressReleaseStore = {};
@@ -12,7 +13,7 @@ const store: PressReleaseStore = {};
  * @param text - Initial text (usually empty).
  */
 export function setGeneratedPressRelease(id: string, text: string) {
-  store[id] = text;
+  store[id] = { text, isComplete: false }; // Initialize with isComplete as false
 }
 
 /**
@@ -26,18 +27,30 @@ export function appendGeneratedPressRelease(
 ) {
   if (text) {
     if (store[id]) {
-      store[id] += text;
+      store[id].text += text;
     } else {
-      store[id] = text;
+      store[id] = { text, isComplete: false }; // Handle case where text was not initialized
     }
   }
 }
 
 /**
- * Retrieves the generated press release text.
+ * Marks the press release as complete.
  * @param id - Unique identifier for the press release.
- * @returns The generated text or null if not found.
  */
-export function getGeneratedPressRelease(id: string): string | null {
+export function markPressReleaseComplete(id: string) {
+  if (store[id]) {
+    store[id].isComplete = true;
+  }
+}
+
+/**
+ * Retrieves the generated press release.
+ * @param id - Unique identifier for the press release.
+ * @returns The press release data or null if not found.
+ */
+export function getGeneratedPressRelease(
+  id: string
+): { text: string; isComplete: boolean } | null {
   return store[id] || null;
 }

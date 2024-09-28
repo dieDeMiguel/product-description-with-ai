@@ -1,5 +1,6 @@
 "use client";
 
+import { getGeneratedPressRelease } from "@/store/pressReleaseStore"; // Simulated store
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -7,10 +8,13 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function PressReleaseDisplay() {
-  const { id } = useParams();
-  const [generatedText, setGeneratedText] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  let { id } = useParams();
+  if (Array.isArray(id)) {
+    id = id[0];
+  }
+  const [generatedText, setGeneratedText] = useState<string | null>(null);
   const [isComplete, setIsComplete] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -20,51 +24,33 @@ export default function PressReleaseDisplay() {
       return;
     }
 
-    const interval = setInterval(async () => {
+    const pollData = async () => {
       try {
-        const response = await fetch(`/api/get-press-release?id=${id}`);
+        const result = getGeneratedPressRelease(id);
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          if (
-            errorData.error === "Press release not found or not yet generated."
-          ) {
-            // Continue polling
-            return;
+        if (result) {
+          setGeneratedText(result.text);
+
+          if (result.isComplete) {
+            console.log("Generation complete! Stopping polling...");
+            setIsComplete(true);
+            clearInterval(intervalId); // Stop polling when complete
+            setIsLoading(false);
           }
-          throw new Error(errorData.error || "Failed to fetch press release.");
-        }
-
-        const data = await response.json();
-        setGeneratedText(data.text);
-
-        // If the generation is complete, stop the polling
-        if (data.isComplete) {
-          setIsComplete(true);
-          clearInterval(interval);
-        }
-
-        // Once we have some text, mark loading as false
-        if (data.text) {
-          setIsLoading(false);
-        }
-      } catch (err: unknown) {
-        console.error("Error fetching press release:", err);
-        if (err instanceof Error) {
-          setError(
-            err.message || "An error occurred while fetching the press release."
-          );
         } else {
-          setError(
-            "An unknown error occurred while fetching the press release."
-          );
+          setError("Press release not found or not yet generated.");
         }
-        setIsLoading(false); // Stop loading on error
-        clearInterval(interval);
+      } catch {
+        setError("Error fetching press release.");
+        clearInterval(intervalId);
       }
-    }, 500);
+    };
 
-    return () => clearInterval(interval);
+    // Poll every 500ms to simulate real-time updates
+    const intervalId = setInterval(pollData, 500);
+
+    // Cleanup the interval when the component unmounts
+    return () => clearInterval(intervalId);
   }, [id]);
 
   return (
@@ -81,7 +67,7 @@ export default function PressReleaseDisplay() {
       ) : (
         <>
           <h3 className="content whitespace-pre-wrap">
-            {generatedText || "Generating..."}
+            {generatedText || "Press release is still being generated..."}
           </h3>
           {isComplete && (
             <p className="mt-4 text-green-500">Generation Complete!</p>
