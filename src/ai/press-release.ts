@@ -1,7 +1,7 @@
 import { appendGeneratedPressRelease } from "@/store/pressReleaseStore";
 import { openai } from "@ai-sdk/openai";
 import { streamText } from "ai";
-import { readStreamableValue } from "ai/streamable";
+import { readStreamableValue } from "ai/rsc";
 
 const SYSTEM_CONTEXT = `You are a highly experienced press release writer for the German market. 
     Your job is to create a press release that adheres to the highest standards of journalism and public relations. 
