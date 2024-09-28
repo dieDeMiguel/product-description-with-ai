@@ -13,12 +13,13 @@ export default function Home() {
   );
 
   const handleStream = async () => {
-    await inngest.send({
+    const stream = await inngest.send({
       name: "generate/press-release",
       data: {
         prompt: userInput,
       },
     });
+    paragraphBuffer.current += stream;
   };
 
   return (
