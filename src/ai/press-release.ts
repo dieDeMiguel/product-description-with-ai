@@ -1,6 +1,7 @@
 import { appendGeneratedPressRelease } from "@/store/pressReleaseStore";
 import { openai } from "@ai-sdk/openai";
 import { streamText } from "ai";
+import { readStreamableValue } from "ai/streamable";
 
 const SYSTEM_CONTEXT = `You are a highly experienced press release writer for the German market. 
     Your job is to create a press release that adheres to the highest standards of journalism and public relations. 
@@ -25,7 +26,7 @@ export async function pressRelease(prompt: string, id: string) {
     prompt: `${SYSTEM_CONTEXT} ${prompt}`,
   });
 
-  for await (const delta of textStream) {
+  for await (const delta of readStreamableValue(textStream)) {
     buffer += delta;
     // Split buffer into words and append each word individually
     const words = buffer.split(" ");
