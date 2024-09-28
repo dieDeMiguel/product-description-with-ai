@@ -7,17 +7,7 @@ export async function setPressRelease(
   pressRelease: string
 ): Promise<void> {
   console.log("setting review", id, pressRelease);
-
-  // Check if the entry exists
-  const result = await sql`SELECT id FROM pressReleases WHERE id = ${id}`;
-
-  if (result.rows.length > 0) {
-    // Entry exists, update it
-    await sql`UPDATE pressReleases SET pressRelease = ${pressRelease} WHERE id = ${id}`;
-  } else {
-    // Entry does not exist, create it
-    await sql`INSERT INTO pressReleases (id, pressRelease) VALUES (${id}, ${pressRelease})`;
-  }
+  await sql`UPDATE pressReleases SET pressRelease=${pressRelease} WHERE id=${id}`;
 }
 
 export async function setPressReleaseCompleted(
@@ -33,4 +23,10 @@ export async function getGeneratedPressRelease(
   const result =
     await sql`SELECT pressRelease FROM pressReleases WHERE id = ${id}`;
   return result.rows.length > 0 ? result.rows[0].pressRelease : null;
+}
+export async function setGeneratedPressRelease(id: number): Promise<void> {
+  const result = await sql`SELECT id FROM pressReleases WHERE id = ${id}`;
+  if (result.rows.length === 0) {
+    await sql`INSERT INTO pressReleases (id, pressRelease) VALUES (${id}, '')`;
+  }
 }

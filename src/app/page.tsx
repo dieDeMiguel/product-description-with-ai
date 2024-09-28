@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { inngest } from "@/inngest/client";
-import { setGeneratedPressRelease } from "@/store/pressReleaseStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
@@ -24,7 +23,13 @@ export default function PressReleaseGenerator() {
     setIsGenerating(true);
 
     const id = uuid();
-    setGeneratedPressRelease(id, "");
+    fetch(`/api/generate-press-release`, {
+      method: "POST",
+      body: JSON.stringify({ id }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     try {
       await inngest.send({
