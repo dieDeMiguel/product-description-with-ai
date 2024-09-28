@@ -2,14 +2,15 @@
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function PressReleaseGenerator() {
   const [userInput, setUserInput] = useState<string>(
     "A new Tesla Model X car with offroad capabilities"
   );
-  const [generatedText, setGeneratedText] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
+  const router = useRouter();
 
   const handleGenerate = async () => {
     if (userInput.trim().length < 10) {
@@ -18,7 +19,6 @@ export default function PressReleaseGenerator() {
     }
 
     setIsGenerating(true);
-    setGeneratedText("");
 
     try {
       const response = await fetch("/api/generate-press-release", {
@@ -34,11 +34,10 @@ export default function PressReleaseGenerator() {
         throw new Error(errorData.error || "Failed to generate press release.");
       }
 
-      const data = await response.json();
-      setGeneratedText(data.text);
+      const { id } = await response.json();
+      router.push(`/press-release/${id}`);
     } catch (error) {
       console.error("Error generating press release:", error);
-      setGeneratedText("An error occurred while generating the press release.");
     } finally {
       setIsGenerating(false);
     }
@@ -60,9 +59,6 @@ export default function PressReleaseGenerator() {
       >
         {isGenerating ? "Generating..." : "Generate Press Release"}
       </Button>
-      <div className="mt-6">
-        <h3 className="content whitespace-pre-wrap">{generatedText}</h3>
-      </div>
     </div>
   );
 }

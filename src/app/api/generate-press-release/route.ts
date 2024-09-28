@@ -1,5 +1,7 @@
 import { pressRelease } from "@/ai/press-release";
+import { setGeneratedPressRelease } from "@/store/pressReleaseStore";
 import { NextRequest, NextResponse } from "next/server";
+import { v4 as uuid } from "uuid";
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,9 +14,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const generatedText = await pressRelease(prompt);
+    const id = uuid();
+    setGeneratedPressRelease(id, "");
 
-    return NextResponse.json({ text: generatedText }, { status: 200 });
+    await pressRelease(prompt, id);
+
+    return NextResponse.json({ id }, { status: 200 });
   } catch (error) {
     console.error("Error in POST /api/generate-press-release:", error);
     return NextResponse.json(

@@ -1,3 +1,4 @@
+import { appendGeneratedPressRelease } from "@/store/pressReleaseStore";
 import { openai } from "@ai-sdk/openai";
 import { streamText } from "ai";
 
@@ -16,7 +17,7 @@ const SYSTEM_CONTEXT = `You are a highly experienced press release writer for th
     End with a strong closing statement that encourages action or further engagement.
     The press release is about: `;
 
-export async function pressRelease(prompt: string) {
+export async function pressRelease(prompt: string, id: string) {
   let buffer = "";
   let result = "";
   const { textStream } = await streamText({
@@ -37,5 +38,6 @@ export async function pressRelease(prompt: string) {
   }
   // Append the final buffer to the result
   result += buffer;
+  appendGeneratedPressRelease(id, result);
   return result;
 }
