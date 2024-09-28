@@ -25,17 +25,19 @@ export default function PressReleaseGenerator() {
 
     const id = uuid();
     setGeneratedPressRelease(id, "");
+
     try {
       await inngest.send({
         name: "generate/press-release",
         data: {
           id,
-          prompt,
+          prompt: userInput,
         },
       });
       router.push(`/press-release/${id}`);
     } catch (error) {
       console.error("Error generating press release:", error);
+      alert("An error occurred while generating the press release.");
     } finally {
       setIsGenerating(false);
     }
@@ -53,7 +55,7 @@ export default function PressReleaseGenerator() {
       <Button
         onClick={handleGenerate}
         className="w-full"
-        disabled={isGenerating}
+        disabled={isGenerating || userInput.trim().length < 10}
       >
         {isGenerating ? "Generating..." : "Generate Press Release"}
       </Button>

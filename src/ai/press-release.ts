@@ -1,6 +1,5 @@
 import { openai } from "@ai-sdk/openai";
 import { streamText } from "ai";
-import { createStreamableValue } from "ai/rsc";
 
 const SYSTEM_CONTEXT = `You are a highly experienced press release writer for the German market. 
     Your job is to create a press release that adheres to the highest standards of journalism and public relations. 
@@ -17,33 +16,29 @@ const SYSTEM_CONTEXT = `You are a highly experienced press release writer for th
     End with a strong closing statement that encourages action or further engagement.
     The press release is about: `;
 
-export async function pressRelease(prompt: string) {
-  let buffer = "";
-  const stream = createStreamableValue("");
+export async function* pressRelease(prompt: string): AsyncGenerator<string> {
+  const fullPrompt = `${SYSTEM_CONTEXT} ${prompt}`;
   const { textStream } = await streamText({
     model: openai("gpt-3.5-turbo"),
-    prompt: `${SYSTEM_CONTEXT} ${prompt}`,
+    prompt: fullPrompt,
   });
+
+  let buffer = "";
 
   for await (const delta of textStream) {
     buffer += delta;
-    // Split buffer into words and append each word individually
+    // Split buffer into words and yield each word individually
     const words = buffer.split(" ");
     for (let i = 0; i < words.length - 1; i++) {
       const word = words[i] + " ";
-      stream.append(word);
+      yield word;
     }
     // Keep the last word in the buffer (it might be incomplete)
     buffer = words[words.length - 1];
   }
 
-  // Append the last word to the stream
+  // Yield the final word
   if (buffer) {
-    stream.append(buffer);
+    yield buffer;
   }
-
-  // Mark the stream as done
-  await stream.done();
-
-  return { output: stream.value };
 }

@@ -1,6 +1,11 @@
 import { getGeneratedPressRelease } from "@/store/pressReleaseStore";
 import { NextRequest, NextResponse } from "next/server";
 
+/**
+ * Handles GET requests to fetch the generated press release.
+ * @param request - Incoming NextRequest.
+ * @returns JSON response with the generated text.
+ */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -13,7 +18,6 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Retrieve the generated press release from the store
     const text = getGeneratedPressRelease(id);
 
     if (!text) {
