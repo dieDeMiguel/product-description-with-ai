@@ -1,79 +1,68 @@
 "use client";
-
-import { getGeneratedPressRelease } from "@/store/pressReleaseStore"; // Simulated store
-import { useParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 import { useEffect, useState } from "react";
+import Markdown from "react-markdown";
 
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export default function PressReleaseDisplay() {
-  let { id } = useParams();
-  if (Array.isArray(id)) {
-    id = id[0];
-  }
-  const [generatedText, setGeneratedText] = useState<string | null>(null);
-  const [isComplete, setIsComplete] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+export default function Page({
+  params,
+}: {
+  params: {
+    id: string;
+  };
+}) {
+  const [enabled, setEnabled] = useState(true);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data } = useQuery<any>({
+    queryKey: ["background", backgroundId],
+    queryFn: async () => {
+      const response = await fetch(`/api/background/${backgroundId}`);
+      return response.json();
+    },
+    initialData: initialBackground,
+    refetchInterval: 200,
+    enabled,
+  });
 
   useEffect(() => {
-    if (!id) {
-      setError("Missing identifier.");
-      setIsLoading(false);
-      return;
-    }
-
-    const pollData = async () => {
-      try {
-        const result = getGeneratedPressRelease(id);
-
-        if (result) {
-          setGeneratedText(result.text);
-
-          if (result.isComplete) {
-            console.log("Generation complete! Stopping polling...");
-            setIsComplete(true);
-            clearInterval(intervalId); // Stop polling when complete
-            setIsLoading(false);
-          }
-        } else {
-          setError("Press release not found or not yet generated.");
-        }
-      } catch {
-        setError("Error fetching press release.");
-        clearInterval(intervalId);
-      }
-    };
-
-    // Poll every 500ms to simulate real-time updates
-    const intervalId = setInterval(pollData, 500);
-
-    // Cleanup the interval when the component unmounts
-    return () => clearInterval(intervalId);
-  }, [id]);
+    setEnabled(
+      !data?.review_completed || !data?.theme || !data?.new_background
+    );
+  }, [data?.review_completed, data?.theme, data?.new_background]);
 
   return (
-    <div className="w-full max-w-6xl p-4">
-      <div className="mb-5">
-        <Link href="/press-release-generator">
-          <Button>Generate Another Press Release</Button>
-        </Link>
+    <div className="flex gap-4">
+      <div className="w-1/2">
+        <h2 className="text-xl font-semibold">What You&apos;ve Got</h2>
+        <div className="relative aspect-video overflow-hidden rounded-lg">
+          <Image
+            src={data?.image}
+            alt="Background"
+            width={1920}
+            height={1080}
+          />
+        </div>
+        <Markdown className="mt-4">{data?.review}</Markdown>
       </div>
-      {error ? (
-        <p className="text-red-500">{error}</p>
-      ) : isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          <h3 className="content whitespace-pre-wrap">
-            {generatedText || "Press release is still being generated..."}
-          </h3>
-          {isComplete && (
-            <p className="mt-4 text-green-500">Generation Complete!</p>
+      <div className="w-1/2">
+        <h2 className="text-xl font-semibold">What You Need</h2>
+        <div className="relative aspect-video overflow-hidden rounded-lg">
+          {data?.new_background ? (
+            <Image
+              src={data?.new_background}
+              alt="Background"
+              width={1920}
+              height={1080}
+              className="w-full"
+            />
+          ) : (
+            <Skeleton className="w-full aspect-video rounded-lg" />
           )}
-        </>
-      )}
+        </div>
+        <Markdown className="mt-4">{data?.theme}</Markdown>
+      </div>
     </div>
   );
 }
