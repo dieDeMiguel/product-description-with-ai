@@ -1,3 +1,5 @@
+"use server";
+
 import { sql } from "@vercel/postgres";
 
 export async function setPressRelease(
@@ -21,8 +23,4 @@ export async function getGeneratedPressRelease(
   const result =
     await sql`SELECT pressRelease FROM pressReleases WHERE id=${id}`;
   return result?.rows[0]?.pressRelease ?? null;
-}
-export async function getPressReleases() {
-  const result = await sql`SELECT * FROM pressReleases`;
-  return result.rows;
 }
