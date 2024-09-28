@@ -14,3 +14,11 @@ export async function setPressReleaseCompleted(
 ): Promise<void> {
   await sql`UPDATE pressReleases SET pressRelease_completed=${pressRelease} WHERE id=${id}`;
 }
+
+export async function getGeneratedPressRelease(
+  id: number
+): Promise<string | null> {
+  const result =
+    await sql`SELECT pressRelease FROM pressReleases WHERE id=${id}`;
+  return result?.rows[0]?.pressRelease ?? null;
+}
