@@ -2,9 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { inngest } from "@/inngest/client";
+import { getPressReleases } from "@/db";
 import { setGeneratedPressRelease } from "@/store/pressReleaseStore";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
 
@@ -13,7 +12,8 @@ export default function PressReleaseGenerator() {
     "A new Tesla Model X car with offroad capabilities"
   );
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
-  const router = useRouter();
+  console.log("POSTGRES_URL", process.env.POSTGRES_URL);
+  getPressReleases().then((pressReleases) => console.log(pressReleases));
 
   const handleGenerate = async () => {
     if (userInput.trim().length < 10) {
@@ -27,14 +27,14 @@ export default function PressReleaseGenerator() {
     setGeneratedPressRelease(id, "");
 
     try {
-      await inngest.send({
-        name: "generate/press-release",
-        data: {
-          id,
-          prompt: userInput,
-        },
-      });
-      router.push(`/press-release/${id}`);
+      // await inngest.send({
+      //   name: "generate/press-release",
+      //   data: {
+      //     id,
+      //     prompt: userInput,
+      //   },
+      // });
+      // router.push(`/press-release/${id}`);
     } catch (error) {
       console.error("Error generating press release:", error);
       alert("An error occurred while generating the press release.");

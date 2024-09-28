@@ -22,3 +22,7 @@ export async function getGeneratedPressRelease(
     await sql`SELECT pressRelease FROM pressReleases WHERE id=${id}`;
   return result?.rows[0]?.pressRelease ?? null;
 }
+export async function getPressReleases() {
+  const result = await sql`SELECT * FROM pressReleases`;
+  return result.rows;
+}

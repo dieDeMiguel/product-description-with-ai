@@ -1,4 +1,4 @@
-import { getGeneratedPressRelease } from "@/store/pressReleaseStore";
+import { getGeneratedPressRelease } from "@/db";
 import { NextRequest, NextResponse } from "next/server";
 
 /**
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const text = getGeneratedPressRelease(id);
+    const text = await getGeneratedPressRelease(Number(id));
 
     if (!text) {
       return NextResponse.json(
