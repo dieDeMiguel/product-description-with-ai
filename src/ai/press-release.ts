@@ -35,10 +35,15 @@ export async function pressRelease(prompt: string) {
     }
     // Keep the last word in the buffer (it might be incomplete)
     buffer = words[words.length - 1];
-    if (buffer) {
-      stream.append(buffer);
-    }
   }
+
+  // Append the last word to the stream
+  if (buffer) {
+    stream.append(buffer);
+  }
+
+  // Mark the stream as done
   await stream.done();
+
   return { output: stream.value };
 }
