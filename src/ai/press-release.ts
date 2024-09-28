@@ -14,7 +14,7 @@ const SYSTEM_CONTEXT = `You are a highly experienced press release writer for th
     Be written in a professional and formal tone, suitable for the German market.
     Ensure all information is accurate and well-researched.
     End with a strong closing statement that encourages action or further engagement.
-    The press release is about:`;
+    The press release is about: `;
 
 export async function pressRelease(prompt: string) {
   let buffer = "";
@@ -35,7 +35,5 @@ export async function pressRelease(prompt: string) {
     // Keep the last word in the buffer (it might be incomplete)
     buffer = words[words.length - 1];
   }
-  // Append the last word to the result
-  result += buffer;
   return result;
 }
