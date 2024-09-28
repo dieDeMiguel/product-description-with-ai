@@ -38,7 +38,7 @@ export async function pressRelease(prompt: string) {
     if (buffer) {
       stream.append(buffer);
     }
-    await stream.done();
   }
+  await stream.done();
   return { output: stream.value };
 }
