@@ -7,7 +7,7 @@ export const throttledStream = inngest.createFunction(
   async ({ event, step }) => {
     const { id, prompt } = event.data;
     const reviewPromise = await step.run("generate-press-release", async () => {
-      return pressRelease(prompt, id);
+      const output = pressRelease(prompt);
     });
     return reviewPromise;
   }
