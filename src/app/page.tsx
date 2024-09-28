@@ -2,8 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { inngest } from "@/inngest/client";
+import { setGeneratedPressRelease } from "@/store/pressReleaseStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { v4 as uuid } from "uuid";
 
 export default function PressReleaseGenerator() {
   const [userInput, setUserInput] = useState<string>(
@@ -20,21 +23,16 @@ export default function PressReleaseGenerator() {
 
     setIsGenerating(true);
 
+    const id = uuid();
+    setGeneratedPressRelease(id, "");
     try {
-      const response = await fetch("/api/generate-press-release", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      await inngest.send({
+        name: "generate/press-release",
+        data: {
+          id,
+          prompt,
         },
-        body: JSON.stringify({ prompt: userInput }),
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to generate press release.");
-      }
-
-      const { id } = await response.json();
       router.push(`/press-release/${id}`);
     } catch (error) {
       console.error("Error generating press release:", error);
