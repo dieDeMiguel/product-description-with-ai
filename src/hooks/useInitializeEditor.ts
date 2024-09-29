@@ -1,13 +1,17 @@
 "use client";
 
 import { loadEditorTools } from "@/utils/editor/loadEditorTools";
-import EditorJS, { ToolConstructable } from "@editorjs/editorjs";
+import EditorJS, {
+  OutputBlockData,
+  ToolConstructable,
+} from "@editorjs/editorjs";
 import { MutableRefObject, useEffect } from "react";
 
 const useInitializeEditor = (
   ref: MutableRefObject<EditorJS | null>,
   inlineToolbar: boolean,
-  sectionID: string
+  sectionID: string,
+  data: OutputBlockData[]
 ) => {
   useEffect(() => {
     const initializeEditor = async () => {
@@ -23,14 +27,16 @@ const useInitializeEditor = (
             hideToolbar: true,
             data: {
               time: new Date().getTime(),
-              blocks: [
-                {
-                  type: "paragraph",
-                  data: {
-                    text: "",
-                  },
-                },
-              ],
+              blocks: data
+                ? data
+                : [
+                    {
+                      type: "paragraph",
+                      data: {
+                        text: "",
+                      },
+                    },
+                  ],
             },
             i18n: {
               messages: {},

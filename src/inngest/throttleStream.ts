@@ -4,7 +4,7 @@ import { inngest } from "@/inngest/client";
 export const throttledStream = inngest.createFunction(
   {
     id: "throttled-stream",
-    throttle: { limit: 1, period: "5s", burst: 2 },
+    throttle: { limit: 1, period: "2s", burst: 2 },
   },
   { event: "generate/press-release" },
   async ({ event, step }) => {
