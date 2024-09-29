@@ -1,5 +1,5 @@
-CREATE TABLE IF NOT EXISTS pressReleases (
+CREATE TABLE IF NOT EXISTS pressreleases (
   id SERIAL PRIMARY KEY,
-  pressRelease TEXT,
-  pressRelease_completed BOOLEAN DEFAULT FALSE
+  pressrelease TEXT,
+  pressrelease_completed BOOLEAN DEFAULT FALSE
 );
