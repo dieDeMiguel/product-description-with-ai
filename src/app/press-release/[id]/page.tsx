@@ -1,7 +1,7 @@
 "use client";
 import Editor from "@/components/editor";
 import useEditorBlocks from "@/components/memoise-editor-block";
-import { Keywords, PressRelease } from "@/db";
+import { PressRelease } from "@/db";
 import { inngest } from "@/inngest/client";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -68,7 +68,7 @@ export default function Page({
 
   const editorBlocks = useEditorBlocks(data);
 
-  const { data: keywordsData } = useQuery<Keywords | null>({
+  const { data: keywordsData } = useQuery<string | null>({
     queryKey: ["keywords", keywordsId],
     queryFn: async () => {
       const response = await fetch(
@@ -78,23 +78,27 @@ export default function Page({
       return result.text;
     },
     refetchInterval: refetchInterval,
-    enabled: enableKeywordsQuery && !enablePressReleaseQuery,
+    enabled: enableKeywordsQuery && !enablePressReleaseQuery && !!keywordsId,
   });
 
   useEffect(() => {
-    if (keywordsData) {
-      setKeywords(keywordsData?.keywords?.split(","));
-    }
+    if (!keywordsData) return;
+    const keywordsList = keywordsData.split(",");
+    setKeywords(keywordsList);
   }, [keywordsData]);
 
   return (
     <div className="w-3/4 lg:w-1/2 py-[50px] bg-white rounded-lg p-4 shadow-md h-full overflow-auto">
-      <Editor
-        sectionID="editor"
-        wrapperClassName="h-full"
-        data={editorBlocks}
-      />
-      {keywords?.length && <h3>{keywords}</h3>}
+      <Editor sectionID="editor" data={editorBlocks} />
+      <div className="py-4">
+        {keywords?.length > 0 && (
+          <ul className="text-black">
+            {keywords.map((keyword, index) => (
+              <li key={index}>{keyword}</li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
