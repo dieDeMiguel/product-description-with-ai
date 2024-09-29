@@ -16,6 +16,7 @@ export default function Page({
   const [enablePressReleaseQuery, setEnablePressReleaseQuery] = useState(true);
   const [enableKeywordsQuery, setEnableKeywordsQuery] = useState(true);
   const [keywordsId, setKeywordsId] = useState("");
+  const [keywords, setKeywords] = useState<string[]>([]);
 
   const { id } = params;
   const refetchInterval = 1000;
@@ -80,11 +81,11 @@ export default function Page({
     enabled: enableKeywordsQuery && !enablePressReleaseQuery,
   });
 
-  if (!keywordsData) {
-    console.log("Keywords data is not available yet");
-  } else {
-    console.log("Keywords data is available", keywordsData);
-  }
+  useEffect(() => {
+    if (keywordsData) {
+      setKeywords(keywordsData?.keywords?.split(","));
+    }
+  }, [keywordsData]);
 
   return (
     <div className="w-3/4 lg:w-1/2 py-[50px] bg-white rounded-lg p-4 shadow-md h-full overflow-auto">
@@ -93,6 +94,7 @@ export default function Page({
         wrapperClassName="h-full"
         data={editorBlocks}
       />
+      {keywords?.length && <h3>{keywords}</h3>}
     </div>
   );
 }
