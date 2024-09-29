@@ -21,7 +21,7 @@ export default function PressReleaseGenerator() {
 
     setIsGenerating(true);
 
-    const response = await fetch(`/api/generate-press-release`, {
+    const response = await fetch(`/api/press-release/generate-press-release`, {
       method: "POST",
       body: JSON.stringify({ pressRelease: "" }),
       headers: {

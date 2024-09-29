@@ -20,7 +20,9 @@ export default function Page({
   const { data } = useQuery<PressRelease | null>({
     queryKey: ["pressRelease", id],
     queryFn: async () => {
-      const response = await fetch(`/api/get-press-release?id=${id}`);
+      const response = await fetch(
+        `/api/press-release/get-press-release?id=${id}`
+      );
       const result = await response.json();
       return result.text;
     },
@@ -35,7 +37,7 @@ export default function Page({
   useEffect(() => {
     const sendKeywords = async () => {
       if (!enablePressReleaseQuery) {
-        const response = await fetch(`/api/generate-keywords`, {
+        const response = await fetch(`/api/keywords/generate-keywords`, {
           method: "POST",
           body: JSON.stringify({ pressRelease: "" }),
           headers: {
