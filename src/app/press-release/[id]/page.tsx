@@ -1,8 +1,10 @@
 "use client";
+import Editor from "@/components/editor";
 import { PressRelease } from "@/db";
+import { EditorHandle } from "@/interfaces/editorHandle";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import Markdown from "react-markdown";
+import { debounce } from "lodash";
+import { useEffect, useRef, useState } from "react";
 
 export default function Page({
   params,
@@ -25,15 +27,44 @@ export default function Page({
     enabled,
   });
 
+  const editorInstance = useRef<EditorHandle | null>(null);
+  const paragraphBuffer = useRef<string>("");
+  const maxDuration = 50;
+
+  const appendTextDebounced = useRef(
+    debounce(async () => {
+      if (paragraphBuffer?.current?.trim().length > 2) {
+        if (editorInstance?.current) {
+          try {
+            await editorInstance.current.appendText(paragraphBuffer.current);
+            paragraphBuffer.current = "";
+          } catch (error) {
+            console.error("Error appending text:", error);
+          }
+        }
+      }
+    }, maxDuration)
+  ).current;
+
   useEffect(() => {
-    console.log("data?.pressRelease_completed", data);
+    return () => {
+      appendTextDebounced.cancel();
+    };
+  }, [appendTextDebounced]);
+
+  useEffect(() => {
     setEnabled(!data?.pressrelease_completed);
+    paragraphBuffer.current += data?.pressrelease || "";
+    if (!enabled) appendTextDebounced.flush();
   }, [data]);
 
   return (
-    <div className="flex gap-4">
-      <h3 className="text-white">Your Press Release</h3>
-      <Markdown className="mt-4">{data?.pressrelease}</Markdown>
+    <div className="w-3/4 py-[50px] bg-white rounded-lg p-4 shadow-md h-full overflow-auto">
+      <Editor
+        ref={editorInstance}
+        sectionID="editor"
+        wrapperClassName="h-full"
+      />
     </div>
   );
 }
