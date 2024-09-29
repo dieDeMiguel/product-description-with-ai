@@ -22,11 +22,11 @@ const Editor: React.FC<EditorProps> = ({
   useInitializeEditor(editorRef, true, sectionID, data);
 
   return (
-    <div className={wrapperClassName}>
+    <div className={cn("editor-wrapper", wrapperClassName)}>
       <div
         id={`${sectionID}`}
         key={`${sectionID}`}
-        className={cn("text-black", className)}
+        className={cn("editor-content text-black", className)}
       />
     </div>
   );

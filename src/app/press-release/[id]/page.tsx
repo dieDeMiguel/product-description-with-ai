@@ -89,12 +89,20 @@ export default function Page({
 
   return (
     <div className="w-3/4 lg:w-1/2 py-[50px] bg-white rounded-lg p-4 shadow-md h-full overflow-auto">
-      <Editor sectionID="editor" data={editorBlocks} />
+      <Editor
+        sectionID="editor"
+        data={editorBlocks}
+        wrapperClassName="editor-wrapper"
+        className="editor-content"
+      />
       <div className="py-4">
         {keywords?.length > 0 && (
-          <ul className="text-black">
+          <ul className="text-black list-disc pl-5">
+            <h2 className="bold underline">Keywords:</h2>
             {keywords.map((keyword, index) => (
-              <li key={index}>{keyword}</li>
+              <li className="list-none" key={index}>
+                {keyword}
+              </li>
             ))}
           </ul>
         )}
