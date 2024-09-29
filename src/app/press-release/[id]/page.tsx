@@ -40,7 +40,7 @@ export default function Page({
           data: {
             text: data.pressrelease || "",
           },
-          id: uuidv4(), // Consider using a stable ID if possible
+          id: uuidv4(),
         },
       ];
     } else {
