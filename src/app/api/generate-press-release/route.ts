@@ -3,9 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const { id } = await request.json();
+    const { pressRelease } = await request.json();
 
-    setGeneratedPressRelease(+id);
+    const id = await setGeneratedPressRelease(pressRelease);
 
     return NextResponse.json({ id }, { status: 200 });
   } catch (error) {

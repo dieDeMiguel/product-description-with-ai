@@ -24,9 +24,11 @@ export async function getGeneratedPressRelease(
     await sql`SELECT pressRelease FROM pressReleases WHERE id = ${id}`;
   return result.rows.length > 0 ? result.rows[0].pressRelease : null;
 }
-export async function setGeneratedPressRelease(id: number): Promise<void> {
-  const result = await sql`SELECT id FROM pressReleases WHERE id = ${id}`;
-  if (result.rows.length === 0) {
-    await sql`INSERT INTO pressReleases (id, pressRelease) VALUES (${id}, '')`;
-  }
+
+export async function setGeneratedPressRelease(
+  pressRelease: string
+): Promise<number> {
+  const result =
+    await sql`INSERT INTO pressReleases (pressRelease) VALUES (${pressRelease}) RETURNING id`;
+  return result.rows[0].id;
 }

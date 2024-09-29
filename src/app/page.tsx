@@ -5,7 +5,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { inngest } from "@/inngest/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { v4 as uuid } from "uuid";
 
 export default function PressReleaseGenerator() {
   const [userInput, setUserInput] = useState<string>(
@@ -22,14 +21,15 @@ export default function PressReleaseGenerator() {
 
     setIsGenerating(true);
 
-    const id = uuid();
-    fetch(`/api/generate-press-release`, {
+    const response = await fetch(`/api/generate-press-release`, {
       method: "POST",
-      body: JSON.stringify({ id }),
+      body: JSON.stringify({ pressRelease: "" }),
       headers: {
         "Content-Type": "application/json",
       },
     });
+    const { id } = await response.json();
+    console.log("Generated Press Release ID:", id);
 
     try {
       await inngest.send({
