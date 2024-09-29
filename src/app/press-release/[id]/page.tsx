@@ -1,7 +1,7 @@
 "use client";
 import Editor from "@/components/editor";
 import useEditorBlocks from "@/components/memoise-editor-block";
-import { PressRelease } from "@/db";
+import { Keywords, PressRelease } from "@/db";
 import { inngest } from "@/inngest/client";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -14,6 +14,9 @@ export default function Page({
   };
 }) {
   const [enablePressReleaseQuery, setEnablePressReleaseQuery] = useState(true);
+  const [enableKeywordsQuery, setEnableKeywordsQuery] = useState(true);
+  const [keywordsId, setKeywordsId] = useState("");
+
   const { id } = params;
   const refetchInterval = 1000;
 
@@ -35,33 +38,53 @@ export default function Page({
   }, [data]);
 
   useEffect(() => {
+    if (enablePressReleaseQuery) return;
     const sendKeywords = async () => {
-      if (!enablePressReleaseQuery) {
-        const response = await fetch(`/api/keywords/generate-keywords`, {
-          method: "POST",
-          body: JSON.stringify({ pressRelease: "" }),
-          headers: {
-            "Content-Type": "application/json",
+      const response = await fetch(`/api/keywords/generate-keywords`, {
+        method: "POST",
+        body: JSON.stringify({ keywords: "" }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const { id } = await response.json();
+      setKeywordsId(id);
+      try {
+        await inngest.send({
+          name: "generate/keywords",
+          data: {
+            prompt: data?.pressrelease,
+            id,
           },
         });
-        const { id } = await response.json();
-        try {
-          await inngest.send({
-            name: "generate/keywords",
-            data: {
-              prompt: data?.pressrelease,
-              id,
-            },
-          });
-        } catch (error) {
-          console.error("Error generating keywords:", error);
-        }
+        setEnableKeywordsQuery(true);
+      } catch (error) {
+        console.error("Error generating keywords:", error);
       }
     };
     sendKeywords();
   }, [enablePressReleaseQuery, data?.pressrelease]);
 
   const editorBlocks = useEditorBlocks(data);
+
+  const { data: keywordsData } = useQuery<Keywords | null>({
+    queryKey: ["keywords", keywordsId],
+    queryFn: async () => {
+      const response = await fetch(
+        `/api/keywords/get-keywords?id=${keywordsId}`
+      );
+      const result = await response.json();
+      return result.text;
+    },
+    refetchInterval: refetchInterval,
+    enabled: enableKeywordsQuery && !enablePressReleaseQuery,
+  });
+
+  if (!keywordsData) {
+    console.log("Keywords data is not available yet");
+  } else {
+    console.log("Keywords data is available", keywordsData);
+  }
 
   return (
     <div className="w-3/4 lg:w-1/2 py-[50px] bg-white rounded-lg p-4 shadow-md h-full overflow-auto">

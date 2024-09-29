@@ -8,6 +8,12 @@ export type PressRelease = {
   pressrelease_completed: boolean;
 };
 
+export type Keywords = {
+  id: number;
+  keywords: string;
+  keywords_completed: boolean;
+};
+
 export async function setPressRelease(
   id: number,
   pressRelease: string
@@ -47,9 +53,11 @@ export async function setGeneratedKeywords(keywords: string): Promise<number> {
   return result.rows[0].id;
 }
 
-export async function getGeneratedKeywords(id: number): Promise<string | null> {
+export async function getGeneratedKeywords(
+  id: number
+): Promise<Keywords | null> {
   const result = await sql`SELECT * FROM keywords WHERE id = ${id}`;
-  return result.rows[0]?.keywords || null;
+  return result.rows[0]?.keywords as Keywords | null;
 }
 
 export async function setKeywordsCompleted(

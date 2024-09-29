@@ -3,9 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const { pressRelease } = await request.json();
+    const { keywords } = await request.json();
 
-    const id = await setGeneratedKeywords(pressRelease);
+    const id = await setGeneratedKeywords(keywords);
 
     return NextResponse.json({ id }, { status: 200 });
   } catch (error) {
