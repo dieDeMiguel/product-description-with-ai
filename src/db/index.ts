@@ -17,9 +17,9 @@ export async function setPressRelease(
 
 export async function setPressReleaseCompleted(
   id: number,
-  pressRelease: boolean
+  isPressReleaseGenerationFinished: boolean
 ): Promise<void> {
-  await sql`UPDATE pressreleases SET pressRelease_completed=${pressRelease} WHERE id=${id}`;
+  await sql`UPDATE pressreleases SET pressRelease_completed=${isPressReleaseGenerationFinished} WHERE id=${id}`;
 }
 
 export async function getGeneratedPressRelease(
@@ -50,4 +50,11 @@ export async function setGeneratedKeywords(keywords: string): Promise<number> {
 export async function getGeneratedKeywords(id: number): Promise<string | null> {
   const result = await sql`SELECT * FROM keywords WHERE id = ${id}`;
   return result.rows[0]?.keywords || null;
+}
+
+export async function setKeywordsCompleted(
+  id: number,
+  isKeywordGenerationFinished: boolean
+): Promise<void> {
+  await sql`UPDATE keywords SET keywords_completed=${isKeywordGenerationFinished} WHERE id=${id}`;
 }

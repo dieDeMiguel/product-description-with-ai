@@ -1,4 +1,4 @@
-import { setKeywords } from "@/db";
+import { setKeywords, setKeywordsCompleted } from "@/db";
 import { openai } from "@ai-sdk/openai";
 import { streamText } from "ai";
 
@@ -29,5 +29,6 @@ export async function generateKeywords(
     keywords += parsedChunk.choices[0].delta.content ?? "";
     await setKeywords(numericId, keywords);
   }
+  await setKeywordsCompleted(numericId, true);
   return keywords;
 }
