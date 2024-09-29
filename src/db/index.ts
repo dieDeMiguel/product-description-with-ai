@@ -12,20 +12,20 @@ export async function setPressRelease(
   id: number,
   pressRelease: string
 ): Promise<void> {
-  await sql`UPDATE pressReleases SET pressRelease=${pressRelease} WHERE id=${id}`;
+  await sql`UPDATE pressreleases SET pressrelease=${pressRelease} WHERE id=${id}`;
 }
 
 export async function setPressReleaseCompleted(
   id: number,
   pressRelease: boolean
 ): Promise<void> {
-  await sql`UPDATE pressReleases SET pressRelease_completed=${pressRelease} WHERE id=${id}`;
+  await sql`UPDATE pressreleases SET pressRelease_completed=${pressRelease} WHERE id=${id}`;
 }
 
 export async function getGeneratedPressRelease(
   id: number
 ): Promise<PressRelease | null> {
-  const result = await sql`SELECT * FROM pressReleases WHERE id = ${id}`;
+  const result = await sql`SELECT * FROM pressreleases WHERE id = ${id}`;
   return result.rows[0] as PressRelease | null;
 }
 
@@ -33,6 +33,21 @@ export async function setGeneratedPressRelease(
   pressRelease: string
 ): Promise<number> {
   const result =
-    await sql`INSERT INTO pressReleases (pressRelease) VALUES (${pressRelease}) RETURNING id`;
+    await sql`INSERT INTO pressreleases (pressRelease) VALUES (${pressRelease}) RETURNING id`;
   return result.rows[0].id;
+}
+
+export async function setKeywords(id: number, keywords: string): Promise<void> {
+  await sql`UPDATE keywords SET keywords=${keywords} WHERE id=${id}`;
+}
+
+export async function setGeneratedKeywords(keywords: string): Promise<number> {
+  const result =
+    await sql`INSERT INTO keywords (keywords) VALUES (${keywords}) RETURNING id`;
+  return result.rows[0].id;
+}
+
+export async function getGeneratedKeywords(id: number): Promise<string | null> {
+  const result = await sql`SELECT * FROM keywords WHERE id = ${id}`;
+  return result.rows[0]?.keywords || null;
 }
