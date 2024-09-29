@@ -4,13 +4,14 @@ const SYSTEM_CONTEXT = `You are a press release generator.
 Your job is to create a press release based on the given prompt.
 You should ensure the press release is well-structured, informative, and engaging.
 You have a strong command of language and can write in a professional tone.
-You are very knowledgeable about current events and trends.`;
+You are very knowledgeable about current events and trends. Avoid adding: For immediate release,
+[Company Information], Contact: [Name] [Title] [Email] [Phone] Only send the body of the press release. 
+Do not include the title, date, or other metadata. Do not add hashtags or social media handles.`;
 
 export async function pressRelease(
   id: string,
   prompt: string
 ): Promise<string> {
-  console.log("Press Release function:", id);
   const numericId = parseInt(id, 10);
   if (isNaN(numericId)) {
     throw new Error("Invalid ID: ID must be a number");

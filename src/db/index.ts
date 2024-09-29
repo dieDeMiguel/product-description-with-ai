@@ -22,7 +22,7 @@ export async function getGeneratedPressRelease(
 ): Promise<string | null> {
   const result =
     await sql`SELECT pressRelease FROM pressReleases WHERE id = ${id}`;
-  return result.rows.length > 0 ? result.rows[0].pressRelease : null;
+  return result.rows.length > 0 ? result.rows[0].pressrelease : "";
 }
 
 export async function setGeneratedPressRelease(
