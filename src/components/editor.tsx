@@ -3,7 +3,6 @@ import useInitializeEditor from "@/hooks/useInitializeEditor";
 import { cn } from "@/utils/cn";
 import EditorJS, { OutputBlockData } from "@editorjs/editorjs";
 import { useRef } from "react";
-
 interface EditorProps {
   sectionID: string;
   className?: string;

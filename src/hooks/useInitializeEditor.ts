@@ -27,16 +27,17 @@ const useInitializeEditor = (
             hideToolbar: true,
             data: {
               time: new Date().getTime(),
-              blocks: data
-                ? data
-                : [
-                    {
-                      type: "paragraph",
-                      data: {
-                        text: "",
+              blocks:
+                data.length > 0
+                  ? data
+                  : [
+                      {
+                        type: "paragraph",
+                        data: {
+                          text: "",
+                        },
                       },
-                    },
-                  ],
+                    ],
             },
             i18n: {
               messages: {},
@@ -57,12 +58,14 @@ const useInitializeEditor = (
       if (editorInstance && typeof editorInstance.destroy === "function") {
         try {
           editorInstance.destroy();
+          ref.current = null;
+          console.log("EditorJS destroyed successfully");
         } catch (error) {
           console.error("Error destroying EditorJS:", error);
         }
       }
     };
-  }, [ref, sectionID]);
+  }, [ref, sectionID, data]);
 };
 
 export default useInitializeEditor;
