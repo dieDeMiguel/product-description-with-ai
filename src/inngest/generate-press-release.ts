@@ -1,7 +1,7 @@
 import { pressRelease } from "@/ai/press-release";
 import { inngest } from "@/inngest/client";
 
-export const generatePressRelease = inngest.createFunction(
+export const throttleGeneratePressRelease = inngest.createFunction(
   {
     id: "generate-press-release",
     throttle: { limit: 1, period: "2s", burst: 2 },

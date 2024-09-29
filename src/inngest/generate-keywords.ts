@@ -8,9 +8,9 @@ export const throttleGenerateKeywords = inngest.createFunction(
   },
   { event: "generate/keywords" },
   async ({ event, step }) => {
-    const { prompt } = event.data;
+    const { prompt, id } = event.data;
     const keywords = await step.run("add-press-release", async () => {
-      return await generateKeywords(prompt);
+      return await generateKeywords(prompt, id);
     });
 
     return keywords;
