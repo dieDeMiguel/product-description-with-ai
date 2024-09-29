@@ -2,6 +2,12 @@
 
 import { sql } from "@vercel/postgres";
 
+export type PressRelease = {
+  id: number;
+  pressrelease: string;
+  pressrelease_completed: boolean;
+};
+
 export async function setPressRelease(
   id: number,
   pressRelease: string
@@ -18,10 +24,9 @@ export async function setPressReleaseCompleted(
 
 export async function getGeneratedPressRelease(
   id: number
-): Promise<string | null> {
-  const result =
-    await sql`SELECT pressRelease FROM pressReleases WHERE id = ${id}`;
-  return result.rows.length > 0 ? result.rows[0].pressrelease : "";
+): Promise<PressRelease | null> {
+  const result = await sql`SELECT * FROM pressReleases WHERE id = ${id}`;
+  return result.rows[0] as PressRelease | null;
 }
 
 export async function setGeneratedPressRelease(

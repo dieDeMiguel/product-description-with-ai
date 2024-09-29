@@ -1,5 +1,5 @@
 "use client";
-import { Skeleton } from "@/components/ui/skeleton";
+import { PressRelease } from "@/db";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
@@ -14,7 +14,7 @@ export default function Page({
   const [enabled, setEnabled] = useState(true);
   const { id } = params;
 
-  const { data, isLoading, error } = useQuery<string | null>({
+  const { data } = useQuery<PressRelease | null>({
     queryKey: ["pressRelease", id],
     queryFn: async () => {
       const response = await fetch(`/api/get-press-release?id=${id}`);
@@ -26,23 +26,14 @@ export default function Page({
   });
 
   useEffect(() => {
-    if (data) {
-      setEnabled(false);
-    }
+    console.log("data?.pressRelease_completed", data);
+    setEnabled(!data?.pressrelease_completed);
   }, [data]);
-
-  if (isLoading) {
-    return <Skeleton />;
-  }
-
-  if (error) {
-    return <div>Error loading press release.</div>;
-  }
 
   return (
     <div className="flex gap-4">
-      <h3 className="text-white">hello</h3>
-      <Markdown className="mt-4">{data}</Markdown>
+      <h3 className="text-white">Your Press Release</h3>
+      <Markdown className="mt-4">{data?.pressrelease}</Markdown>
     </div>
   );
 }
