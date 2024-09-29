@@ -1,9 +1,9 @@
 import { pressRelease } from "@/ai/press-release";
 import { inngest } from "@/inngest/client";
 
-export const throttledStream = inngest.createFunction(
+export const generatePressRelease = inngest.createFunction(
   {
-    id: "throttled-stream",
+    id: "generate-press-release",
     throttle: { limit: 1, period: "2s", burst: 2 },
   },
   { event: "generate/press-release" },

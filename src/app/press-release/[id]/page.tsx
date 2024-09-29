@@ -1,6 +1,7 @@
 "use client";
 import Editor from "@/components/editor";
 import { PressRelease } from "@/db";
+import { inngest } from "@/inngest/client";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -30,6 +31,20 @@ export default function Page({
   useEffect(() => {
     setEnabled(!data?.pressrelease_completed);
   }, [data]);
+
+  useEffect(() => {
+    async function sendKeywords() {
+      if (!enabled) {
+        await inngest.send({
+          name: "generate/keywords",
+          data: {
+            prompt: data?.pressrelease,
+          },
+        });
+      }
+    }
+    sendKeywords();
+  }, [enabled, data?.pressrelease]);
 
   // Memoize the block data
   const editorBlocks = useMemo(() => {
