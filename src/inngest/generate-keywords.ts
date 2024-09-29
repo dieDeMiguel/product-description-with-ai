@@ -1,17 +1,18 @@
-import { pressRelease } from "@/ai/press-release";
+import { generateKeywords } from "@/ai/keywords";
 import { inngest } from "@/inngest/client";
 
-export const generateKeywords = inngest.createFunction(
+export const throttleGenerateKeywords = inngest.createFunction(
   {
     id: "generate-keywords",
     throttle: { limit: 1, period: "2s", burst: 2 },
   },
   { event: "generate/keywords" },
   async ({ event, step }) => {
-    const { id, prompt } = event.data;
-    const reviewPromise = await step.run("add-press-release", async () => {
-      return await pressRelease(id, prompt);
+    const { prompt } = event.data;
+    const keywords = await step.run("add-press-release", async () => {
+      return await generateKeywords(prompt);
     });
-    return reviewPromise;
+
+    return keywords;
   }
 );

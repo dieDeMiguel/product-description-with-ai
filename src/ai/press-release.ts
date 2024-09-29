@@ -1,10 +1,10 @@
 import { openai } from "@/ai";
 import { setPressRelease, setPressReleaseCompleted } from "@/db";
 const SYSTEM_CONTEXT = `You are a press release generator.
-Your job is to create a press release based on the given prompt.
+Your job is to create a press release based on the given prompt, both content and language will be determine by the prompt.
 You should ensure the press release is well-structured, informative, and engaging.
 You have a strong command of language and can write in a professional tone.
-You are very knowledgeable about current events and trends. Avoid adding: For immediate release,
+You are very knowledgeable about current events and trends. Avoid adding: "For immediate release",
 [Company Information], Contact: [Name] [Title] [Email] [Phone] Only send the body of the press release. 
 Do not include the title, date, or other metadata. Do not add hashtags or social media handles.`;
 
@@ -16,9 +16,8 @@ export async function pressRelease(
   if (isNaN(numericId)) {
     throw new Error("Invalid ID: ID must be a number");
   }
-  const fullPrompt = `${SYSTEM_CONTEXT} ${prompt}`;
   const stream = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
+    model: "gpt-4o",
     messages: [
       {
         role: "system",
@@ -26,7 +25,7 @@ export async function pressRelease(
       },
       {
         role: "user",
-        content: fullPrompt,
+        content: prompt,
       },
     ],
     max_tokens: 400,

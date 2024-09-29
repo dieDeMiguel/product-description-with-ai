@@ -3,3 +3,9 @@ CREATE TABLE IF NOT EXISTS pressreleases (
   pressrelease TEXT,
   pressrelease_completed BOOLEAN DEFAULT FALSE
 );
+
+CREATE TABLE IF NOT EXISTS keywords (
+  id SERIAL PRIMARY KEY,
+  keywords TEXT,
+  keywords_completed BOOLEAN DEFAULT FALSE
+)

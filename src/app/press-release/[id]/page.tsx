@@ -13,7 +13,7 @@ export default function Page({
     id: string;
   };
 }) {
-  const [enabled, setEnabled] = useState(true);
+  const [enablePressReleaseQuery, setEnablePressReleaseQuery] = useState(true);
   const { id } = params;
   const refetchInterval = 1000;
 
@@ -25,26 +25,30 @@ export default function Page({
       return result.text;
     },
     refetchInterval: refetchInterval,
-    enabled,
+    enabled: enablePressReleaseQuery,
   });
 
   useEffect(() => {
-    setEnabled(!data?.pressrelease_completed);
+    setEnablePressReleaseQuery(!data?.pressrelease_completed);
   }, [data]);
 
   useEffect(() => {
-    async function sendKeywords() {
-      if (!enabled) {
-        await inngest.send({
-          name: "generate/keywords",
-          data: {
-            prompt: data?.pressrelease,
-          },
-        });
+    const sendKeywords = async () => {
+      if (!enablePressReleaseQuery) {
+        try {
+          await inngest.send({
+            name: "generate/keywords",
+            data: {
+              prompt: data?.pressrelease,
+            },
+          });
+        } catch (error) {
+          console.error("Error generating keywords:", error);
+        }
       }
-    }
+    };
     sendKeywords();
-  }, [enabled, data?.pressrelease]);
+  }, [enablePressReleaseQuery, data?.pressrelease]);
 
   // Memoize the block data
   const editorBlocks = useMemo(() => {
