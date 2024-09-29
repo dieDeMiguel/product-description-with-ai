@@ -1,13 +1,17 @@
 "use client";
 
 import { loadEditorTools } from "@/utils/editor/loadEditorTools";
-import EditorJS, { ToolConstructable } from "@editorjs/editorjs";
+import EditorJS, {
+  OutputBlockData,
+  ToolConstructable,
+} from "@editorjs/editorjs";
 import { MutableRefObject, useEffect } from "react";
 
 const useInitializeEditor = (
   ref: MutableRefObject<EditorJS | null>,
   inlineToolbar: boolean,
-  sectionID: string
+  sectionID: string,
+  data: OutputBlockData[]
 ) => {
   useEffect(() => {
     const initializeEditor = async () => {
@@ -23,14 +27,17 @@ const useInitializeEditor = (
             hideToolbar: true,
             data: {
               time: new Date().getTime(),
-              blocks: [
-                {
-                  type: "paragraph",
-                  data: {
-                    text: "",
-                  },
-                },
-              ],
+              blocks:
+                data.length > 0
+                  ? data
+                  : [
+                      {
+                        type: "paragraph",
+                        data: {
+                          text: "",
+                        },
+                      },
+                    ],
             },
             i18n: {
               messages: {},
@@ -51,12 +58,14 @@ const useInitializeEditor = (
       if (editorInstance && typeof editorInstance.destroy === "function") {
         try {
           editorInstance.destroy();
+          ref.current = null;
+          console.log("EditorJS destroyed successfully");
         } catch (error) {
           console.error("Error destroying EditorJS:", error);
         }
       }
     };
-  }, [ref, sectionID]);
+  }, [ref, sectionID, data]);
 };
 
 export default useInitializeEditor;
