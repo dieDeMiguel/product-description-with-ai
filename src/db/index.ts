@@ -20,8 +20,10 @@ export type Keywords = {
 export async function setPressRelease(
   id: number,
   pressRelease: string
-): Promise<void> {
-  await sql`UPDATE pressreleases_images SET pressrelease=${pressRelease} WHERE id=${id}`;
+): Promise<PressReleaseImage> {
+  const result =
+    await sql`UPDATE pressreleases_images SET pressrelease=${pressRelease} WHERE id=${id} RETURNING *`;
+  return result.rows[0] as PressReleaseImage;
 }
 
 export async function setPressReleaseCompleted(
@@ -33,9 +35,10 @@ export async function setPressReleaseCompleted(
 
 export async function getGeneratedPressRelease(
   id: number
-): Promise<PressReleaseImage | null> {
+): Promise<PressReleaseImage> {
   const result = await sql`SELECT * FROM pressreleases_images WHERE id=${id}`;
-  return result.rows[0] as PressReleaseImage | null;
+  console.log("result.rows[0]", result.rows[0]);
+  return result.rows[0] as PressReleaseImage;
 }
 
 export async function setGeneratedPressRelease(

@@ -8,7 +8,7 @@ import { useState } from "react";
 
 export default function PressReleaseGenerator() {
   const [userInput, setUserInput] = useState<string>(
-    "A new Boing 777 dream liner with new state of the art turbines"
+    "A new Aston Martin model X with a new state of the art Rolls Royce engine which produce 20% less emissions than the previous model."
   );
   const router = useRouter();
   const [isGenerating, setIsGenerating] = useState<boolean>(false);

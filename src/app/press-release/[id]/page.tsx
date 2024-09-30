@@ -43,11 +43,9 @@ export default function Page({
   const { data } = useQuery<PressReleaseImage | null>({
     queryKey: ["pressRelease", id],
     queryFn: async () => {
-      const response = await fetch(
-        `/api/press-release/get-press-release?id=${id}`
-      );
-      const result = await response.json();
-      console.log("result", result.pressRelease);
+      const text = await fetch(`/api/press-release/get-press-release?id=${id}`);
+      const result = await text.json();
+      console.log("result.pressrelease", result.pressrelease);
       return result.pressrelease;
     },
     refetchInterval: refetchInterval,

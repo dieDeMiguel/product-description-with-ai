@@ -13,7 +13,6 @@ export async function pressRelease(
   prompt: string
 ): Promise<string> {
   const numericId = parseInt(id, 10);
-  console.log("Generating press release for prompt:", prompt, id);
   if (isNaN(numericId)) {
     throw new Error("Invalid ID: ID must be a number");
   }
@@ -36,7 +35,8 @@ export async function pressRelease(
   let pressRelease = "";
   for await (const chunk of stream) {
     pressRelease += chunk.choices[0].delta.content ?? "";
-    await setPressRelease(numericId, pressRelease);
+    const test = await setPressRelease(numericId, pressRelease);
+    console.log("test 76543214567896543256789", test);
   }
   await setPressReleaseCompleted(numericId, true);
   return pressRelease;
