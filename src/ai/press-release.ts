@@ -1,5 +1,6 @@
 import { openai } from "@/ai";
 import { setPressRelease, setPressReleaseCompleted } from "@/db";
+
 const SYSTEM_CONTEXT = `You are a press release generator.
 Your job is to create a press release based on the given prompt, both content and language will be determine by the prompt.
 You should ensure the press release is well-structured, informative, and engaging.
@@ -35,8 +36,7 @@ export async function pressRelease(
   let pressRelease = "";
   for await (const chunk of stream) {
     pressRelease += chunk.choices[0].delta.content ?? "";
-    const test = await setPressRelease(numericId, pressRelease);
-    console.log("test 76543214567896543256789", test);
+    await setPressRelease(numericId, pressRelease);
   }
   await setPressReleaseCompleted(numericId, true);
   return pressRelease;

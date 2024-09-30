@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const useEditorBlocks = (data: PressReleaseImage | null | undefined) =>
   useMemo(() => {
+    console.log("data", data?.pressrelease);
     if (data?.pressrelease) {
       return [
         {

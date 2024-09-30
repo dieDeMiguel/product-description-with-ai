@@ -8,7 +8,7 @@ import { useState } from "react";
 
 export default function PressReleaseGenerator() {
   const [userInput, setUserInput] = useState<string>(
-    "A new Aston Martin model X with a new state of the art Rolls Royce engine which produce 20% less emissions than the previous model."
+    "A new Lamborghini ultra car model X with a new state of the art Rolls Royce engine which produce 20% less emissions than the previous model."
   );
   const router = useRouter();
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
@@ -29,6 +29,7 @@ export default function PressReleaseGenerator() {
       },
     });
     const { id } = await response.json();
+    console.log("id en page", id);
     try {
       await inngest.send({
         name: "generate/press-release",
@@ -37,7 +38,7 @@ export default function PressReleaseGenerator() {
           prompt: userInput,
         },
       });
-      // router.push(`/press-release/${id}`);
+      router.push(`/press-release/${id}`);
     } catch (error) {
       console.error("Error generating press release:", error);
       alert("An error occurred while generating the press release.");

@@ -21,17 +21,24 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const text = await getGeneratedPressRelease(Number(id));
-    console.log("pressrelease en route", text);
+    const pressReleaseId = Number(id);
+    if (isNaN(pressReleaseId)) {
+      return NextResponse.json(
+        { error: "Invalid identifier." },
+        { status: 400 }
+      );
+    }
 
-    if (!text) {
+    const pressRelease = await getGeneratedPressRelease(pressReleaseId);
+
+    if (!pressRelease) {
       return NextResponse.json(
         { error: "Press release not found or not yet generated." },
         { status: 404 }
       );
     }
 
-    return NextResponse.json({ text }, { status: 200 });
+    return NextResponse.json({ pressRelease }, { status: 200 });
   } catch (error) {
     console.error("Error in GET /api/get-press-release:", error);
     return NextResponse.json(

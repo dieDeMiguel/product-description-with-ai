@@ -20,10 +20,8 @@ export type Keywords = {
 export async function setPressRelease(
   id: number,
   pressRelease: string
-): Promise<PressReleaseImage> {
-  const result =
-    await sql`UPDATE pressreleases_images SET pressrelease=${pressRelease} WHERE id=${id} RETURNING *`;
-  return result.rows[0] as PressReleaseImage;
+): Promise<void> {
+  await sql`UPDATE pressreleases_images SET pressrelease=${pressRelease} WHERE id=${id}`;
 }
 
 export async function setPressReleaseCompleted(
@@ -36,9 +34,17 @@ export async function setPressReleaseCompleted(
 export async function getGeneratedPressRelease(
   id: number
 ): Promise<PressReleaseImage> {
-  const result = await sql`SELECT * FROM pressreleases_images WHERE id=${id}`;
-  console.log("result.rows[0]", result.rows[0]);
-  return result.rows[0] as PressReleaseImage;
+  try {
+    const result = await sql`SELECT * FROM pressreleases_images WHERE id=${id}`;
+    if (result.rows.length === 0) {
+      throw new Error(`No press release found with id ${id}`);
+    }
+    console.log("pressrelease en db", result.rows[0]);
+    return result.rows[0] as PressReleaseImage;
+  } catch (error) {
+    console.error("Error fetching press release:", error);
+    throw error;
+  }
 }
 
 export async function setGeneratedPressRelease(
