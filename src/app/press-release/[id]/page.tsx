@@ -1,7 +1,8 @@
 "use client";
 import Editor from "@/components/editor/editor";
 import { FileUploadButton } from "@/components/image-uploader/image-uploader";
-import { PressReleaseImage } from "@/db";
+import { Badge } from "@/components/ui/badge";
+import { Keywords, PressReleaseImage } from "@/db";
 import { inngest } from "@/inngest/client";
 import useEditorBlocks from "@/utils/editor/memoise-editor-block";
 import { useQuery } from "@tanstack/react-query";
@@ -16,7 +17,7 @@ export default function Page({
   };
 }) {
   const [enablePressReleaseQuery, setEnablePressReleaseQuery] = useState(true);
-  const [enableKeywordsQuery, setEnableKeywordsQuery] = useState(true);
+  const [enableKeywordsQuery, setEnableKeywordsQuery] = useState(false);
   const [keywordsId, setKeywordsId] = useState("");
   const [keywords, setKeywords] = useState<string[]>([]);
   const [image, setImage] = useState("");
@@ -26,19 +27,20 @@ export default function Page({
   const { id } = params;
   const refetchInterval = 400;
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (imageWasUploaded) {
-  //       const response = await fetch(
-  //         `/api/press-release/get-press-release?id=${id}`
-  //       );
-  //       const result = await response.json();
-  //       if (result.image) setImage(result.image);
-  //       if (result.image_caption) setImageCaption(result.image_caption);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [imageWasUploaded]);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (imageWasUploaded) {
+        const text = await fetch(
+          `/api/press-release/get-press-release?id=${id}`
+        );
+        const result = await text.json();
+        console.log("result ouoiuiouiouiouiouiouoi", result);
+        if (result.image) setImage(result.image);
+        if (result.image_caption) setImageCaption(result.image_caption);
+      }
+    };
+    fetchData();
+  }, [imageWasUploaded]);
 
   const { data } = useQuery<PressReleaseImage | null>({
     queryKey: ["pressRelease", id],
@@ -85,7 +87,7 @@ export default function Page({
 
   const editorBlocks = useEditorBlocks(data);
 
-  const { data: keywordsData } = useQuery<string | null>({
+  const { data: keywordsData } = useQuery<Keywords | null>({
     queryKey: ["keywords", keywordsId],
     queryFn: async () => {
       const response = await fetch(
@@ -99,8 +101,12 @@ export default function Page({
   });
 
   useEffect(() => {
+    setEnableKeywordsQuery(!keywordsData?.keywords_completed);
+  }, [keywordsData]);
+
+  useEffect(() => {
     if (!keywordsData) return;
-    const keywordsList = keywordsData.split(",");
+    const keywordsList = keywordsData.keywords.split(",");
     setKeywords(keywordsList);
   }, [keywordsData]);
 
@@ -119,16 +125,17 @@ export default function Page({
           className="editor-content"
         />
         <div className="py-4">
-          {keywords?.length > 0 && (
-            <ul className="text-black list-disc pl-5">
-              <h2 className="bold underline">Keywords:</h2>
-              {keywords.map((keyword, index) => (
-                <li className="list-none" key={index}>
-                  {keyword}
-                </li>
-              ))}
-            </ul>
-          )}
+          <div className="py-4">
+            {keywords?.length > 0 && (
+              <ul className="text-black list-disc pl-5">
+                {keywords.map((keyword, index) => (
+                  <Badge className="inline-block mx-1" key={index}>
+                    {keyword}
+                  </Badge>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
         <div className="image-container">
           {image && (

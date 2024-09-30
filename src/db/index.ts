@@ -68,7 +68,7 @@ export async function getGeneratedKeywords(
   id: number
 ): Promise<Keywords | null> {
   const result = await sql`SELECT * FROM keywords WHERE id = ${id}`;
-  return result.rows[0]?.keywords as Keywords | null;
+  return result.rows[0] as Keywords | null;
 }
 
 export async function setKeywordsCompleted(
