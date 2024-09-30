@@ -61,12 +61,12 @@ export default function PressReleaseGenerator() {
       access: "public",
     });
 
-    const backgroundId = await addBackground(url);
+    const imageId = await addBackground(url);
 
     await inngest.send({
-      name: "rater/image-uploaded",
+      name: "generate/image-caption",
       data: {
-        backgroundId,
+        imageId,
         url,
       },
     });

@@ -1,8 +1,8 @@
 "use client";
-import Editor from "@/components/editor";
-import useEditorBlocks from "@/components/memoise-editor-block";
+import Editor from "@/components/editor/editor";
 import { PressRelease } from "@/db";
 import { inngest } from "@/inngest/client";
+import useEditorBlocks from "@/utils/editor/memoise-editor-block";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
