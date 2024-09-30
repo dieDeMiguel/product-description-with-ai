@@ -24,7 +24,7 @@ export default function Page({
   const [imageWasUploaded, setImageWasUploaded] = useState(false);
 
   const { id } = params;
-  const refetchInterval = 10000;
+  const refetchInterval = 400;
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -45,7 +45,6 @@ export default function Page({
     queryFn: async () => {
       const text = await fetch(`/api/press-release/get-press-release?id=${id}`);
       const result = await text.json();
-      console.log("result.pressRelease", result);
       return result.pressRelease;
     },
     refetchInterval: refetchInterval,

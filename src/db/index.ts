@@ -39,7 +39,6 @@ export async function getGeneratedPressRelease(
     if (result.rows.length === 0) {
       throw new Error(`No press release found with id ${id}`);
     }
-    console.log("pressrelease en db", result.rows[0]);
     return result.rows[0] as PressReleaseImage;
   } catch (error) {
     console.error("Error fetching press release:", error);
