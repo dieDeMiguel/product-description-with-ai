@@ -74,9 +74,23 @@ export async function setKeywordsCompleted(
   await sql`UPDATE keywords SET keywords_completed=${isKeywordGenerationFinished} WHERE id=${id}`;
 }
 
-export async function addBackground(image: string): Promise<void> {
+export async function addImage(image: string): Promise<void> {
   await sql`INSERT INTO images (image) VALUES (${image})`;
   const result =
     await sql`SELECT currval(pg_get_serial_sequence('images', 'id'))`;
   return result.rows[0].currval;
+}
+
+export async function setImageCaption(
+  id: number,
+  caption: string
+): Promise<void> {
+  await sql`UPDATE images SET image_caption=${caption} WHERE id=${id}`;
+}
+
+export async function setImageCaptionCompleted(
+  id: number,
+  captionCompleted: boolean
+): Promise<void> {
+  await sql`UPDATE images SET image_caption_completed=${captionCompleted} WHERE id=${id}`;
 }

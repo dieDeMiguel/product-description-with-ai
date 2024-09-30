@@ -3,7 +3,7 @@
 import { FileUploadButton } from "@/components/image-uploader/image-uploader";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { addBackground } from "@/db";
+import { addImage } from "@/db";
 import { inngest } from "@/inngest/client";
 import { put } from "@vercel/blob";
 import { useRouter } from "next/navigation";
@@ -61,7 +61,7 @@ export default function PressReleaseGenerator() {
       access: "public",
     });
 
-    const imageId = await addBackground(url);
+    const imageId = await addImage(url);
 
     await inngest.send({
       name: "generate/image-caption",

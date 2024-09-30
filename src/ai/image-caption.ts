@@ -1,5 +1,5 @@
 import { openai } from "@/ai";
-import { setReview, setReviewCompleted } from "@/db";
+import { setImageCaption, setImageCaptionCompleted } from "@/db";
 
 const SYSTEM_CONTEXT = `You are an expert in generating captions for images in press releases.
 Your job is to create a detailed and accurate caption for the given image, following the conventions of German press releases.
@@ -33,7 +33,10 @@ export async function generateImageCaption(
         content: [
           {
             type: "text",
-            text: "Rate the composition, lighting, and use of props of the background. Provide reasoning for that recommendation.",
+            text: `You are an expert in generating captions for images in press releases.
+            Your job is to create a detailed and accurate caption for the given image, following the conventions of German press releases.
+            The caption should include the title, season, persons in the image, a brief description, copyright information, photographer's name, image editor's name, filename, and usage rights.
+            Ensure the caption is well-structured and informative,`,
           },
           {
             type: "image_url",
@@ -48,12 +51,12 @@ export async function generateImageCaption(
     stream: true,
   });
 
-  let review = "";
+  let caption = "";
   for await (const chunk of stream) {
-    review += chunk.choices[0].delta.content ?? "";
-    await setReview(+imageId, review);
+    caption += chunk.choices[0].delta.content ?? "";
+    await setImageCaption(+imageId, caption);
   }
-  await setReviewCompleted(+imageId, true);
+  await setImageCaptionCompleted(+imageId, true);
 
-  return review;
+  return caption;
 }
