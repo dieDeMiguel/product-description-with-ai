@@ -2,10 +2,13 @@
 
 import { sql } from "@vercel/postgres";
 
-export type PressRelease = {
+export type PressReleaseImage = {
   id: number;
   pressrelease: string;
   pressrelease_completed: boolean;
+  image: string;
+  image_caption: string;
+  image_caption_completed: boolean;
 };
 
 export type Keywords = {
@@ -14,39 +17,32 @@ export type Keywords = {
   keywords_completed: boolean;
 };
 
-export type Images = {
-  id: number;
-  image: string;
-  image_caption: string;
-  image_caption_completed: boolean;
-};
-
 export async function setPressRelease(
   id: number,
   pressRelease: string
 ): Promise<void> {
-  await sql`UPDATE pressreleases SET pressrelease=${pressRelease} WHERE id=${id}`;
+  await sql`UPDATE pressreleases_images SET pressrelease=${pressRelease} WHERE id=${id}`;
 }
 
 export async function setPressReleaseCompleted(
   id: number,
   isPressReleaseGenerationFinished: boolean
 ): Promise<void> {
-  await sql`UPDATE pressreleases SET pressRelease_completed=${isPressReleaseGenerationFinished} WHERE id=${id}`;
+  await sql`UPDATE pressreleases_images SET pressRelease_completed=${isPressReleaseGenerationFinished} WHERE id=${id}`;
 }
 
 export async function getGeneratedPressRelease(
   id: number
-): Promise<PressRelease | null> {
-  const result = await sql`SELECT * FROM pressreleases WHERE id = ${id}`;
-  return result.rows[0] as PressRelease | null;
+): Promise<PressReleaseImage | null> {
+  const result = await sql`SELECT * FROM pressreleases_images WHERE id = ${id}`;
+  return result.rows[0] as PressReleaseImage | null;
 }
 
 export async function setGeneratedPressRelease(
   pressRelease: string
 ): Promise<number> {
   const result =
-    await sql`INSERT INTO pressreleases (pressRelease) VALUES (${pressRelease}) RETURNING id`;
+    await sql`INSERT INTO pressreleases_images (pressRelease) VALUES (${pressRelease}) RETURNING id`;
   return result.rows[0].id;
 }
 
@@ -74,23 +70,24 @@ export async function setKeywordsCompleted(
   await sql`UPDATE keywords SET keywords_completed=${isKeywordGenerationFinished} WHERE id=${id}`;
 }
 
-export async function addImage(image: string): Promise<void> {
-  await sql`INSERT INTO images (image) VALUES (${image})`;
-  const result =
-    await sql`SELECT currval(pg_get_serial_sequence('images', 'id'))`;
-  return result.rows[0].currval;
+export async function upsertImage(image: string, id: string): Promise<void> {
+  await sql`
+    INSERT INTO pressreleases_images (id, image)
+    VALUES (${id}, ${image})
+    ON CONFLICT (id) DO UPDATE SET image = EXCLUDED.image
+  `;
 }
 
 export async function setImageCaption(
   id: number,
   caption: string
 ): Promise<void> {
-  await sql`UPDATE images SET image_caption=${caption} WHERE id=${id}`;
+  await sql`UPDATE pressreleases_images SET image_caption=${caption} WHERE id=${id}`;
 }
 
 export async function setImageCaptionCompleted(
   id: number,
   captionCompleted: boolean
 ): Promise<void> {
-  await sql`UPDATE images SET image_caption_completed=${captionCompleted} WHERE id=${id}`;
+  await sql`UPDATE pressreleases_images SET image_caption_completed=${captionCompleted} WHERE id=${id}`;
 }

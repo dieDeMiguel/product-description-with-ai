@@ -18,7 +18,7 @@ Your response should be a structured caption with the following details (if poss
 - Rights and conditions: [Usage rights and conditions]`;
 
 export async function generateImageCaption(
-  imageId: string,
+  id: string,
   url: string
 ): Promise<string> {
   const stream = await openai.chat.completions.create({
@@ -54,9 +54,9 @@ export async function generateImageCaption(
   let caption = "";
   for await (const chunk of stream) {
     caption += chunk.choices[0].delta.content ?? "";
-    await setImageCaption(+imageId, caption);
+    await setImageCaption(+id, caption);
   }
-  await setImageCaptionCompleted(+imageId, true);
+  await setImageCaptionCompleted(+id, true);
 
   return caption;
 }

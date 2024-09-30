@@ -1,6 +1,5 @@
 "use client";
 
-import { FileUploadButton } from "@/components/image-uploader/image-uploader";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { inngest } from "@/inngest/client";
@@ -63,7 +62,6 @@ export default function PressReleaseGenerator() {
       >
         {isGenerating ? "Generating..." : "Generate Press Release"}
       </Button>
-      <FileUploadButton />
     </div>
   );
 }

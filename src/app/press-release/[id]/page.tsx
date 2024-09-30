@@ -1,9 +1,11 @@
 "use client";
 import Editor from "@/components/editor/editor";
-import { PressRelease } from "@/db";
+import { FileUploadButton } from "@/components/image-uploader/image-uploader";
+import { PressReleaseImage } from "@/db";
 import { inngest } from "@/inngest/client";
 import useEditorBlocks from "@/utils/editor/memoise-editor-block";
 import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function Page({
@@ -17,17 +19,36 @@ export default function Page({
   const [enableKeywordsQuery, setEnableKeywordsQuery] = useState(true);
   const [keywordsId, setKeywordsId] = useState("");
   const [keywords, setKeywords] = useState<string[]>([]);
+  const [image, setImage] = useState("");
+  const [imageCaption, setImageCaption] = useState("");
+  const [imageWasUploaded, setImageWasUploaded] = useState(false);
 
   const { id } = params;
   const refetchInterval = 1000;
 
-  const { data } = useQuery<PressRelease | null>({
+  useEffect(() => {
+    const fetchData = async () => {
+      if (imageWasUploaded) {
+        const response = await fetch(
+          `/api/press-release/get-press-release?id=${id}`
+        );
+        const result = await response.json();
+        if (result.image) setImage(result.image);
+        if (result.image_caption) setImageCaption(result.image_caption);
+      }
+    };
+    fetchData();
+  }, [imageWasUploaded]);
+
+  const { data } = useQuery<PressReleaseImage | null>({
     queryKey: ["pressRelease", id],
     queryFn: async () => {
       const response = await fetch(
         `/api/press-release/get-press-release?id=${id}`
       );
       const result = await response.json();
+      if (result.image) setImage(result.image);
+      if (result.image_caption) setImageCaption(result.image_caption);
       return result.text;
     },
     refetchInterval: refetchInterval,
@@ -88,24 +109,45 @@ export default function Page({
   }, [keywordsData]);
 
   return (
-    <div className="w-3/4 lg:w-1/2 py-[50px] bg-white rounded-lg p-4 shadow-md h-full overflow-auto">
-      <Editor
-        sectionID="editor"
-        data={editorBlocks}
-        wrapperClassName="editor-wrapper"
-        className="editor-content"
+    <div>
+      <FileUploadButton
+        className={"mb-xxl"}
+        id={id}
+        setImageWasUploaded={setImageWasUploaded}
       />
-      <div className="py-4">
-        {keywords?.length > 0 && (
-          <ul className="text-black list-disc pl-5">
-            <h2 className="bold underline">Keywords:</h2>
-            {keywords.map((keyword, index) => (
-              <li className="list-none" key={index}>
-                {keyword}
-              </li>
-            ))}
-          </ul>
-        )}
+      <div className="w-3/4 lg:w-1/2 py-[50px] bg-white rounded-lg p-4 shadow-md h-full overflow-auto">
+        <Editor
+          sectionID="editor"
+          data={editorBlocks}
+          wrapperClassName="editor-wrapper"
+          className="editor-content"
+        />
+        <div className="py-4">
+          {keywords?.length > 0 && (
+            <ul className="text-black list-disc pl-5">
+              <h2 className="bold underline">Keywords:</h2>
+              {keywords.map((keyword, index) => (
+                <li className="list-none" key={index}>
+                  {keyword}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div className="image-container">
+          {image && (
+            <Image
+              src={image}
+              width={400}
+              height={300}
+              alt="Generated press release image"
+              className="w-full"
+            />
+          )}
+          {imageCaption && (
+            <p className="text-center text-sm text-gray-500">{imageCaption}</p>
+          )}
+        </div>
       </div>
     </div>
   );

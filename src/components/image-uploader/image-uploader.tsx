@@ -2,7 +2,15 @@ import { handleUploadImage } from "@/app/actions/handle-upload-image";
 import { Button } from "@/components/ui/button";
 import React, { useRef } from "react";
 
-export function FileUploadButton() {
+export function FileUploadButton({
+  id,
+  setImageWasUploaded,
+  className,
+}: {
+  id: string;
+  setImageWasUploaded: React.Dispatch<React.SetStateAction<boolean>>;
+  className?: string;
+}) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = async (
@@ -12,12 +20,18 @@ export function FileUploadButton() {
     if (file) {
       const formData = new FormData();
       formData.append("image", file);
-      await handleUploadImage(formData);
+      try {
+        await handleUploadImage(formData, id);
+        setImageWasUploaded(true);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        alert("An error occurred while uploading the image.");
+      }
     }
   };
 
   return (
-    <div>
+    <div className={className}>
       <input
         type="file"
         ref={fileInputRef}
