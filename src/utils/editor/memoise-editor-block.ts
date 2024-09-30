@@ -1,8 +1,8 @@
-import { PressReleaseImage } from "@/db";
+import { PressReleaseAsset } from "@/db";
 import { useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-const useEditorBlocks = (data: PressReleaseImage | null | undefined) =>
+const useEditorBlocks = (data: PressReleaseAsset | null | undefined) =>
   useMemo(() => {
     if (data?.pressrelease) {
       return [

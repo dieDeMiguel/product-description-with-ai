@@ -29,6 +29,7 @@ export default function PressReleaseGenerator() {
       },
     });
     const { id } = await response.json();
+    console.log("Generated press release with id", id);
     try {
       await inngest.send({
         name: "generate/press-release",
