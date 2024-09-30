@@ -9,6 +9,7 @@ interface EditorProps {
   className?: string;
   wrapperClassName?: string;
   data: OutputBlockData[];
+  isReadOnly: boolean;
 }
 
 const Editor: React.FC<EditorProps> = ({
@@ -16,10 +17,11 @@ const Editor: React.FC<EditorProps> = ({
   className = "",
   wrapperClassName = "",
   data,
+  isReadOnly,
 }) => {
   const editorRef = useRef<EditorJS | null>(null);
 
-  useInitializeEditor(editorRef, true, sectionID, data);
+  useInitializeEditor(editorRef, true, sectionID, data, isReadOnly);
 
   return (
     <div className={cn("editor-wrapper", wrapperClassName)}>

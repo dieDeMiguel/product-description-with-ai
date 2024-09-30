@@ -1,4 +1,4 @@
-DROP TABLE pressreleases_images;
+DROP TABLE pressreleases_assets;
 
 CREATE TABLE IF NOT EXISTS pressreleases_images (
   id SERIAL PRIMARY KEY,

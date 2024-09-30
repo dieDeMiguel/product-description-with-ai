@@ -127,6 +127,7 @@ export default function Page({
           data={editorBlocks}
           wrapperClassName="editor-wrapper"
           className="editor-content"
+          isReadOnly={!data?.pressrelease_completed}
         />
         <div className="py-4">
           <div className="py-4">
