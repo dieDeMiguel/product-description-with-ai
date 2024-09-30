@@ -11,7 +11,8 @@ const useInitializeEditor = (
   ref: MutableRefObject<EditorJS | null>,
   inlineToolbar: boolean,
   sectionID: string,
-  data: OutputBlockData[]
+  data: OutputBlockData[],
+  isReadOnly: boolean
 ) => {
   useEffect(() => {
     const initializeEditor = async () => {
@@ -25,6 +26,8 @@ const useInitializeEditor = (
             },
             inlineToolbar: inlineToolbar,
             hideToolbar: true,
+            readOnly: isReadOnly,
+            autofocus: !isReadOnly,
             data: {
               time: new Date().getTime(),
               blocks:

@@ -33,6 +33,7 @@ export default function Page({
     queryFn: async () => {
       const text = await fetch(`/api/press-release/get-press-release?id=${id}`);
       const result = await text.json();
+      console.log("Press release:", result.pressRelease);
       return result.pressRelease;
     },
     refetchInterval: refetchInterval,
@@ -40,6 +41,12 @@ export default function Page({
   });
 
   useEffect(() => {
+    if (data?.image) {
+      setImage(data.image);
+    }
+    if (data?.image_caption) {
+      setImageCaption(data.image_caption);
+    }
     setEnablePressReleaseQuery(!data?.pressrelease_completed);
   }, [data]);
 
@@ -96,7 +103,7 @@ export default function Page({
     setKeywords(keywordsList);
   }, [keywordsData]);
 
-  const { data: captionData } = useQuery<PressReleaseImage | null>({
+  const { data: imageData } = useQuery<PressReleaseImage | null>({
     queryKey: ["caption", id],
     queryFn: async () => {
       const text = await fetch(`/api/press-release/get-press-release?id=${id}`);
@@ -108,11 +115,11 @@ export default function Page({
   });
 
   useEffect(() => {
-    if (!captionData) return;
-    setEnableCaptionQuery(!captionData.image_caption_completed);
-    setImage(captionData.image);
-    setImageCaption(captionData.image_caption);
-  }, [captionData]);
+    if (!imageData) return;
+    setEnableCaptionQuery(!imageData.image_caption_completed);
+    setImage(imageData.image);
+    setImageCaption(imageData.image_caption);
+  }, [imageData]);
 
   return (
     <div className="w-3/4 lg:w-1/2 p-4 shadow-md h-full overflow-auto">
@@ -127,6 +134,7 @@ export default function Page({
           data={editorBlocks}
           wrapperClassName="editor-wrapper"
           className="editor-content"
+          isReadOnly={!data?.pressrelease_completed}
         />
         <div className="py-4">
           <div className="py-4">

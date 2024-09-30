@@ -1,18 +1,14 @@
-DROP TABLE pressreleases_images;
+DROP TABLE IF EXISTS pressreleases_images;
 
-CREATE TABLE IF NOT EXISTS pressreleases_images (
+CREATE TABLE IF NOT EXISTS pressreleases_assets (
   id SERIAL PRIMARY KEY,
   pressrelease TEXT,
   pressrelease_completed BOOLEAN DEFAULT FALSE,
   image TEXT,
   image_caption TEXT,
-  image_caption_completed BOOLEAN DEFAULT FALSE
-);
-
-DROP TABLE keywords;
-
-CREATE TABLE IF NOT EXISTS keywords (
-  id SERIAL PRIMARY KEY,
+  image_caption_completed BOOLEAN DEFAULT FALSE,
   keywords TEXT,
   keywords_completed BOOLEAN DEFAULT FALSE
 );
+
+DROP TABLE IF EXISTS keywords;
