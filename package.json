@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "inngest": "inngest dev"
+    "inngest": "inngest dev",
+    "inngest:prod": "inngest start"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.61",
