@@ -1,7 +1,7 @@
 import { generateImageCaption } from "@/ai/image-caption";
 import { inngest } from "@/inngest/client";
 
-export const throttleGenerateImageUpload = inngest.createFunction(
+export const throttleGenerateImageCaption = inngest.createFunction(
   {
     id: "generate-image-caption",
     throttle: { limit: 1, period: "2s", burst: 2 },
