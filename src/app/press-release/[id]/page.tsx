@@ -30,6 +30,7 @@ export default function Page({
   useEffect(() => {
     const fetchData = async () => {
       if (imageWasUploaded) {
+        await new Promise((resolve) => setTimeout(resolve, 3000));
         const text = await fetch(
           `/api/press-release/get-press-release?id=${id}`
         );
@@ -140,8 +141,8 @@ export default function Page({
           {image && (
             <Image
               src={image}
-              width={400}
-              height={300}
+              width={300}
+              height={200}
               alt="Generated press release image"
               className="w-full"
             />
