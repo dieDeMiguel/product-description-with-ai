@@ -34,9 +34,8 @@ export default function Page({
           `/api/press-release/get-press-release?id=${id}`
         );
         const result = await text.json();
-        console.log("result ouoiuiouiouiouiouiouoi", result);
-        if (result.image) setImage(result.image);
-        if (result.image_caption) setImageCaption(result.image_caption);
+        setImage(result.pressRelease.image);
+        setImageCaption(result.pressRelease.image_caption);
       }
     };
     fetchData();
