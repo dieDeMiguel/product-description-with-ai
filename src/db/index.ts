@@ -14,6 +14,13 @@ export type Keywords = {
   keywords_completed: boolean;
 };
 
+export type Images = {
+  id: number;
+  image: string;
+  image_caption: string;
+  image_caption_completed: boolean;
+};
+
 export async function setPressRelease(
   id: number,
   pressRelease: string
@@ -65,4 +72,11 @@ export async function setKeywordsCompleted(
   isKeywordGenerationFinished: boolean
 ): Promise<void> {
   await sql`UPDATE keywords SET keywords_completed=${isKeywordGenerationFinished} WHERE id=${id}`;
+}
+
+export async function addBackground(image: string): Promise<void> {
+  await sql`INSERT INTO images (image) VALUES (${image})`;
+  const result =
+    await sql`SELECT currval(pg_get_serial_sequence('images', 'id'))`;
+  return result.rows[0].currval;
 }
