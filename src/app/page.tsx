@@ -8,7 +8,7 @@ import { useState } from "react";
 
 export default function PressReleaseGenerator() {
   const [userInput, setUserInput] = useState<string>(
-    "A new Lamborghini ultra car model X with a new state of the art Rolls Royce engine which produce 20% less emissions than the previous model."
+    "Introducing the new Pagani Huayra R, a masterpiece of Italian luxury and engineering excellence. Designed by the legendary Horacio Pagani, this hypercar combines cutting-edge technology with unparalleled craftsmanship. The Huayra R features a bespoke V12 engine that delivers breathtaking performance while maintaining the elegance and exclusivity that Pagani is renowned for. Experience the ultimate in automotive luxury with the Pagani Huayra R, where every detail is meticulously crafted to perfection."
   );
   const router = useRouter();
   const [isGenerating, setIsGenerating] = useState<boolean>(false);

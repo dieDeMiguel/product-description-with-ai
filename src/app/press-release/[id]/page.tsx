@@ -18,6 +18,7 @@ export default function Page({
 }) {
   const [enablePressReleaseQuery, setEnablePressReleaseQuery] = useState(true);
   const [enableKeywordsQuery, setEnableKeywordsQuery] = useState(false);
+  const [enableCaptionQuery, setEnableCaptionQuery] = useState(true);
   const [keywordsId, setKeywordsId] = useState("");
   const [keywords, setKeywords] = useState<string[]>([]);
   const [image, setImage] = useState("");
@@ -26,21 +27,6 @@ export default function Page({
 
   const { id } = params;
   const refetchInterval = 400;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (imageWasUploaded) {
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-        const text = await fetch(
-          `/api/press-release/get-press-release?id=${id}`
-        );
-        const result = await text.json();
-        setImage(result.pressRelease.image);
-        setImageCaption(result.pressRelease.image_caption);
-      }
-    };
-    fetchData();
-  }, [imageWasUploaded]);
 
   const { data } = useQuery<PressReleaseImage | null>({
     queryKey: ["pressRelease", id],
@@ -109,6 +95,24 @@ export default function Page({
     const keywordsList = keywordsData.keywords.split(",");
     setKeywords(keywordsList);
   }, [keywordsData]);
+
+  const { data: captionData } = useQuery<PressReleaseImage | null>({
+    queryKey: ["caption", id],
+    queryFn: async () => {
+      const text = await fetch(`/api/press-release/get-press-release?id=${id}`);
+      const result = await text.json();
+      return result.pressRelease;
+    },
+    refetchInterval: refetchInterval,
+    enabled: imageWasUploaded && enableCaptionQuery,
+  });
+
+  useEffect(() => {
+    if (!captionData) return;
+    setEnableCaptionQuery(!captionData.image_caption_completed);
+    setImage(captionData.image);
+    setImageCaption(captionData.image_caption);
+  }, [captionData]);
 
   return (
     <div className="w-3/4 lg:w-1/2 p-4 shadow-md h-full overflow-auto">
