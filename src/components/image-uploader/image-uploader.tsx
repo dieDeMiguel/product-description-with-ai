@@ -1,11 +1,8 @@
+import { handleUploadImage } from "@/app/actions/handle-upload-image";
 import { Button } from "@/components/ui/button";
 import React, { useRef } from "react";
 
-export function FileUploadButton({
-  onUploadImage,
-}: {
-  onUploadImage: (formData: FormData) => void;
-}) {
+export function FileUploadButton() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = async (
@@ -15,7 +12,7 @@ export function FileUploadButton({
     if (file) {
       const formData = new FormData();
       formData.append("image", file);
-      await onUploadImage(formData);
+      await handleUploadImage(formData);
     }
   };
 

@@ -3,9 +3,7 @@
 import { FileUploadButton } from "@/components/image-uploader/image-uploader";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { addImage } from "@/db";
 import { inngest } from "@/inngest/client";
-import { put } from "@vercel/blob";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -49,29 +47,6 @@ export default function PressReleaseGenerator() {
     }
   };
 
-  const handleUploadImage = async (formData: FormData) => {
-    "use server";
-    const file = formData.get("image") as Blob;
-    const buffer = await file.arrayBuffer();
-    const data = Buffer.from(buffer);
-
-    const randomFileName = Math.random().toString(36).substring(2);
-
-    const { url } = await put(`images/${randomFileName}.jpg`, data, {
-      access: "public",
-    });
-
-    const imageId = await addImage(url);
-
-    await inngest.send({
-      name: "generate/image-caption",
-      data: {
-        imageId,
-        url,
-      },
-    });
-  };
-
   return (
     <div className="w-full max-w-4xl p-4 flex flex-col gap-xl">
       <h1 className="text-2xl font-bold mb-4">Press Release Generator</h1>
@@ -88,7 +63,7 @@ export default function PressReleaseGenerator() {
       >
         {isGenerating ? "Generating..." : "Generate Press Release"}
       </Button>
-      <FileUploadButton onUploadImage={handleUploadImage} />
+      <FileUploadButton />
     </div>
   );
 }
