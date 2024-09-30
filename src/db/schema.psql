@@ -8,11 +8,11 @@ CREATE TABLE IF NOT EXISTS keywords (
   id SERIAL PRIMARY KEY,
   keywords TEXT,
   keywords_completed BOOLEAN DEFAULT FALSE
-)
+);
 
 CREATE TABLE IF NOT EXISTS images (
   id SERIAL PRIMARY KEY,
   image TEXT,
   image_caption TEXT,
   image_caption_completed BOOLEAN DEFAULT FALSE
-)
+);
