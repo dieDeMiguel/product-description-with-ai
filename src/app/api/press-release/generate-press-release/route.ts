@@ -6,6 +6,7 @@ export async function POST(request: NextRequest) {
     const { pressRelease } = await request.json();
 
     const id = await setGeneratedPressRelease(pressRelease);
+    console.log(`Generated press release with ID: ${id}`);
 
     return NextResponse.json({ id }, { status: 200 });
   } catch (error) {

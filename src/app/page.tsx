@@ -8,7 +8,7 @@ import { useState } from "react";
 
 export default function PressReleaseGenerator() {
   const [userInput, setUserInput] = useState<string>(
-    "A new Tesla Model X car with offroad capabilities"
+    "A new Boing 777 dream liner with new state of the art turbines"
   );
   const router = useRouter();
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
@@ -37,7 +37,7 @@ export default function PressReleaseGenerator() {
           prompt: userInput,
         },
       });
-      router.push(`/press-release/${id}`);
+      // router.push(`/press-release/${id}`);
     } catch (error) {
       console.error("Error generating press release:", error);
       alert("An error occurred while generating the press release.");

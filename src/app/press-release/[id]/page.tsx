@@ -26,19 +26,19 @@ export default function Page({
   const { id } = params;
   const refetchInterval = 1000;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (imageWasUploaded) {
-        const response = await fetch(
-          `/api/press-release/get-press-release?id=${id}`
-        );
-        const result = await response.json();
-        if (result.image) setImage(result.image);
-        if (result.image_caption) setImageCaption(result.image_caption);
-      }
-    };
-    fetchData();
-  }, [imageWasUploaded]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (imageWasUploaded) {
+  //       const response = await fetch(
+  //         `/api/press-release/get-press-release?id=${id}`
+  //       );
+  //       const result = await response.json();
+  //       if (result.image) setImage(result.image);
+  //       if (result.image_caption) setImageCaption(result.image_caption);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [imageWasUploaded]);
 
   const { data } = useQuery<PressReleaseImage | null>({
     queryKey: ["pressRelease", id],
@@ -47,9 +47,8 @@ export default function Page({
         `/api/press-release/get-press-release?id=${id}`
       );
       const result = await response.json();
-      if (result.image) setImage(result.image);
-      if (result.image_caption) setImageCaption(result.image_caption);
-      return result.text;
+      console.log("result", result.pressRelease);
+      return result.pressrelease;
     },
     refetchInterval: refetchInterval,
     enabled: enablePressReleaseQuery,
@@ -109,13 +108,13 @@ export default function Page({
   }, [keywordsData]);
 
   return (
-    <div>
+    <div className="w-3/4 lg:w-1/2 p-4 shadow-md h-full overflow-auto">
       <FileUploadButton
         className={"mb-xxl"}
         id={id}
         setImageWasUploaded={setImageWasUploaded}
       />
-      <div className="w-3/4 lg:w-1/2 py-[50px] bg-white rounded-lg p-4 shadow-md h-full overflow-auto">
+      <div className="py-[50px] bg-white p-4 h-full rounded-lg">
         <Editor
           sectionID="editor"
           data={editorBlocks}

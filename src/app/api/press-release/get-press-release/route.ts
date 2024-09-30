@@ -21,16 +21,16 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const text = await getGeneratedPressRelease(Number(id));
+    const pressrelease = await getGeneratedPressRelease(Number(id));
 
-    if (!text) {
+    if (!pressrelease) {
       return NextResponse.json(
         { error: "Press release not found or not yet generated." },
         { status: 404 }
       );
     }
 
-    return NextResponse.json({ text }, { status: 200 });
+    return NextResponse.json({ text: pressrelease }, { status: 200 });
   } catch (error) {
     console.error("Error in GET /api/get-press-release:", error);
     return NextResponse.json(

@@ -9,6 +9,7 @@ export const throttleGeneratePressRelease = inngest.createFunction(
   { event: "generate/press-release" },
   async ({ event, step }) => {
     const { id, prompt } = event.data;
+    // console.log("Generating press release for prompt:", prompt, id);
     const pressReleasePromise = await step.run(
       "add-press-release",
       async () => {

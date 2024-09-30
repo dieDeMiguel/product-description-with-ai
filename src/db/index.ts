@@ -34,7 +34,7 @@ export async function setPressReleaseCompleted(
 export async function getGeneratedPressRelease(
   id: number
 ): Promise<PressReleaseImage | null> {
-  const result = await sql`SELECT * FROM pressreleases_images WHERE id = ${id}`;
+  const result = await sql`SELECT * FROM pressreleases_images WHERE id=${id}`;
   return result.rows[0] as PressReleaseImage | null;
 }
 
@@ -42,7 +42,7 @@ export async function setGeneratedPressRelease(
   pressRelease: string
 ): Promise<number> {
   const result =
-    await sql`INSERT INTO pressreleases_images (pressRelease) VALUES (${pressRelease}) RETURNING id`;
+    await sql`INSERT INTO pressreleases_images (pressrelease) VALUES (${pressRelease}) RETURNING id`;
   return result.rows[0].id;
 }
 

@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ text }, { status: 200 });
   } catch (error) {
-    console.error("Error in GET /api/get-press-release:", error);
+    console.error("Error in GET /api/get-keywords:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

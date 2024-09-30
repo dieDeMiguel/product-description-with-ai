@@ -13,6 +13,7 @@ export async function pressRelease(
   prompt: string
 ): Promise<string> {
   const numericId = parseInt(id, 10);
+  console.log("Generating press release for prompt:", prompt, id);
   if (isNaN(numericId)) {
     throw new Error("Invalid ID: ID must be a number");
   }
