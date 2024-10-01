@@ -35,7 +35,7 @@ export default function Page({
   ]);
 
   const { id } = params;
-  const refetchInterval = 400;
+  const refetchInterval = 600;
 
   const { data } = useQuery<PressReleaseAsset | null>({
     queryKey: ["pressRelease", id],
@@ -46,7 +46,7 @@ export default function Page({
     },
     refetchInterval: refetchInterval,
     enabled: enablePressReleaseQuery,
-    staleTime: 0,
+    staleTime: 1000,
     refetchOnMount: "always",
     refetchOnWindowFocus: true,
     retry: 2,
