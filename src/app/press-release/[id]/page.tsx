@@ -103,12 +103,6 @@ export default function Page({
 
   return (
     <div className="w-3/4 max-w-[900px] px-14 shadow-md h-full overflow-auto">
-      <FileUploadButton
-        className={"mb-xxl"}
-        id={id}
-        setImageWasUploaded={setImageWasUploaded}
-        pressRelease={data?.pressrelease || ""}
-      />
       <div className="bg-white py-8 px-6 h-full rounded-lg">
         <Editor
           sectionID="title"
@@ -137,18 +131,27 @@ export default function Page({
             )}
           </div>
         </div>
-        <div className="px-6">
-          {image && (
-            <Image
-              src={image}
-              width={300}
-              height={200}
-              alt="Generated press release image"
-              className="w-full"
+        <div className="px-6 w-full text-center">
+          {image ? (
+            <div>
+              <Image
+                src={image}
+                width={300}
+                height={200}
+                alt="Generated press release image"
+                className="w-full"
+              />
+              <p className="text-center text-sm text-gray-500">
+                {imageCaption}
+              </p>
+            </div>
+          ) : (
+            <FileUploadButton
+              className={"mt-20"}
+              id={id}
+              setImageWasUploaded={setImageWasUploaded}
+              pressRelease={data?.pressrelease || ""}
             />
-          )}
-          {imageCaption && (
-            <p className="text-center text-sm text-gray-500">{imageCaption}</p>
           )}
         </div>
       </div>
