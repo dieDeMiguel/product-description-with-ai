@@ -1,10 +1,10 @@
 "use client";
+import { getKeywords } from "@/ai/keywords";
 import Editor from "@/components/editor/editor";
 import { FileUploadButton } from "@/components/image-uploader/image-uploader";
 import { Badge } from "@/components/ui/badge";
 import { PressReleaseAsset } from "@/db";
 
-import { inngest } from "@/inngest/client";
 import useEditorBlocks from "@/utils/editor/memoise-editor-block";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -18,7 +18,6 @@ export default function Page({
   };
 }) {
   const [enablePressReleaseQuery, setEnablePressReleaseQuery] = useState(true);
-  const [enableKeywordsQuery, setEnableKeywordsQuery] = useState(false);
   const [enableCaptionQuery, setEnableCaptionQuery] = useState(true);
   const [keywords, setKeywords] = useState<string[]>([]);
   const [image, setImage] = useState("");
@@ -49,47 +48,21 @@ export default function Page({
     setEnablePressReleaseQuery(!data?.pressrelease_completed);
   }, [data]);
 
+  const editorBlocks = useEditorBlocks(data);
+
   useEffect(() => {
     if (enablePressReleaseQuery) return;
-    const sendKeywords = async () => {
+    const generateKeywords = async () => {
       try {
-        await inngest.send({
-          name: "generate/keywords",
-          data: {
-            prompt: data?.pressrelease,
-            id,
-          },
-        });
-        setEnableKeywordsQuery(true);
+        const keywords = await getKeywords(data?.pressrelease || "", id);
+        const keywordsList = keywords.text.split(",");
+        setKeywords(keywordsList);
       } catch (error) {
         console.error("Error generating keywords:", error);
       }
     };
-    sendKeywords();
-  }, [enablePressReleaseQuery, data?.pressrelease, id]);
-
-  const editorBlocks = useEditorBlocks(data);
-
-  const { data: keywordsData } = useQuery<PressReleaseAsset | null>({
-    queryKey: ["keywords", id],
-    queryFn: async () => {
-      const response = await fetch(`/api/keywords/get-keywords?id=${id}`);
-      const result = await response.json();
-      return result.text;
-    },
-    refetchInterval: refetchInterval,
-    enabled: enableKeywordsQuery,
-  });
-
-  useEffect(() => {
-    setEnableKeywordsQuery(!keywordsData?.keywords_completed);
-  }, [keywordsData?.keywords_completed]);
-
-  useEffect(() => {
-    if (!keywordsData?.keywords) return;
-    const keywordsList = keywordsData.keywords.split(",");
-    setKeywords(keywordsList);
-  }, [keywordsData?.keywords]);
+    generateKeywords();
+  }, [data?.pressrelease, enablePressReleaseQuery]);
 
   const { data: imageData } = useQuery<PressReleaseAsset | null>({
     queryKey: ["caption", id],

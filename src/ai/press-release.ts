@@ -36,7 +36,6 @@ export async function pressRelease(
   let pressRelease = "";
   for await (const chunk of stream) {
     pressRelease += chunk.choices[0].delta.content ?? "";
-    console.log("Press Release chunk:", pressRelease);
     await setPressRelease(numericId, pressRelease);
   }
   await setPressReleaseCompleted(numericId, true);
