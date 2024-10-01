@@ -32,28 +32,32 @@ export default function Page({
       id: uuidv4(),
     },
   ]);
+  const [data, setData] = useState<PressReleaseAsset | null>(null);
 
   const { id } = params;
   const refetchInterval = 400;
 
-  const { data } = useQuery<PressReleaseAsset | null>({
-    queryKey: ["pressRelease", id],
-    queryFn: async () => {
-      const response = await fetch(
-        `/api/press-release/get-press-release?id=${id}`
-      );
-      if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.status}`);
+  useEffect(() => {
+    if (!enablePressReleaseQuery) return;
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `/api/press-release/get-press-release?id=${id}`
+        );
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.status}`);
+        }
+        const result = await response.json();
+        setData(result.pressRelease);
+      } catch (error) {
+        console.error("Error fetching press release:", error);
       }
-      const result = await response.json();
-      return result.pressRelease;
-    },
-    refetchInterval: refetchInterval,
-    enabled: enablePressReleaseQuery,
-    refetchOnMount: "always",
-    refetchOnWindowFocus: true,
-    retry: 2,
-  });
+    };
+    fetchData();
+    const intervalId = setInterval(fetchData, refetchInterval);
+    return () => clearInterval(intervalId);
+  }, [id, refetchInterval, enablePressReleaseQuery]);
 
   useEffect(() => {
     if (data?.image) {
