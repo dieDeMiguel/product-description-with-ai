@@ -5,7 +5,6 @@ import { FileUploadButton } from "@/components/image-uploader/image-uploader";
 import { Badge } from "@/components/ui/badge";
 import { PressReleaseAsset } from "@/db";
 import useEditorBlocks from "@/utils/editor/memoise-editor-block";
-import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -33,6 +32,7 @@ export default function Page({
     },
   ]);
   const [data, setData] = useState<PressReleaseAsset | null>(null);
+  const [imageData, setImageData] = useState<PressReleaseAsset | null>(null);
 
   const { id } = params;
   const refetchInterval = 400;
@@ -49,7 +49,7 @@ export default function Page({
           throw new Error(`Network response was not ok: ${response.status}`);
         }
         const result = await response.json();
-        setData(result.pressRelease);
+        setData(result.pressRelease ?? null);
       } catch (error) {
         console.error("Error fetching press release:", error);
       }
@@ -96,24 +96,26 @@ export default function Page({
     generateKeywords();
   }, [data?.pressrelease, enablePressReleaseQuery]);
 
-  const { data: imageData } = useQuery<PressReleaseAsset | null>({
-    queryKey: ["caption", id],
-    queryFn: async () => {
-      const response = await fetch(
-        `/api/press-release/get-press-release?id=${id}`
-      );
-      if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.status}`);
+  useEffect(() => {
+    if (!imageWasUploaded || !enableCaptionQuery) return;
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `/api/press-release/get-press-release?id=${id}`
+        );
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.status}`);
+        }
+        const result = await response.json();
+        setImageData(result?.pressRelease ?? null);
+      } catch (error) {
+        console.error("Error fetching press release:", error);
       }
-      const result = await response.json();
-      return result.pressRelease;
-    },
-    refetchInterval: refetchInterval,
-    enabled: imageWasUploaded && enableCaptionQuery,
-    refetchOnMount: "always",
-    refetchOnWindowFocus: true,
-    retry: 2,
-  });
+    };
+    fetchData();
+    const intervalId = setInterval(fetchData, refetchInterval);
+    return () => clearInterval(intervalId);
+  }, [id, refetchInterval, imageWasUploaded, enableCaptionQuery]);
 
   useEffect(() => {
     setEnableCaptionQuery(!imageData?.image_caption_completed);
@@ -130,14 +132,14 @@ export default function Page({
           data={title}
           wrapperClassName=""
           className="text-2xl font-bold"
-          isReadOnly={false}
+          isReadOnly={enablePressReleaseQuery}
         />
         <Editor
           sectionID="editor"
           data={editorBlocks}
           wrapperClassName=""
           className="editor-content"
-          isReadOnly={!data?.pressrelease_completed}
+          isReadOnly={enablePressReleaseQuery}
         />
         <div className="py-4">
           <div className="py-4">
