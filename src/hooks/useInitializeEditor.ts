@@ -28,6 +28,8 @@ const useInitializeEditor = (
             readOnly: isReadOnly,
             autofocus: !isReadOnly,
             hideToolbar: true,
+            readOnly: isReadOnly,
+            autofocus: !isReadOnly,
             data: {
               time: new Date().getTime(),
               blocks:

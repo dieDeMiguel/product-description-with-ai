@@ -1,9 +1,10 @@
 "use client";
+import { getKeywords } from "@/ai/keywords";
 import Editor from "@/components/editor/editor";
 import { FileUploadButton } from "@/components/image-uploader/image-uploader";
 import { Badge } from "@/components/ui/badge";
-import { Keywords, PressReleaseImage } from "@/db";
-import { inngest } from "@/inngest/client";
+import { PressReleaseAsset } from "@/db";
+
 import useEditorBlocks from "@/utils/editor/memoise-editor-block";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -17,9 +18,6 @@ export default function Page({
   };
 }) {
   const [enablePressReleaseQuery, setEnablePressReleaseQuery] = useState(true);
-  const [enableKeywordsQuery, setEnableKeywordsQuery] = useState(false);
-  const [enableCaptionQuery, setEnableCaptionQuery] = useState(true);
-  const [keywordsId, setKeywordsId] = useState("");
   const [keywords, setKeywords] = useState<string[]>([]);
   const [image, setImage] = useState("");
   const [imageCaption, setImageCaption] = useState("");
@@ -28,7 +26,7 @@ export default function Page({
   const { id } = params;
   const refetchInterval = 400;
 
-  const { data } = useQuery<PressReleaseImage | null>({
+  const { data } = useQuery<PressReleaseAsset | null>({
     queryKey: ["pressRelease", id],
     queryFn: async () => {
       const text = await fetch(`/api/press-release/get-press-release?id=${id}`);
@@ -40,63 +38,33 @@ export default function Page({
   });
 
   useEffect(() => {
+    console.log("Data", data);
+    if (data?.image) {
+      setImage(data.image);
+    }
+    if (data?.image_caption) {
+      setImageCaption(data.image_caption);
+    }
     setEnablePressReleaseQuery(!data?.pressrelease_completed);
   }, [data]);
 
+  const editorBlocks = useEditorBlocks(data);
+
   useEffect(() => {
     if (enablePressReleaseQuery) return;
-    const sendKeywords = async () => {
-      const response = await fetch(`/api/keywords/generate-keywords`, {
-        method: "POST",
-        body: JSON.stringify({ keywords: "" }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const { id } = await response.json();
-      setKeywordsId(id);
+    const generateKeywords = async () => {
       try {
-        await inngest.send({
-          name: "generate/keywords",
-          data: {
-            prompt: data?.pressrelease,
-            id,
-          },
-        });
-        setEnableKeywordsQuery(true);
+        const keywords = await getKeywords(data?.pressrelease || "", id);
+        const keywordsList = keywords.text.split(",");
+        setKeywords(keywordsList);
       } catch (error) {
         console.error("Error generating keywords:", error);
       }
     };
-    sendKeywords();
-  }, [enablePressReleaseQuery, data?.pressrelease]);
+    generateKeywords();
+  }, [data?.pressrelease, enablePressReleaseQuery]);
 
-  const editorBlocks = useEditorBlocks(data);
-
-  const { data: keywordsData } = useQuery<Keywords | null>({
-    queryKey: ["keywords", keywordsId],
-    queryFn: async () => {
-      const response = await fetch(
-        `/api/keywords/get-keywords?id=${keywordsId}`
-      );
-      const result = await response.json();
-      return result.text;
-    },
-    refetchInterval: refetchInterval,
-    enabled: enableKeywordsQuery && !enablePressReleaseQuery && !!keywordsId,
-  });
-
-  useEffect(() => {
-    setEnableKeywordsQuery(!keywordsData?.keywords_completed);
-  }, [keywordsData]);
-
-  useEffect(() => {
-    if (!keywordsData) return;
-    const keywordsList = keywordsData.keywords.split(",");
-    setKeywords(keywordsList);
-  }, [keywordsData]);
-
-  const { data: captionData } = useQuery<PressReleaseImage | null>({
+  const { data: imageData } = useQuery<PressReleaseAsset | null>({
     queryKey: ["caption", id],
     queryFn: async () => {
       const text = await fetch(`/api/press-release/get-press-release?id=${id}`);
@@ -104,15 +72,15 @@ export default function Page({
       return result.pressRelease;
     },
     refetchInterval: refetchInterval,
-    enabled: imageWasUploaded && enableCaptionQuery,
+    enabled: imageWasUploaded,
   });
 
   useEffect(() => {
-    if (!captionData) return;
-    setEnableCaptionQuery(!captionData.image_caption_completed);
-    setImage(captionData.image);
-    setImageCaption(captionData.image_caption);
-  }, [captionData]);
+    console.log("Image data", imageData);
+    if (!imageData?.image && !imageData?.image_caption) return;
+    setImage(imageData?.image || "");
+    setImageCaption(imageData?.image_caption || "");
+  }, [imageData]);
 
   return (
     <div className="w-3/4 lg:w-1/2 p-4 shadow-md h-full overflow-auto">
