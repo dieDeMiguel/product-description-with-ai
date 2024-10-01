@@ -35,7 +35,6 @@ export async function getGeneratedPressRelease(
     if (result.rows.length === 0) {
       throw new Error(`No press release found with id ${id}`);
     }
-    console.log("Press release asset:", result.rows[0]);
     const pressReleaseAsset = result.rows[0] as PressReleaseAsset;
     return pressReleaseAsset;
   } catch (error) {
