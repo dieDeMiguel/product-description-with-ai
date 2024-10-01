@@ -81,17 +81,18 @@ export default function Page({
   }, [imageData]);
 
   return (
-    <div className="w-3/4 lg:w-1/2 p-4 shadow-md h-full overflow-auto">
+    <div className="w-3/4 max-w-[880px] px-14 shadow-md h-full overflow-auto">
       <FileUploadButton
         className={"mb-xxl"}
         id={id}
         setImageWasUploaded={setImageWasUploaded}
+        pressRelease={data?.pressrelease || ""}
       />
-      <div className="py-[50px] bg-white p-4 h-full rounded-lg">
+      <div className="bg-white py-8 px-6 h-full rounded-lg">
         <Editor
           sectionID="editor"
           data={editorBlocks}
-          wrapperClassName="editor-wrapper"
+          wrapperClassName=""
           className="editor-content"
           isReadOnly={!data?.pressrelease_completed}
         />
@@ -108,7 +109,7 @@ export default function Page({
             )}
           </div>
         </div>
-        <div className="image-container">
+        <div className="px-6">
           {image && (
             <Image
               src={image}

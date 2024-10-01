@@ -4,7 +4,11 @@ import { upsertImage } from "@/db";
 import { inngest } from "@/inngest/client";
 import { put } from "@vercel/blob";
 
-export const handleUploadImage = async (formData: FormData, id: string) => {
+export const handleUploadImage = async (
+  formData: FormData,
+  id: string,
+  pressRelease: string
+) => {
   const file = formData.get("image") as Blob;
   const buffer = await file.arrayBuffer();
   const data = Buffer.from(buffer);
@@ -22,6 +26,7 @@ export const handleUploadImage = async (formData: FormData, id: string) => {
     data: {
       id,
       url,
+      pressRelease,
     },
   });
 };

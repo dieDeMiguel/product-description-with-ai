@@ -8,9 +8,9 @@ export const throttleGenerateImageCaption = inngest.createFunction(
   },
   { event: "generate/image-caption" },
   async ({ event, step }) => {
-    const { url, id } = event.data;
+    const { url, id, pressRelease } = event.data;
     const keywords = await step.run("add-image-caption", async () => {
-      return await generateImageCaption(id, url);
+      return await generateImageCaption(id, url, pressRelease);
     });
 
     return keywords;
