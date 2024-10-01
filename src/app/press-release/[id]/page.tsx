@@ -35,17 +35,27 @@ export default function Page({
   ]);
 
   const { id } = params;
-  const refetchInterval = 600;
+  const refetchInterval = 1000;
+  const staleTime = 3000;
 
   const { data } = useQuery<PressReleaseAsset | null>({
     queryKey: ["pressRelease", id],
     queryFn: async () => {
-      const text = await fetch(`/api/press-release/get-press-release?id=${id}`);
-      const result = await text.json();
+      const response = await fetch(
+        `/api/press-release/get-press-release?id=${id}`
+      );
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.status}`);
+      }
+      const result = await response.json();
       return result.pressRelease;
     },
     refetchInterval: refetchInterval,
     enabled: enablePressReleaseQuery,
+    staleTime: staleTime,
+    refetchOnMount: "always",
+    refetchOnWindowFocus: true,
+    retry: 2,
   });
 
   useEffect(() => {
@@ -88,13 +98,18 @@ export default function Page({
   const { data: imageData } = useQuery<PressReleaseAsset | null>({
     queryKey: ["caption", id],
     queryFn: async () => {
-      const text = await fetch(`/api/press-release/get-press-release?id=${id}`);
-      const result = await text.json();
+      const response = await fetch(
+        `/api/press-release/get-press-release?id=${id}`
+      );
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.status}`);
+      }
+      const result = await response.json();
       return result.pressRelease;
     },
     refetchInterval: refetchInterval,
     enabled: imageWasUploaded && enableCaptionQuery,
-    staleTime: 0,
+    staleTime: staleTime,
     refetchOnMount: "always",
     refetchOnWindowFocus: true,
     retry: 2,
@@ -108,7 +123,7 @@ export default function Page({
   }, [imageData]);
 
   return (
-    <div className="w-3/4 w-[900px] px-14 shadow-md h-full overflow-auto">
+    <div className="w-[900px] px-14 shadow-md h-full overflow-auto">
       <div className="bg-white py-8 px-6 h-full rounded-lg">
         <Editor
           sectionID="title"
