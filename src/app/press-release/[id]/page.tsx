@@ -92,7 +92,7 @@ export default function Page({
       return result.pressRelease;
     },
     refetchInterval: refetchInterval,
-    enabled: imageWasUploaded,
+    enabled: imageWasUploaded && data?.image_caption_completed,
   });
 
   useEffect(() => {
