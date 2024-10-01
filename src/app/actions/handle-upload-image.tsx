@@ -15,6 +15,8 @@ export const handleUploadImage = async (formData: FormData, id: string) => {
     access: "public",
   });
 
+  console.log("Image uploaded to", url);
+
   await upsertImage(url, id);
 
   await inngest.send({
