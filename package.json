@@ -9,7 +9,7 @@
     "lint": "next lint",
     "dev:next": "next dev",
     "dev:inngest": "npx inngest-cli@latest dev --no-discovery -u http://localhost:3000/api/inngest",
-    "start:prod": "concurrently \"npm run start\" \"npx inngest-cli@latest dev --no-discovery -u $NEXT_PUBLIC_API_URL/api/inngest\""
+    "start:prod": "concurrently \"npm run start\" \"npx inngest-cli@latest dev --no-discovery -u https://press-release-generator.vercel.app/api/inngest\""
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.61",
