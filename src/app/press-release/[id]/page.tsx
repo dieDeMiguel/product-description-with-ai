@@ -46,10 +46,6 @@ export default function Page({
     },
     refetchInterval: refetchInterval,
     enabled: enablePressReleaseQuery,
-    staleTime: 1000,
-    refetchOnMount: "always",
-    refetchOnWindowFocus: true,
-    retry: 2,
   });
 
   useEffect(() => {
