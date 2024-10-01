@@ -7,9 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function PressReleaseGenerator() {
-  const [userInput, setUserInput] = useState<string>(
-    "Introducing the new Pagani Huayra R, a masterpiece of Italian luxury and engineering excellence. Designed by the legendary Horacio Pagani, this hypercar combines cutting-edge technology with unparalleled craftsmanship. The Huayra R features a bespoke V12 engine that delivers breathtaking performance while maintaining the elegance and exclusivity that Pagani is renowned for. Experience the ultimate in automotive luxury with the Pagani Huayra R, where every detail is meticulously crafted to perfection."
-  );
+  const [userInput, setUserInput] = useState<string>("");
   const router = useRouter();
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
 
@@ -52,7 +50,7 @@ export default function PressReleaseGenerator() {
       <Textarea
         value={userInput}
         onChange={(e) => setUserInput(e.target.value)}
-        placeholder="The press release is about..."
+        placeholder="What's your pressrelease about? Any language will work : ) Min 10 characters"
         className="h-40 resize-none mb-4"
       />
       <Button

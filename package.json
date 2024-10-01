@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently \"npm run dev:next\" \"npm run dev:inngest\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "inngest": "inngest dev"
+    "dev:next": "next dev",
+    "dev:inngest": "npx inngest-cli@latest dev --no-discovery -u http://localhost:3000/api/inngest",
+    "start:prod": "concurrently \"npm run start\" \"npx inngest-cli@latest dev --no-discovery -u $NEXT_PUBLIC_API_URL/api/inngest\""
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.61",
@@ -45,6 +47,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/uuid": "^10.0.0",
+    "concurrently": "^9.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.13",
     "postcss": "^8",
