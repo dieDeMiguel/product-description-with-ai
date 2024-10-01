@@ -46,6 +46,10 @@ export default function Page({
     },
     refetchInterval: refetchInterval,
     enabled: enablePressReleaseQuery,
+    staleTime: 0,
+    refetchOnMount: "always",
+    refetchOnWindowFocus: true,
+    retry: 2,
   });
 
   useEffect(() => {
@@ -94,6 +98,10 @@ export default function Page({
     },
     refetchInterval: refetchInterval,
     enabled: imageWasUploaded && enableCaptionQuery,
+    staleTime: 0,
+    refetchOnMount: "always",
+    refetchOnWindowFocus: true,
+    retry: 2,
   });
 
   useEffect(() => {
@@ -104,7 +112,7 @@ export default function Page({
   }, [imageData]);
 
   return (
-    <div className="w-3/4 max-w-[900px] px-14 shadow-md h-full overflow-auto">
+    <div className="w-3/4 w-[900px] px-14 shadow-md h-full overflow-auto">
       <div className="bg-white py-8 px-6 h-full rounded-lg">
         <Editor
           sectionID="title"
