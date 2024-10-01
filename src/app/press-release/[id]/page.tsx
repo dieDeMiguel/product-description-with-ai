@@ -35,8 +35,7 @@ export default function Page({
   ]);
 
   const { id } = params;
-  const refetchInterval = 1000;
-  const staleTime = 3000;
+  const refetchInterval = 400;
 
   const { data } = useQuery<PressReleaseAsset | null>({
     queryKey: ["pressRelease", id],
@@ -52,7 +51,6 @@ export default function Page({
     },
     refetchInterval: refetchInterval,
     enabled: enablePressReleaseQuery,
-    staleTime: staleTime,
     refetchOnMount: "always",
     refetchOnWindowFocus: true,
     retry: 2,
@@ -109,7 +107,6 @@ export default function Page({
     },
     refetchInterval: refetchInterval,
     enabled: imageWasUploaded && enableCaptionQuery,
-    staleTime: staleTime,
     refetchOnMount: "always",
     refetchOnWindowFocus: true,
     retry: 2,
@@ -167,12 +164,14 @@ export default function Page({
               </p>
             </div>
           ) : (
-            <FileUploadButton
-              className={"mt-20"}
-              id={id}
-              setImageWasUploaded={setImageWasUploaded}
-              pressRelease={data?.pressrelease || ""}
-            />
+            !enablePressReleaseQuery && (
+              <FileUploadButton
+                className={"mt-20"}
+                id={id}
+                setImageWasUploaded={setImageWasUploaded}
+                pressRelease={data?.pressrelease || ""}
+              />
+            )
           )}
         </div>
       </div>
