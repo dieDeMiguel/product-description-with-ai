@@ -19,6 +19,7 @@ export default function Page({
   };
 }) {
   const [enablePressReleaseQuery, setEnablePressReleaseQuery] = useState(true);
+  const [enableCaptionQuery, setEnableCaptionQuery] = useState(true);
   const [keywords, setKeywords] = useState<string[]>([]);
   const [image, setImage] = useState("");
   const [imageCaption, setImageCaption] = useState("");
@@ -92,10 +93,11 @@ export default function Page({
       return result.pressRelease;
     },
     refetchInterval: refetchInterval,
-    enabled: imageWasUploaded && data?.image_caption_completed,
+    enabled: imageWasUploaded && enableCaptionQuery,
   });
 
   useEffect(() => {
+    setEnableCaptionQuery(!imageData?.image_caption_completed);
     if (!imageData?.image && !imageData?.image_caption) return;
     setImage(imageData?.image || "");
     setImageCaption(imageData?.image_caption || "");
