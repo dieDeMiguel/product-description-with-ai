@@ -39,8 +39,6 @@ export default function PressReleaseGenerator() {
     } catch (error) {
       console.error("Error generating press release:", error);
       alert("An error occurred while generating the press release.");
-    } finally {
-      setIsGenerating(false);
     }
   };
 
@@ -50,7 +48,7 @@ export default function PressReleaseGenerator() {
       <Textarea
         value={userInput}
         onChange={(e) => setUserInput(e.target.value)}
-        placeholder="What's your pressrelease about? Any language will work : ) Min 10 characters"
+        placeholder="What's your press release about? Any language will work : ) Min 10 characters"
         className="h-40 resize-none mb-4"
       />
       <Button
