@@ -4,12 +4,11 @@ import Editor from "@/components/editor/editor";
 import { FileUploadButton } from "@/components/image-uploader/image-uploader";
 import { Badge } from "@/components/ui/badge";
 import { PressReleaseAsset } from "@/db";
-import { v4 as uuidv4 } from "uuid";
-
 import useEditorBlocks from "@/utils/editor/memoise-editor-block";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Page({
   params,
