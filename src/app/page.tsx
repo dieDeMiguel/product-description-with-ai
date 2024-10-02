@@ -18,16 +18,13 @@ export default function PressReleaseGenerator() {
 
     setIsGenerating(true);
     try {
-      const response = await fetch(
-        `/api/press-release/generate-press-release`,
-        {
-          method: "POST",
-          body: JSON.stringify({ prompt: userInput }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`/api/press-release`, {
+        method: "POST",
+        body: JSON.stringify({ prompt: userInput }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
