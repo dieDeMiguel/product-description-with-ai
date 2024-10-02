@@ -3,8 +3,8 @@
 import { PressReleaseAsset } from "@/db";
 import Image from "next/image";
 import { useState } from "react";
-import { FileUploadButton } from "./image-uploader/image-uploader";
-import { Badge } from "./ui/badge";
+import { Badge } from "../ui/badge";
+import { FileUploadButton } from "./file-upload-button";
 
 export default function ImageContainer(pressRelease: PressReleaseAsset) {
   const keywords = pressRelease.keywords.split(",");
