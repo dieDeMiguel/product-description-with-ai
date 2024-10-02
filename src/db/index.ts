@@ -4,27 +4,18 @@ import { sql } from "@vercel/postgres";
 
 export type PressReleaseAsset = {
   id: number;
-  pressrelease: string;
-  pressrelease_completed: boolean;
-  image: string;
-  image_caption: string;
-  image_caption_completed: boolean;
+  pressrelease_body: string;
   keywords: string;
-  keywords_completed: boolean;
+  title: string;
+  image_url: string;
+  image_caption: string;
 };
 
 export async function setPressRelease(
   id: number,
   pressRelease: string
 ): Promise<void> {
-  await sql`UPDATE pressreleases_assets_old SET pressrelease=${pressRelease} WHERE id=${id}`;
-}
-
-export async function setPressReleaseCompleted(
-  id: number,
-  isPressReleaseGenerationFinished: boolean
-): Promise<void> {
-  await sql`UPDATE pressreleases_assets_old SET pressrelease_completed=${isPressReleaseGenerationFinished} WHERE id=${id}`;
+  await sql`UPDATE pressreleases_assets SET pressrelease_body=${pressRelease} WHERE id=${id}`;
 }
 
 export async function getGeneratedPressRelease(
@@ -44,40 +35,24 @@ export async function getGeneratedPressRelease(
   }
 }
 
-export async function setGeneratedPressRelease(
+export async function createPressRelease(
   pressRelease: string
-): Promise<number> {
+): Promise<PressReleaseAsset> {
   const result =
-    await sql`INSERT INTO pressreleases_assets_old (pressrelease) VALUES (${pressRelease}) RETURNING id`;
-  return result.rows[0].id;
+    await sql`INSERT INTO pressreleases_assets (pressrelease_body) VALUES (${pressRelease}) RETURNING *`;
+  return result.rows[0] as PressReleaseAsset;
 }
+
 export async function setKeywords(id: number, keywords: string): Promise<void> {
   await sql`UPDATE pressreleases_assets_old SET keywords=${keywords} WHERE id=${id}`;
 }
 
-export async function getGeneratedKeywords(id: number): Promise<string> {
-  try {
-    const result =
-      await sql`SELECT keywords FROM pressreleases_assets_old WHERE id=${id}`;
-    if (result.rows.length === 0) {
-      throw new Error(`No press release found with id ${id}`);
-    }
-    return result.rows[0].keywords;
-  } catch (error) {
-    console.error("Error fetching keywords:", error);
-    throw error;
-  }
+export async function setTitle(id: number, title: string): Promise<void> {
+  await sql`UPDATE pressreleases_assets SET title=${title} WHERE id=${id}`;
 }
 
-export async function setKeywordsCompleted(
-  id: number,
-  isKeywordGenerationFinished: boolean
-): Promise<void> {
-  await sql`UPDATE pressreleases_assets_old SET keywords_completed=${isKeywordGenerationFinished} WHERE id=${id}`;
-}
-
-export async function upsertImage(image: string, id: string): Promise<void> {
-  await sql`UPDATE pressreleases_assets_old SET image=${image} WHERE id=${id}`;
+export async function setImageUrl(image: string, id: string): Promise<void> {
+  await sql`UPDATE pressreleases_assets SET image_url=${image} WHERE id=${id}`;
 }
 
 export async function setImageCaption(
@@ -85,11 +60,4 @@ export async function setImageCaption(
   caption: string
 ): Promise<void> {
   await sql`UPDATE pressreleases_assets_old SET image_caption=${caption} WHERE id=${id}`;
-}
-
-export async function setImageCaptionCompleted(
-  id: number,
-  captionCompleted: boolean
-): Promise<void> {
-  await sql`UPDATE pressreleases_assets_old SET image_caption_completed=${captionCompleted} WHERE id=${id}`;
 }

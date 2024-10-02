@@ -1,46 +1,32 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { PressReleaseGeneratorSkeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
-import { inngest } from "@/inngest/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function PressReleaseGenerator() {
   const [userInput, setUserInput] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
-  const [isGenerating, setIsGenerating] = useState<boolean>(false);
 
   const handleGenerate = async () => {
-    if (userInput.trim().length < 10) {
-      alert("Please enter a prompt with at least 10 characters.");
-      return;
-    }
-
-    setIsGenerating(true);
-
-    const response = await fetch(`/api/press-release/generate-press-release`, {
+    setIsLoading(true);
+    const response = await fetch(`/api/press-release`, {
       method: "POST",
-      body: JSON.stringify({ pressRelease: "" }),
+      body: JSON.stringify({ prompt: userInput }),
       headers: {
         "Content-Type": "application/json",
       },
     });
     const { id } = await response.json();
-    try {
-      await inngest.send({
-        name: "generate/press-release",
-        data: {
-          id,
-          prompt: userInput,
-        },
-      });
-      router.push(`/press-release/${id}`);
-    } catch (error) {
-      console.error("Error generating press release:", error);
-      alert("An error occurred while generating the press release.");
-    }
+    router.push(`/press-release/${id}`);
   };
+
+  if (isLoading) {
+    return <PressReleaseGeneratorSkeleton />;
+  }
 
   return (
     <div className="w-full max-w-4xl p-4 flex flex-col gap-xl">
@@ -54,9 +40,9 @@ export default function PressReleaseGenerator() {
       <Button
         onClick={handleGenerate}
         className="w-full"
-        disabled={isGenerating || userInput.trim().length < 10}
+        disabled={userInput.trim().length < 10}
       >
-        {isGenerating ? "Generating..." : "Generate Press Release"}
+        Generate Press Release
       </Button>
     </div>
   );

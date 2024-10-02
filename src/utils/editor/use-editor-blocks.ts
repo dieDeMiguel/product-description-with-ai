@@ -2,14 +2,17 @@ import { PressReleaseAsset } from "@/db";
 import { useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-const useEditorBlocks = (data: PressReleaseAsset | null | undefined) =>
+const useEditorBlocks = (
+  data: PressReleaseAsset | null | undefined,
+  sectionId: keyof PressReleaseAsset
+) =>
   useMemo(() => {
-    if (data?.pressrelease) {
+    if (data?.pressrelease_body) {
       return [
         {
           type: "paragraph",
           data: {
-            text: data.pressrelease || "",
+            text: data[sectionId] || "",
           },
           id: uuidv4(),
         },
@@ -25,6 +28,6 @@ const useEditorBlocks = (data: PressReleaseAsset | null | undefined) =>
         },
       ];
     }
-  }, [data?.pressrelease]);
+  }, [data, sectionId]);
 
 export default useEditorBlocks;

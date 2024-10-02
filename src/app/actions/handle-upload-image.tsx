@@ -1,17 +1,23 @@
+// /app/actions/handle-upload-image.ts
 "use server";
 
-import { upsertImage } from "@/db";
-import { inngest } from "@/inngest/client";
+import { generateImageCaption } from "@/ai/generate-image-caption";
+import { setImageUrl } from "@/db";
 import { put } from "@vercel/blob";
 
 export const handleUploadImage = async (
   formData: FormData,
-  id: string,
-  pressRelease: string
+  id: number,
+  pressReleaseContent: string
 ) => {
   const file = formData.get("image") as Blob;
+  if (!file) {
+    throw new Error("No image file provided");
+  }
+
   const buffer = await file.arrayBuffer();
   const data = Buffer.from(buffer);
+  const stringId = id.toString();
 
   const randomFileName = Math.random().toString(36).substring(2);
 
@@ -19,14 +25,8 @@ export const handleUploadImage = async (
     access: "public",
   });
 
-  await upsertImage(url, id);
+  await setImageUrl(url, stringId);
+  const imageCaption = await generateImageCaption(id, url, pressReleaseContent);
 
-  await inngest.send({
-    name: "generate/image-caption",
-    data: {
-      id,
-      url,
-      pressRelease,
-    },
-  });
+  return { url, imageCaption };
 };

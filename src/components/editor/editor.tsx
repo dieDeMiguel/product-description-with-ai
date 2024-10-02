@@ -1,14 +1,16 @@
 "use client";
+import { PressReleaseAsset } from "@/db";
 import useInitializeEditor from "@/hooks/useInitializeEditor";
-import { cn } from "@/utils/cn";
-import EditorJS, { OutputBlockData } from "@editorjs/editorjs";
+import { cn } from "@/lib/utils";
+import useEditorBlocks from "@/utils/editor/use-editor-blocks";
+import EditorJS from "@editorjs/editorjs";
 import { useRef } from "react";
 import "./editor.css";
 interface EditorProps {
-  sectionID: string;
+  sectionID: keyof PressReleaseAsset;
   className?: string;
   wrapperClassName?: string;
-  data: OutputBlockData[];
+  pressRelease: PressReleaseAsset;
   isReadOnly: boolean;
 }
 
@@ -16,12 +18,13 @@ const Editor: React.FC<EditorProps> = ({
   sectionID,
   className = "",
   wrapperClassName = "",
-  data,
+  pressRelease,
   isReadOnly,
 }) => {
   const editorRef = useRef<EditorJS | null>(null);
+  const blocks = useEditorBlocks(pressRelease, sectionID);
 
-  useInitializeEditor(editorRef, true, sectionID, data, isReadOnly);
+  useInitializeEditor(editorRef, true, sectionID, blocks, isReadOnly);
 
   return (
     <div className={cn("editor-wrapper", wrapperClassName)}>

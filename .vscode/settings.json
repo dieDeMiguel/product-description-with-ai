@@ -4,6 +4,7 @@
     "currval",
     "editorjs",
     "inngest",
+    "lucide",
     "nextjs",
     "nofollow",
     "openai",
@@ -12,6 +13,7 @@
     "stremeable",
     "tailwindcss",
     "tanstack",
+    "upsert",
     "uuidv"
   ]
 }

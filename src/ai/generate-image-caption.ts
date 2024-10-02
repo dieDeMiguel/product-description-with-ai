@@ -1,5 +1,5 @@
 import { openai } from "@/ai";
-import { setImageCaption, setImageCaptionCompleted } from "@/db";
+import { setImageCaption } from "@/db";
 
 const SYSTEM_CONTEXT = (language: string) => `
   You are an expert in generating captions for images in press releases.
@@ -19,9 +19,9 @@ const SYSTEM_CONTEXT = (language: string) => `
   - Rights and conditions: [Usage rights and conditions]`;
 
 export async function generateImageCaption(
-  id: string,
+  id: number,
   url: string,
-  pressRelease: string
+  pressReleaseBody: string
 ): Promise<string> {
   // Detect the language of the press release
   const languageDetection = await openai.chat.completions.create({
@@ -29,7 +29,7 @@ export async function generateImageCaption(
     messages: [
       {
         role: "user",
-        content: `Detect the language of the following text: "${pressRelease}"`,
+        content: `Detect the language of the following text: "${pressReleaseBody}"`,
       },
     ],
   });
@@ -63,15 +63,12 @@ export async function generateImageCaption(
       },
     ],
     max_tokens: 400,
-    stream: true,
   });
 
-  let caption = "";
-  for await (const chunk of stream) {
-    caption += chunk.choices[0].delta.content ?? "";
-    await setImageCaption(+id, caption);
+  const caption = stream.choices[0]?.message?.content?.trim() ?? "";
+  if (!caption) {
+    throw new Error("Failed to generate image caption");
   }
-  await setImageCaptionCompleted(+id, true);
-
+  await setImageCaption(id, caption);
   return caption;
 }
