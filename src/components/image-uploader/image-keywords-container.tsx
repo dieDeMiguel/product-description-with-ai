@@ -10,29 +10,26 @@ export default function ImageKeywordsContainer(
   pressRelease: PressReleaseAsset
 ) {
   const keywords = pressRelease.keywords.split(",");
-  const image = pressRelease.image_url;
-  const imageCaption = pressRelease.image_caption;
   const id = pressRelease.id;
-  const [imageWasUploaded, setImageWasUploaded] = useState<boolean>(false);
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [imageCaption, setImageCaption] = useState<string>("");
 
   return (
-    <div className="max-w-[650px] m-auto">
-      <div className="py-4">
-        {keywords?.length > 0 && (
-          <ul className="text-black list-disc pl-5">
-            {keywords.map((keyword, index) => (
-              <Badge className="inline-block mx-1" key={index}>
-                {keyword}
-              </Badge>
-            ))}
-          </ul>
-        )}
-      </div>
+    <div className="max-w-[650px] m-auto mt-10">
+      {keywords?.length > 0 && (
+        <ul className="text-black list-disc pl-5">
+          {keywords.map((keyword, index) => (
+            <Badge className="inline-block mx-1" key={index}>
+              {keyword}
+            </Badge>
+          ))}
+        </ul>
+      )}
       <div className="px-6 w-full text-center">
-        {imageWasUploaded ? (
+        {imageUrl ? (
           <div>
             <Image
-              src={image}
+              src={imageUrl}
               width={300}
               height={200}
               alt="Generated press release image"
@@ -44,7 +41,8 @@ export default function ImageKeywordsContainer(
           <FileUploadButton
             className={"mt-20"}
             id={id}
-            setImageWasUploaded={setImageWasUploaded}
+            setImageUrl={setImageUrl}
+            setImageCaption={setImageCaption}
             pressReleaseContent={pressRelease.pressrelease_body}
           />
         )}

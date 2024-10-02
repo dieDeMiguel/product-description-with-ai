@@ -4,12 +4,14 @@ import React, { useRef, useState } from "react";
 
 export function FileUploadButton({
   id,
-  setImageWasUploaded,
+  setImageUrl,
+  setImageCaption,
   className,
   pressReleaseContent,
 }: {
   id: number;
-  setImageWasUploaded: React.Dispatch<React.SetStateAction<boolean>>;
+  setImageUrl: React.Dispatch<React.SetStateAction<string>>;
+  setImageCaption: React.Dispatch<React.SetStateAction<string>>;
   className?: string;
   pressReleaseContent: string;
 }) {
@@ -25,8 +27,13 @@ export function FileUploadButton({
       formData.append("image", file);
       try {
         setLoadingImage(true);
-        await handleUploadImage(formData, id, pressReleaseContent);
-        setImageWasUploaded(true);
+        const { url, imageCaption } = await handleUploadImage(
+          formData,
+          id,
+          pressReleaseContent
+        );
+        setImageUrl(url);
+        setImageCaption(imageCaption);
         setLoadingImage(false);
       } catch (error) {
         console.error("Error uploading image:", error);

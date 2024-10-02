@@ -28,6 +28,6 @@ const useEditorBlocks = (
         },
       ];
     }
-  }, [data?.pressrelease_body, sectionId]);
+  }, [data, sectionId]);
 
 export default useEditorBlocks;

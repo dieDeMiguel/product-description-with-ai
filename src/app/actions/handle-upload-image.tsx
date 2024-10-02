@@ -21,5 +21,7 @@ export const handleUploadImage = async (
   });
 
   await setImageUrl(url, stringId);
-  await generateImageCaption(id, url, pressReleaseContent);
+  const imageCaption = await generateImageCaption(id, url, pressReleaseContent);
+
+  return { url, imageCaption };
 };
