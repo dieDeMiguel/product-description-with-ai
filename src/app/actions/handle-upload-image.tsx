@@ -1,7 +1,7 @@
 "use server";
 
+import { generateImageCaption } from "@/ai/generate-image-caption";
 import { setImageUrl } from "@/db";
-import { inngest } from "@/inngest/client";
 import { put } from "@vercel/blob";
 
 export const handleUploadImage = async (
@@ -21,13 +21,5 @@ export const handleUploadImage = async (
   });
 
   await setImageUrl(url, stringId);
-
-  await inngest.send({
-    name: "generate/image-caption",
-    data: {
-      id,
-      url,
-      pressReleaseContent,
-    },
-  });
+  await generateImageCaption(id, url, pressReleaseContent);
 };
