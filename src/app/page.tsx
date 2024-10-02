@@ -21,6 +21,7 @@ export default function PressReleaseGenerator() {
           "Content-Type": "application/json",
         },
       });
+      console.log("response", response);
       const { id } = await response.json();
       redirect(`/press-release/${id}`);
     } catch (error) {
