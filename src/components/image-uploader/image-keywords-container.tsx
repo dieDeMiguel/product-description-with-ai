@@ -4,20 +4,25 @@ import { PressReleaseAsset } from "@/db";
 import Image from "next/image";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import { FileUploadButton } from "./file-upload-button";
 
 export default function ImageKeywordsContainer(
   pressRelease: PressReleaseAsset
 ) {
-  const keywords = pressRelease.keywords.split(",");
-  const id = pressRelease.id;
-  const [imageUrl, setImageUrl] = useState<string>("");
-  const [imageCaption, setImageCaption] = useState<string>("");
+  const keywords = pressRelease?.keywords?.split(",");
+  const id = pressRelease?.id;
+  const [imageUrl, setImageUrl] = useState<string>(
+    pressRelease?.image_url || ""
+  );
+  const [imageCaption, setImageCaption] = useState<string>(
+    pressRelease?.image_caption || ""
+  );
 
   return (
-    <div className="max-w-[650px] m-auto mt-10">
+    <div className="max-w-[650px] m-auto my-10">
       {keywords?.length > 0 && (
-        <ul className="text-black list-disc pl-5">
+        <ul>
           {keywords.map((keyword, index) => (
             <Badge className="inline-block mx-1" key={index}>
               {keyword}
@@ -25,17 +30,31 @@ export default function ImageKeywordsContainer(
           ))}
         </ul>
       )}
-      <div className="px-6 w-full text-center">
+      <div className="w-full text-center my-10">
         {imageUrl ? (
           <div>
-            <Image
-              src={imageUrl}
-              width={300}
-              height={200}
-              alt="Generated press release image"
-              className="w-full"
-            />
-            <p className="text-center text-sm text-gray-500">{imageCaption}</p>
+            <div className="relative">
+              <Image
+                src={imageUrl}
+                width={300}
+                height={200}
+                alt="Generated press release image"
+                className="w-full rounded-lg"
+              />
+              <Button
+                className="absolute bottom-2 right-2"
+                variant={"destructive"}
+                onClick={() => {
+                  setImageUrl("");
+                  setImageCaption("");
+                }}
+              >
+                Change Picture
+              </Button>
+            </div>
+            <p className="text-center text-sm text-gray-500 mt-4">
+              {imageCaption}
+            </p>
           </div>
         ) : (
           <FileUploadButton

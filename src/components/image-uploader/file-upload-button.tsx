@@ -68,10 +68,10 @@ export function FileUploadButton({
         disabled={loadingImage}
       >
         {loadingImage ? (
-          <>
+          <div className="flex gap-2">
             <LoaderIcon className="animate-spin" />
-            Uploading...
-          </>
+            <p>Uploading...</p>
+          </div>
         ) : (
           "Upload Image"
         )}
