@@ -1,5 +1,4 @@
 "use client";
-import { getKeywords } from "@/ai/keywords";
 import Editor from "@/components/editor/editor";
 import { FileUploadButton } from "@/components/image-uploader/image-uploader";
 import { Badge } from "@/components/ui/badge";
@@ -75,7 +74,7 @@ export default function Page({
     if (enablePressReleaseQuery) return;
     const generateKeywords = async () => {
       try {
-        const { title, keywords } = await getKeywords(
+        const { title, keywords } = await generateKeywords(
           data?.pressrelease || "",
           id
         );

@@ -1,13 +1,15 @@
-import { setGeneratedPressRelease } from "@/db";
+import { generatePressRelease } from "@/ai/generate-press-release";
+import { generateKeywordsAndTitle } from "@/ai/generateKaywordsAndTitle";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const { pressRelease } = await request.json();
+    const { prompt } = await request.json();
 
-    const id = await setGeneratedPressRelease(pressRelease);
+    const pressReleaseEntry = await generatePressRelease(prompt);
+    await Promise.all([generateKeywordsAndTitle(pressReleaseEntry)]);
 
-    return NextResponse.json({ id }, { status: 200 });
+    return NextResponse.json({ id: pressReleaseEntry.id }, { status: 200 });
   } catch (error) {
     console.error("Error in POST /api/generate-press-release:", error);
     return NextResponse.json(

@@ -1,4 +1,4 @@
-import { pressRelease } from "@/ai/press-release";
+import { pressRelease } from "@/ai/generate-press-release";
 import { inngest } from "@/inngest/client";
 
 export const throttleGeneratePressRelease = inngest.createFunction(

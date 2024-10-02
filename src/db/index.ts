@@ -5,12 +5,10 @@ import { sql } from "@vercel/postgres";
 export type PressReleaseAsset = {
   id: number;
   pressrelease: string;
-  pressrelease_completed: boolean;
+  keywords: string;
+  title: string;
   image: string;
   image_caption: string;
-  image_caption_completed: boolean;
-  keywords: string;
-  keywords_completed: boolean;
 };
 
 export async function setPressRelease(
@@ -43,15 +41,20 @@ export async function getGeneratedPressRelease(
   }
 }
 
-export async function setGeneratedPressRelease(
+export async function createPressRelease(
   pressRelease: string
-): Promise<number> {
+): Promise<PressReleaseAsset> {
   const result =
-    await sql`INSERT INTO pressreleases_assets (pressrelease) VALUES (${pressRelease}) RETURNING id`;
+    await sql`INSERT INTO pressreleases_assets (pressrelease) VALUES (${pressRelease}) RETURNING *`;
   return result.rows[0].id;
 }
+
 export async function setKeywords(id: number, keywords: string): Promise<void> {
   await sql`UPDATE pressreleases_assets SET keywords=${keywords} WHERE id=${id}`;
+}
+
+export async function setTitle(id: number, title: string): Promise<void> {
+  await sql`UPDATE pressreleases_assets SET title=${title} WHERE id=${id}`;
 }
 
 export async function getGeneratedKeywords(id: number): Promise<string> {

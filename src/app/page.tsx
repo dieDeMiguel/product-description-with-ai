@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { inngest } from "@/inngest/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -18,27 +17,31 @@ export default function PressReleaseGenerator() {
     }
 
     setIsGenerating(true);
-
-    const response = await fetch(`/api/press-release/generate-press-release`, {
-      method: "POST",
-      body: JSON.stringify({ pressRelease: "" }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const { id } = await response.json();
     try {
-      await inngest.send({
-        name: "generate/press-release",
-        data: {
-          id,
-          prompt: userInput,
-        },
-      });
+      const response = await fetch(
+        `/api/press-release/generate-press-release`,
+        {
+          method: "POST",
+          body: JSON.stringify({ prompt: userInput }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const { id } = await response.json();
       router.push(`/press-release/${id}`);
     } catch (error) {
       console.error("Error generating press release:", error);
-      alert("An error occurred while generating the press release.");
+      alert(
+        "An error occurred while generating the press release. Please try again."
+      );
+    } finally {
+      setIsGenerating(false);
     }
   };
 

@@ -1,10 +1,8 @@
 CREATE TABLE IF NOT EXISTS pressreleases_assets (
   id SERIAL PRIMARY KEY,
   pressrelease TEXT,
-  pressrelease_completed BOOLEAN DEFAULT FALSE,
+   keywords TEXT,
+   title TEXT,
   image TEXT,
   image_caption TEXT,
-  image_caption_completed BOOLEAN DEFAULT FALSE,
-  keywords TEXT,
-  keywords_completed BOOLEAN DEFAULT FALSE
 );
