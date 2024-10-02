@@ -17,7 +17,6 @@ export async function generatePressRelease(
 ): Promise<PressReleaseAsset> {
   let detectedLanguage: string;
   let pressReleaseContent: string;
-  console.log("prompt en generatePressRelease", prompt);
   try {
     // Detect language
     const languageDetectionResponse = await openai.chat.completions.create({

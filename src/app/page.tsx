@@ -3,35 +3,43 @@
 import { Button } from "@/components/ui/button";
 import { PressReleaseGeneratorSkeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function PressReleaseGenerator() {
   const [userInput, setUserInput] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   const handleGenerate = async () => {
     setIsLoading(true);
-    console.log("Generating press release...", userInput);
-    try {
-      const response = await fetch(`/api/press-release`, {
-        method: "POST",
-        body: JSON.stringify({ prompt: userInput }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log("response", response);
-      const { id } = await response.json();
-      redirect(`/press-release/${id}`);
-    } catch (error) {
-      console.log("Error generating press release:", error);
-      alert(
-        "Something went wrong while generating the press release. Please try again."
-      );
-    } finally {
-      setIsLoading(false);
-    }
+    // try {
+    const response = await fetch(`/api/press-release`, {
+      method: "POST",
+      body: JSON.stringify({ prompt: userInput }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("response", response);
+    const { id } = await response.json();
+    console.log("Press Release ID:", id);
+    router.push(`/press-release/${id}`);
+    setIsLoading(false);
+    // } catch (error) {
+    //   console.log("Error generating press release:", error);
+    //   if (error instanceof Error) {
+    //     alert(
+    //       `Something went wrong while generating the press release. Please try again: ${error.message}`
+    //     );
+    //   } else {
+    //     alert(
+    //       "Something went wrong while generating the press release. Please try again."
+    //     );
+    //   }
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
   if (isLoading) {
