@@ -1,3 +1,4 @@
+// /app/actions/handle-upload-image.ts
 "use server";
 
 import { generateImageCaption } from "@/ai/generate-image-caption";
@@ -10,6 +11,10 @@ export const handleUploadImage = async (
   pressReleaseContent: string
 ) => {
   const file = formData.get("image") as Blob;
+  if (!file) {
+    throw new Error("No image file provided");
+  }
+
   const buffer = await file.arrayBuffer();
   const data = Buffer.from(buffer);
   const stringId = id.toString();

@@ -11,7 +11,7 @@ export default async function Page() {
   const numericId = parseInt(id, 10);
   const pressRelease = await getGeneratedPressRelease(numericId);
   return (
-    <div className="min-w-[900px] w-3/4 shadow-md h-full overflow-auto bg-white py-8 px-6 rounded-lg">
+    <div className="max-w-[900px] w-3/4 shadow-md h-full overflow-auto bg-white py-8 px-6 rounded-lg">
       <Editor
         sectionID="title"
         pressRelease={pressRelease}

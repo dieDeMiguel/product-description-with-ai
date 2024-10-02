@@ -1,5 +1,7 @@
-import { handleUploadImage } from "@/app/actions/handle-upload-image";
+"use client";
+
 import { Button } from "@/components/ui/button";
+import { LoaderIcon } from "lucide-react";
 import React, { useRef, useState } from "react";
 
 export function FileUploadButton({
@@ -25,20 +27,29 @@ export function FileUploadButton({
     if (file) {
       const formData = new FormData();
       formData.append("image", file);
+      formData.append("id", id.toString());
+      formData.append("pressReleaseContent", pressReleaseContent);
+
+      setLoadingImage(true);
       try {
-        setLoadingImage(true);
-        const { url, imageCaption } = await handleUploadImage(
-          formData,
-          id,
-          pressReleaseContent
-        );
+        const response = await fetch("/api/upload-image", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to upload image");
+        }
+
+        const { url, imageCaption } = await response.json();
         setImageUrl(url);
         setImageCaption(imageCaption);
-        setLoadingImage(false);
       } catch (error) {
         console.error("Error uploading image:", error);
+        alert("Failed to upload image. Please try again.");
+      } finally {
         setLoadingImage(false);
-        alert("An error occurred while uploading the image.");
       }
     }
   };
@@ -52,8 +63,18 @@ export function FileUploadButton({
         accept="image/*"
         onChange={handleFileChange}
       />
-      <Button onClick={() => fileInputRef.current?.click()}>
-        {loadingImage ? "Uploading..." : "Upload Image"}
+      <Button
+        onClick={() => fileInputRef.current?.click()}
+        disabled={loadingImage}
+      >
+        {loadingImage ? (
+          <>
+            <LoaderIcon className="animate-spin" />
+            Uploading...
+          </>
+        ) : (
+          "Upload Image"
+        )}
       </Button>
     </div>
   );
