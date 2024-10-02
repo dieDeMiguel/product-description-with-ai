@@ -1,8 +1,10 @@
+DROP TABLE pressreleases_assets;
+
 CREATE TABLE IF NOT EXISTS pressreleases_assets (
   id SERIAL PRIMARY KEY,
   pressrelease_body TEXT,
   keywords TEXT,
   title TEXT,
   image_url TEXT,
-  image_caption TEXT,
+  image_caption TEXT
 );
