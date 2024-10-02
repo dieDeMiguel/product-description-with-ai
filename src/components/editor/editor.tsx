@@ -1,7 +1,7 @@
 "use client";
 import { PressReleaseAsset } from "@/db";
 import useInitializeEditor from "@/hooks/useInitializeEditor";
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils";
 import useEditorBlocks from "@/utils/editor/memoise-editor-block";
 import EditorJS from "@editorjs/editorjs";
 import { useRef } from "react";

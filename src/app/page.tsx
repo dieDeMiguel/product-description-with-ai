@@ -1,22 +1,18 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { PressReleaseGeneratorSkeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
-import { useRouter } from "next/navigation";
+import { LoaderIcon } from "lucide-react";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 
 export default function PressReleaseGenerator() {
   const [userInput, setUserInput] = useState<string>("");
-  const router = useRouter();
-  const [isGenerating, setIsGenerating] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleGenerate = async () => {
-    if (userInput.trim().length < 10) {
-      alert("Please enter a prompt with at least 10 characters.");
-      return;
-    }
-
-    setIsGenerating(true);
+    setIsLoading(true);
     try {
       const response = await fetch(`/api/press-release`, {
         method: "POST",
@@ -25,22 +21,24 @@ export default function PressReleaseGenerator() {
           "Content-Type": "application/json",
         },
       });
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
       const { id } = await response.json();
-      router.push(`/press-release/${id}`);
+      redirect(`/press-release/${id}`);
     } catch (error) {
       console.error("Error generating press release:", error);
       alert(
-        "An error occurred while generating the press release. Please try again."
+        "Something went wrong while generating the press release. Please try again."
       );
     } finally {
-      setIsGenerating(false);
+      setIsLoading(false);
     }
   };
+
+  if (isLoading) {
+    return <PressReleaseGeneratorSkeleton />;
+  }
 
   return (
     <div className="w-full max-w-4xl p-4 flex flex-col gap-xl">
@@ -54,9 +52,13 @@ export default function PressReleaseGenerator() {
       <Button
         onClick={handleGenerate}
         className="w-full"
-        disabled={isGenerating || userInput.trim().length < 10}
+        disabled={userInput.trim().length < 10}
       >
-        {isGenerating ? "Generating..." : "Generate Press Release"}
+        {isLoading ? (
+          <LoaderIcon className="animate-spin" />
+        ) : (
+          " Generate Press Release"
+        )}
       </Button>
     </div>
   );
