@@ -1,5 +1,6 @@
 "use client";
 import { PressReleaseAsset } from "@/db";
+import { useToast } from "@/hooks/use-toast";
 import useInitializeEditor from "@/hooks/useInitializeEditor";
 import { cn } from "@/lib/utils";
 import useEditorBlocks from "@/utils/editor/use-editor-blocks";
@@ -23,9 +24,45 @@ const Editor: React.FC<EditorProps> = ({
 }) => {
   const editorRef = useRef<EditorJS | null>(null);
   const blocks = useEditorBlocks(pressRelease, sectionID);
+  const { toast } = useToast();
 
-  useInitializeEditor(editorRef, true, sectionID, blocks, isReadOnly);
+  const handleSaveChanges = async () => {
+    if (editorRef.current) {
+      editorRef.current.save().then(async (outputData) => {
+        console.log("Article data: ", outputData);
+        const content = outputData?.blocks[0]?.data?.text;
+        if (!content) return;
+        try {
+          await fetch(`/api/update-press-release`, {
+            method: "POST",
+            body: JSON.stringify({
+              id: pressRelease.id,
+              field: sectionID,
+              value: content,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          toast({
+            description: "Your content has been saved",
+            className: "bg-blue-500 text-white",
+          });
+        } catch (error) {
+          console.error("Error saving changes:", error);
+        }
+      });
+    }
+  };
 
+  useInitializeEditor(
+    editorRef,
+    true,
+    sectionID,
+    blocks,
+    isReadOnly,
+    handleSaveChanges
+  );
   return (
     <div className={cn("editor-wrapper", wrapperClassName)}>
       <div

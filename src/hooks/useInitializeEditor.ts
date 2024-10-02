@@ -12,7 +12,8 @@ const useInitializeEditor = (
   inlineToolbar: boolean,
   sectionID: string,
   data: OutputBlockData[],
-  isReadOnly: boolean
+  isReadOnly: boolean,
+  handleSaveChanges: () => void
 ) => {
   useEffect(() => {
     const initializeEditor = async () => {
@@ -28,6 +29,7 @@ const useInitializeEditor = (
             readOnly: isReadOnly,
             autofocus: !isReadOnly,
             hideToolbar: true,
+            onChange: handleSaveChanges,
             data: {
               time: new Date().getTime(),
               blocks:

@@ -60,3 +60,17 @@ export async function setImageCaption(
 ): Promise<void> {
   await sql`UPDATE pressreleases_assets SET image_caption=${caption} WHERE id=${id}`;
 }
+
+export async function updatePressReleaseField(
+  id: number,
+  field: "title" | "pressrelease_body",
+  value: string
+): Promise<void> {
+  if (field === "title") {
+    await sql`UPDATE pressreleases_assets SET title=${value} WHERE id=${id}`;
+  } else if (field === "pressrelease_body") {
+    await sql`UPDATE pressreleases_assets SET pressrelease_body=${value} WHERE id=${id}`;
+  } else {
+    throw new Error("Invalid field specified");
+  }
+}
