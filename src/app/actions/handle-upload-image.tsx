@@ -1,4 +1,3 @@
-// /app/actions/handle-upload-image.ts
 "use server";
 
 import { generateImageCaption } from "@/ai/generate-image-caption";
