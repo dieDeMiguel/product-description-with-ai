@@ -39,7 +39,7 @@ export async function createPressRelease(
 ): Promise<PressReleaseAsset> {
   const result =
     await sql`INSERT INTO pressreleases_assets (pressrelease_body) VALUES (${pressRelease}) RETURNING *`;
-  return result.rows[0].id;
+  return result.rows[0] as PressReleaseAsset;
 }
 
 export async function setKeywords(id: number, keywords: string): Promise<void> {

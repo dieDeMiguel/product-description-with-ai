@@ -21,9 +21,6 @@ export default function PressReleaseGenerator() {
           "Content-Type": "application/json",
         },
       });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
       const { id } = await response.json();
       redirect(`/press-release/${id}`);
     } catch (error) {

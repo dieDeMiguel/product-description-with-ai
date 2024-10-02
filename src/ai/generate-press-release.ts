@@ -38,8 +38,6 @@ export async function generatePressRelease(
     throw new Error("Failed to detect language");
   }
 
-  console.log("detectedLanguage en generatePressRelease", detectedLanguage);
-
   try {
     // Generate the press release
     const pressReleaseResponse = await openai.chat.completions.create({
