@@ -12,6 +12,7 @@
     "stremeable",
     "tailwindcss",
     "tanstack",
+    "upsert",
     "uuidv"
   ]
 }

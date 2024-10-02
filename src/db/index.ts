@@ -7,7 +7,7 @@ export type PressReleaseAsset = {
   pressrelease: string;
   keywords: string;
   title: string;
-  image: string;
+  image_url: string;
   image_caption: string;
 };
 
@@ -16,13 +16,6 @@ export async function setPressRelease(
   pressRelease: string
 ): Promise<void> {
   await sql`UPDATE pressreleases_assets SET pressrelease=${pressRelease} WHERE id=${id}`;
-}
-
-export async function setPressReleaseCompleted(
-  id: number,
-  isPressReleaseGenerationFinished: boolean
-): Promise<void> {
-  await sql`UPDATE pressreleases_assets SET pressrelease_completed=${isPressReleaseGenerationFinished} WHERE id=${id}`;
 }
 
 export async function getGeneratedPressRelease(
@@ -57,29 +50,8 @@ export async function setTitle(id: number, title: string): Promise<void> {
   await sql`UPDATE pressreleases_assets SET title=${title} WHERE id=${id}`;
 }
 
-export async function getGeneratedKeywords(id: number): Promise<string> {
-  try {
-    const result =
-      await sql`SELECT keywords FROM pressreleases_assets WHERE id=${id}`;
-    if (result.rows.length === 0) {
-      throw new Error(`No press release found with id ${id}`);
-    }
-    return result.rows[0].keywords;
-  } catch (error) {
-    console.error("Error fetching keywords:", error);
-    throw error;
-  }
-}
-
-export async function setKeywordsCompleted(
-  id: number,
-  isKeywordGenerationFinished: boolean
-): Promise<void> {
-  await sql`UPDATE pressreleases_assets SET keywords_completed=${isKeywordGenerationFinished} WHERE id=${id}`;
-}
-
-export async function upsertImage(image: string, id: string): Promise<void> {
-  await sql`UPDATE pressreleases_assets SET image=${image} WHERE id=${id}`;
+export async function setImageUrl(image: string, id: string): Promise<void> {
+  await sql`UPDATE pressreleases_assets SET image_url=${image} WHERE id=${id}`;
 }
 
 export async function setImageCaption(
@@ -87,11 +59,4 @@ export async function setImageCaption(
   caption: string
 ): Promise<void> {
   await sql`UPDATE pressreleases_assets SET image_caption=${caption} WHERE id=${id}`;
-}
-
-export async function setImageCaptionCompleted(
-  id: number,
-  captionCompleted: boolean
-): Promise<void> {
-  await sql`UPDATE pressreleases_assets SET image_caption_completed=${captionCompleted} WHERE id=${id}`;
 }

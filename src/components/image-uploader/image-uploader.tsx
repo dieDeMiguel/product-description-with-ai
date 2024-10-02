@@ -6,12 +6,12 @@ export function FileUploadButton({
   id,
   setImageWasUploaded,
   className,
-  pressRelease,
+  pressReleaseContent,
 }: {
-  id: string;
+  id: number;
   setImageWasUploaded: React.Dispatch<React.SetStateAction<boolean>>;
   className?: string;
-  pressRelease: string;
+  pressReleaseContent: string;
 }) {
   const [loadingImage, setLoadingImage] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -25,7 +25,7 @@ export function FileUploadButton({
       formData.append("image", file);
       try {
         setLoadingImage(true);
-        await handleUploadImage(formData, id, pressRelease);
+        await handleUploadImage(formData, id, pressReleaseContent);
         setImageWasUploaded(true);
         setLoadingImage(false);
       } catch (error) {
