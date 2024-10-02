@@ -2,7 +2,7 @@
 import { PressReleaseAsset } from "@/db";
 import useInitializeEditor from "@/hooks/useInitializeEditor";
 import { cn } from "@/lib/utils";
-import useEditorBlocks from "@/utils/editor/memoise-editor-block";
+import useEditorBlocks from "@/utils/editor/use-editor-blocks";
 import EditorJS from "@editorjs/editorjs";
 import { useRef } from "react";
 import "./editor.css";

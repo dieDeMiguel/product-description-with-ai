@@ -12,7 +12,7 @@ const useEditorBlocks = (
         {
           type: "paragraph",
           data: {
-            text: sectionId || "",
+            text: data[sectionId] || "",
           },
           id: uuidv4(),
         },
