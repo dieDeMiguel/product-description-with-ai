@@ -22,8 +22,7 @@ export async function getGeneratedPressRelease(
   id: number
 ): Promise<PressReleaseAsset> {
   try {
-    const result =
-      await sql`SELECT * FROM pressreleases_assets_old WHERE id=${id}`;
+    const result = await sql`SELECT * FROM pressreleases_assets WHERE id=${id}`;
     if (result.rows.length === 0) {
       throw new Error(`No press release found with id ${id}`);
     }
@@ -44,7 +43,7 @@ export async function createPressRelease(
 }
 
 export async function setKeywords(id: number, keywords: string): Promise<void> {
-  await sql`UPDATE pressreleases_assets_old SET keywords=${keywords} WHERE id=${id}`;
+  await sql`UPDATE pressreleases_assets SET keywords=${keywords} WHERE id=${id}`;
 }
 
 export async function setTitle(id: number, title: string): Promise<void> {
@@ -59,5 +58,5 @@ export async function setImageCaption(
   id: number,
   caption: string
 ): Promise<void> {
-  await sql`UPDATE pressreleases_assets_old SET image_caption=${caption} WHERE id=${id}`;
+  await sql`UPDATE pressreleases_assets SET image_caption=${caption} WHERE id=${id}`;
 }
