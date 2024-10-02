@@ -7,7 +7,7 @@ const useEditorBlocks = (
   sectionId: keyof PressReleaseAsset
 ) =>
   useMemo(() => {
-    if (data?.pressrelease) {
+    if (data?.pressrelease_body) {
       return [
         {
           type: "paragraph",
@@ -28,6 +28,6 @@ const useEditorBlocks = (
         },
       ];
     }
-  }, [data?.pressrelease, sectionId]);
+  }, [data?.pressrelease_body, sectionId]);
 
 export default useEditorBlocks;

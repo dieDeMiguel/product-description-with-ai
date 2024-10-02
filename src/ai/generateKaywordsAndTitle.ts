@@ -16,7 +16,7 @@ export async function generateKeywordsAndTitle(
   pressReleaseEntry: PressReleaseAsset
 ): Promise<void> {
   const id = pressReleaseEntry.id;
-  const prompt = pressReleaseEntry.pressrelease;
+  const prompt = pressReleaseEntry.pressrelease_body;
 
   try {
     const { text } = await generateText({

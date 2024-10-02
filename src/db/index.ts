@@ -4,7 +4,7 @@ import { sql } from "@vercel/postgres";
 
 export type PressReleaseAsset = {
   id: number;
-  pressrelease: string;
+  pressrelease_body: string;
   keywords: string;
   title: string;
   image_url: string;
@@ -15,7 +15,7 @@ export async function setPressRelease(
   id: number,
   pressRelease: string
 ): Promise<void> {
-  await sql`UPDATE pressreleases_assets SET pressrelease=${pressRelease} WHERE id=${id}`;
+  await sql`UPDATE pressreleases_assets SET pressrelease_body=${pressRelease} WHERE id=${id}`;
 }
 
 export async function getGeneratedPressRelease(
@@ -38,7 +38,7 @@ export async function createPressRelease(
   pressRelease: string
 ): Promise<PressReleaseAsset> {
   const result =
-    await sql`INSERT INTO pressreleases_assets (pressrelease) VALUES (${pressRelease}) RETURNING *`;
+    await sql`INSERT INTO pressreleases_assets (pressrelease_body) VALUES (${pressRelease}) RETURNING *`;
   return result.rows[0].id;
 }
 

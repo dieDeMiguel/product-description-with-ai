@@ -45,7 +45,7 @@ export default function ImageContainer(pressRelease: PressReleaseAsset) {
             className={"mt-20"}
             id={id}
             setImageWasUploaded={setImageWasUploaded}
-            pressReleaseContent={pressRelease.pressrelease}
+            pressReleaseContent={pressRelease.pressrelease_body}
           />
         )}
       </div>

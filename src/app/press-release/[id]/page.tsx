@@ -19,7 +19,7 @@ export default async function Page() {
         isReadOnly={false}
       />
       <Editor
-        sectionID="pressrelease"
+        sectionID="pressrelease_body"
         pressRelease={pressRelease}
         wrapperClassName=""
         className="editor-content"
