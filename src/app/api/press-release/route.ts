@@ -1,5 +1,5 @@
+import { generateKeywordsAndTitle } from "@/ai/generate-keyywords-title";
 import { generatePressRelease } from "@/ai/generate-press-release";
-import { generateKeywordsAndTitle } from "@/ai/generateKaywordsAndTitle";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
