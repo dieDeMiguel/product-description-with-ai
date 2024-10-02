@@ -1,5 +1,5 @@
 import Editor from "@/components/editor/editor";
-import ImageContainer from "@/components/image-uploader/image-container";
+import ImageKeywordsContainer from "@/components/image-uploader/image-keywords-container";
 
 import { getGeneratedPressRelease } from "@/db";
 import { headers } from "next/headers";
@@ -26,7 +26,7 @@ export default async function Page() {
         className="editor-content"
         isReadOnly={false}
       />
-      <ImageContainer {...pressRelease} />
+      <ImageKeywordsContainer {...pressRelease} />
     </div>
   );
 }

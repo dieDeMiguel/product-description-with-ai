@@ -13,7 +13,6 @@ export default function PressReleaseGenerator() {
 
   const handleGenerate = async () => {
     setIsLoading(true);
-    // try {
     const response = await fetch(`/api/press-release`, {
       method: "POST",
       body: JSON.stringify({ prompt: userInput }),
@@ -21,25 +20,8 @@ export default function PressReleaseGenerator() {
         "Content-Type": "application/json",
       },
     });
-    console.log("response", response);
     const { id } = await response.json();
-    console.log("Press Release ID:", id);
     router.push(`/press-release/${id}`);
-    setIsLoading(false);
-    // } catch (error) {
-    //   console.log("Error generating press release:", error);
-    //   if (error instanceof Error) {
-    //     alert(
-    //       `Something went wrong while generating the press release. Please try again: ${error.message}`
-    //     );
-    //   } else {
-    //     alert(
-    //       "Something went wrong while generating the press release. Please try again."
-    //     );
-    //   }
-    // } finally {
-    //   setIsLoading(false);
-    // }
   };
 
   if (isLoading) {
