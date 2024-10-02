@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS pressreleases_assets (
+CREATE TABLE IF NOT EXISTS pressreleases_assets_old (
   id SERIAL PRIMARY KEY,
   pressrelease TEXT,
   pressrelease_completed BOOLEAN DEFAULT FALSE,
