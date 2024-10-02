@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { LoaderIcon } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import React, { useRef, useState } from "react";
 
 export function FileUploadButton({
@@ -32,22 +32,40 @@ export function FileUploadButton({
 
       setLoadingImage(true);
       try {
-        const response = await fetch("/api/upload-image", {
+        const uploadResponse = await fetch("/api/upload-image", {
           method: "POST",
           body: formData,
         });
 
-        if (!response.ok) {
-          const errorData = await response.json();
+        if (!uploadResponse.ok) {
+          const errorData = await uploadResponse.json();
           throw new Error(errorData.error || "Failed to upload image");
         }
 
-        const { url, imageCaption } = await response.json();
+        const { url } = await uploadResponse.json();
         setImageUrl(url);
-        setImageCaption(imageCaption);
+        const captionResponse = await fetch("/api/generate-caption", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id,
+            url,
+            pressReleaseContent,
+          }),
+        });
+
+        if (!captionResponse.ok) {
+          const errorData = await captionResponse.json();
+          throw new Error(errorData.error || "Failed to generate caption");
+        }
+
+        const { caption } = await captionResponse.json();
+        setImageCaption(caption);
       } catch (error) {
-        console.error("Error uploading image:", error);
-        alert("Failed to upload image. Please try again.");
+        console.error("Error uploading image or generating caption:", error);
+        alert("Failed to upload image or generate caption. Please try again.");
       } finally {
         setLoadingImage(false);
       }
@@ -69,7 +87,7 @@ export function FileUploadButton({
       >
         {loadingImage ? (
           <div className="flex gap-2 items-center">
-            <LoaderIcon className="animate-spin" />
+            <Loader2 className="animate-spin" />
             <p>Uploading...</p>
           </div>
         ) : (

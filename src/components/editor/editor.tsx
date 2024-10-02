@@ -29,7 +29,6 @@ const Editor: React.FC<EditorProps> = ({
   const handleSaveChanges = async () => {
     if (editorRef.current) {
       editorRef.current.save().then(async (outputData) => {
-        console.log("Article data: ", outputData);
         const content = outputData?.blocks[0]?.data?.text;
         if (!content) return;
         try {

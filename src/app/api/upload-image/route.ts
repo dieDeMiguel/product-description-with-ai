@@ -14,9 +14,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = await handleUploadImage(formData, id, pressReleaseContent);
+    const { url } = await handleUploadImage(formData, id);
 
-    return NextResponse.json(result, { status: 200 });
+    return NextResponse.json({ url }, { status: 200 });
   } catch (error) {
     console.error("Error in POST /api/upload-image:", error);
     return NextResponse.json(

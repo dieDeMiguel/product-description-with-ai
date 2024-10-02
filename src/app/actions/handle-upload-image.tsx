@@ -1,14 +1,9 @@
 "use server";
 
-import { generateImageCaption } from "@/ai/generate-image-caption";
 import { setImageUrl } from "@/db";
 import { put } from "@vercel/blob";
 
-export const handleUploadImage = async (
-  formData: FormData,
-  id: number,
-  pressReleaseContent: string
-) => {
+export const handleUploadImage = async (formData: FormData, id: number) => {
   const file = formData.get("image") as Blob;
   if (!file) {
     throw new Error("No image file provided");
@@ -25,7 +20,6 @@ export const handleUploadImage = async (
   });
 
   await setImageUrl(url, stringId);
-  const imageCaption = await generateImageCaption(id, url, pressReleaseContent);
 
-  return { url, imageCaption };
+  return { url };
 };

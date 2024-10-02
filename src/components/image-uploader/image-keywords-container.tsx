@@ -1,6 +1,7 @@
 "use client";
 
 import { PressReleaseAsset } from "@/db";
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
@@ -52,9 +53,18 @@ export default function ImageKeywordsContainer(
                 Change Picture
               </Button>
             </div>
-            <p className="text-center text-sm text-gray-500 mt-4">
-              {imageCaption}
-            </p>
+            {imageCaption ? (
+              <p className="text-center text-sm text-gray-500 mt-4">
+                {imageCaption}
+              </p>
+            ) : (
+              <div className="flex gap-2 items-center justify-center mt-4">
+                <Loader2 className="animate-spin text-black" />
+                <p className="text-center text-sm text-black">
+                  Creating Image Caption...
+                </p>
+              </div>
+            )}
           </div>
         ) : (
           <FileUploadButton
