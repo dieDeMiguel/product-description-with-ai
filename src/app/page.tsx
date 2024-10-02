@@ -8,7 +8,7 @@ import { useState } from "react";
 
 export default function PressReleaseGenerator() {
   const [userInput, setUserInput] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const handleGenerate = async () => {
