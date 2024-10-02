@@ -1,5 +1,6 @@
 import Editor from "@/components/editor/editor";
-import ImageContainer from "@/components/image-comtainer";
+import ImageContainer from "@/components/image-container";
+
 import { getGeneratedPressRelease } from "@/db";
 import { headers } from "next/headers";
 
