@@ -3,13 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npm run dev:next\" \"npm run dev:inngest\"",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "dev:next": "next dev",
-    "dev:inngest": "npx inngest-cli@latest dev --no-discovery -u http://localhost:3000/api/inngest",
-    "start:prod": "concurrently \"npm run start\" \"npx inngest-cli@latest dev --no-discovery -u https://press-release-generator.vercel.app/api/inngest\""
+    "lint": "next lint"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.61",

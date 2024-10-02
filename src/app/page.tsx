@@ -25,7 +25,7 @@ export default function PressReleaseGenerator() {
       const { id } = await response.json();
       redirect(`/press-release/${id}`);
     } catch (error) {
-      console.error("Error generating press release:", error);
+      console.log("Error generating press release:", error);
       alert(
         "Something went wrong while generating the press release. Please try again."
       );
