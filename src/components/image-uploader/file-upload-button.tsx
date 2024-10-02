@@ -68,7 +68,7 @@ export function FileUploadButton({
         disabled={loadingImage}
       >
         {loadingImage ? (
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <LoaderIcon className="animate-spin" />
             <p>Uploading...</p>
           </div>
