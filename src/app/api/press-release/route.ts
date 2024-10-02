@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const { prompt } = await request.json();
-
+    console.log("Generating press route...", prompt);
     const pressReleaseEntry = await generatePressRelease(prompt);
     await Promise.all([generateKeywordsAndTitle(pressReleaseEntry)]);
 

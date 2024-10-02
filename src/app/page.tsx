@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { PressReleaseGeneratorSkeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
-import { LoaderIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 
@@ -13,6 +12,7 @@ export default function PressReleaseGenerator() {
 
   const handleGenerate = async () => {
     setIsLoading(true);
+    console.log("Generating press release...", userInput);
     try {
       const response = await fetch(`/api/press-release`, {
         method: "POST",
@@ -54,11 +54,7 @@ export default function PressReleaseGenerator() {
         className="w-full"
         disabled={userInput.trim().length < 10}
       >
-        {isLoading ? (
-          <LoaderIcon className="animate-spin" />
-        ) : (
-          " Generate Press Release"
-        )}
+        Generate Press Release
       </Button>
     </div>
   );

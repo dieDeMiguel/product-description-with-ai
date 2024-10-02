@@ -17,7 +17,7 @@ export async function generatePressRelease(
 ): Promise<PressReleaseAsset> {
   let detectedLanguage: string;
   let pressReleaseContent: string;
-
+  console.log("prompt en generatePressRelease", prompt);
   try {
     // Detect language
     const languageDetectionResponse = await openai.chat.completions.create({
@@ -37,6 +37,8 @@ export async function generatePressRelease(
     console.error("Error detecting language:", error);
     throw new Error("Failed to detect language");
   }
+
+  console.log("detectedLanguage en generatePressRelease", detectedLanguage);
 
   try {
     // Generate the press release
