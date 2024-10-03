@@ -21,29 +21,15 @@ const SYSTEM_CONTEXT = (language: string) => `
 export async function generateImageCaption(
   id: number,
   url: string,
-  pressReleaseBody: string
+  language: string
 ): Promise<string> {
-  // Detect the language of the press release
-  const languageDetection = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
-    messages: [
-      {
-        role: "user",
-        content: `Detect the language of the following text: "${pressReleaseBody}"`,
-      },
-    ],
-  });
-
-  const detectedLanguage =
-    languageDetection.choices[0]?.message?.content?.trim() ?? "unknown";
-
   // Generate the image caption
   const stream = await openai.chat.completions.create({
     model: "gpt-4-turbo",
     messages: [
       {
         role: "system",
-        content: SYSTEM_CONTEXT(detectedLanguage),
+        content: SYSTEM_CONTEXT(language),
       },
       {
         role: "user",

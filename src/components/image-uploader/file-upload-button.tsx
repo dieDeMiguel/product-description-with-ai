@@ -9,13 +9,13 @@ export function FileUploadButton({
   setImageUrl,
   setImageCaption,
   className,
-  pressReleaseContent,
+  language,
 }: {
   id: number;
   setImageUrl: React.Dispatch<React.SetStateAction<string>>;
   setImageCaption: React.Dispatch<React.SetStateAction<string>>;
   className?: string;
-  pressReleaseContent: string;
+  language: string;
 }) {
   const [loadingImage, setLoadingImage] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -27,9 +27,6 @@ export function FileUploadButton({
     if (file) {
       const formData = new FormData();
       formData.append("image", file);
-      formData.append("id", id.toString());
-      formData.append("pressReleaseContent", pressReleaseContent);
-
       setLoadingImage(true);
       try {
         const uploadResponse = await fetch("/api/upload-image", {
@@ -52,7 +49,7 @@ export function FileUploadButton({
           body: JSON.stringify({
             id,
             url,
-            pressReleaseContent,
+            language,
           }),
         });
 

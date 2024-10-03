@@ -5,6 +5,7 @@ import { sql } from "@vercel/postgres";
 export type PressReleaseAsset = {
   id: number;
   pressrelease_body: string;
+  language: string;
   keywords: string;
   title: string;
   image_url: string;

@@ -72,7 +72,7 @@ export default function ImageKeywordsContainer(
             id={id}
             setImageUrl={setImageUrl}
             setImageCaption={setImageCaption}
-            pressReleaseContent={pressRelease.pressrelease_body}
+            language={pressRelease.language}
           />
         )}
       </div>
