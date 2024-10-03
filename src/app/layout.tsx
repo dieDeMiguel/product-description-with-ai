@@ -31,7 +31,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ToastProvider>
-          <main className="min-h-screen p-4 grid place-items-center">
+          <main className="min-h-screen p-2 sm:p-4 grid place-items-center">
             {children}
           </main>
           <Toaster />
