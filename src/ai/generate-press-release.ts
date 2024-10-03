@@ -1,5 +1,5 @@
 import { openai } from "@/ai";
-import { createPressRelease, PressReleaseAsset } from "@/db";
+import { createPressRelease, PressReleaseAsset, setLanguage } from "@/db";
 
 const SYSTEM_CONTEXT = (language: string) => `
   You are a press release generator.
@@ -64,8 +64,11 @@ export async function generatePressRelease(
   }
 
   try {
-    // Create the press release entry in the database
     const pressReleaseEntry = await createPressRelease(pressReleaseContent);
+    if (!pressReleaseEntry) {
+      throw new Error("Failed to create press release entry");
+    }
+    await setLanguage(pressReleaseEntry?.id, detectedLanguage);
     return pressReleaseEntry;
   } catch (error) {
     console.error("Error creating press release entry:", error);

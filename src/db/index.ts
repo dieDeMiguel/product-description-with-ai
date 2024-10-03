@@ -74,3 +74,7 @@ export async function updatePressReleaseField(
     throw new Error("Invalid field specified");
   }
 }
+
+export async function setLanguage(id: number, language: string): Promise<void> {
+  await sql`UPDATE pressreleases_assets SET language=${language} WHERE id=${id}`;
+}
