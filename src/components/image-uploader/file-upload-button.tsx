@@ -27,6 +27,7 @@ export function FileUploadButton({
     if (file) {
       const formData = new FormData();
       formData.append("image", file);
+      formData.append("id", id.toString());
       setLoadingImage(true);
       try {
         const uploadResponse = await fetch("/api/upload-image", {

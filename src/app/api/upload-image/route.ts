@@ -5,11 +5,10 @@ export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const id = parseInt(formData.get("id") as string, 10);
-    const pressReleaseContent = formData.get("pressReleaseContent") as string;
-
-    if (!id || !pressReleaseContent) {
+    const image = formData.get("image") as File;
+    if (!id || !image) {
       return NextResponse.json(
-        { error: "Missing 'id' or 'pressReleaseContent'" },
+        { error: "Missing 'id' or 'image" },
         { status: 400 }
       );
     }

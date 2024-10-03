@@ -37,7 +37,7 @@ export async function generateImageCaption(
           {
             type: "text",
             text: `You are an expert in generating captions for images in press releases.
-            Your job is to create a detailed and accurate caption for the given image, following the conventions of press releases in ${detectedLanguage}.`,
+            Your job is to create a detailed and accurate caption for the given image, following the conventions of press releases in ${language}.`,
           },
           {
             type: "image_url",
