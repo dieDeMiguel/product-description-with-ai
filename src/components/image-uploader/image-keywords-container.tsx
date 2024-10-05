@@ -3,7 +3,7 @@
 import { PressReleaseAsset } from "@/db";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { FileUploadButton } from "./file-upload-button";
@@ -11,17 +11,41 @@ import { FileUploadButton } from "./file-upload-button";
 export default function ImageKeywordsContainer(
   pressRelease: PressReleaseAsset
 ) {
+  const { language, id, image_url, image_caption } = pressRelease;
+  console.log("image_url", image_url);
   const keywords = pressRelease?.keywords?.split(",");
-  const id = pressRelease?.id;
-  const [imageUrl, setImageUrl] = useState<string>(
-    pressRelease?.image_url || ""
-  );
-  const [imageCaption, setImageCaption] = useState<string>(
-    pressRelease?.image_caption || ""
-  );
+  const [imageUrl, setImageUrl] = useState<string>(image_url || "");
+  const [imageCaption, setImageCaption] = useState<string>(image_caption || "");
+
+  useEffect(() => {
+    if (imageUrl && language && !imageCaption) {
+      console.log("Generating useEffect", imageUrl, language);
+      const generateCaption = async () => {
+        const captionResponse = await fetch("/api/generate-caption", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id,
+            imageUrl,
+            language,
+          }),
+        });
+
+        if (!captionResponse.ok) {
+          const errorData = await captionResponse.json();
+          throw new Error(errorData.error || "Failed to generate caption");
+        }
+        const { caption } = await captionResponse.json();
+        setImageCaption(caption);
+      };
+      generateCaption();
+    }
+  }, [id, imageUrl, language]);
 
   return (
-    <div className="max-w-[650px] m-auto my-10">
+    <div className="max-w-[650px] m-auto my-8">
       {keywords?.length > 0 && (
         <ul>
           {keywords.map((keyword, index) => (
@@ -53,22 +77,19 @@ export default function ImageKeywordsContainer(
                 Change Picture
               </Button>
             </div>
-            {imageCaption ? (
-              <p className="text-center text-sm text-gray-500 mt-4">
-                {imageCaption}
-              </p>
-            ) : (
-              <div className="flex gap-2 items-center justify-center mt-4">
+            <div className="flex gap-2 items-center justify-center mt-4">
+              {imageCaption ? (
+                <p className="text-center text-sm text-black">{imageCaption}</p>
+              ) : (
                 <Loader2 className="animate-spin text-black" />
-                <p className="text-center text-sm text-black">
-                  Creating Image Caption...
-                </p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         ) : (
           <FileUploadButton
-            className={"mt-20"}
+            className={
+              "min-h-[400px] flex flex-col items-center justify-center"
+            }
             id={id}
             setImageUrl={setImageUrl}
             setImageCaption={setImageCaption}

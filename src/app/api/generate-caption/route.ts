@@ -4,16 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const { id, url, language } = await request.json();
+    const { id, imageUrl, language } = await request.json();
 
-    if (!id || !url || !language) {
-      return NextResponse.json(
-        { error: "Missing 'id', 'url', or 'language'" },
-        { status: 400 }
-      );
-    }
-
-    const caption = await generateImageCaption(id, url, language);
+    const caption = await generateImageCaption(id, imageUrl, language);
     await setImageCaption(id, caption);
 
     return NextResponse.json({ caption }, { status: 200 });

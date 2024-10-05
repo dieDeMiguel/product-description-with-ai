@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
 const ImpressumPage = () => {
@@ -56,10 +55,11 @@ const ImpressumPage = () => {
           </p>
         </CardContent>
       </Card>
-      <Link href="/" className="bg-white px-2 py-1 rounded-lg text-black mb-10">
-        <Label htmlFor="/" className="cursor-pointer">
-          Home
-        </Label>
+      <Link
+        href="/"
+        className="bg-white px-2 py-1 rounded-lg text-black mb-10 cursor-pointer"
+      >
+        Home
       </Link>
     </div>
   );

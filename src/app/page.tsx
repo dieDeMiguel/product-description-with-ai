@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import Stepper from "@/components/ui/stepper";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
@@ -60,11 +59,9 @@ export default function PressReleaseGenerator() {
       </div>
       <Link
         href="/impressum"
-        className="bg-white px-2 py-1 rounded-lg text-black "
+        className="bg-white px-2 py-1 rounded-lg text-black cursor-pointer"
       >
-        <Label htmlFor="/impressum" className="cursor-pointer">
-          Impressum
-        </Label>
+        Impressum
       </Link>
     </div>
   );

@@ -1,9 +1,11 @@
-import Editor from "@/components/editor/editor";
 import ImageKeywordsContainer from "@/components/image-uploader/image-keywords-container";
-import { Label } from "@/components/ui/label";
 import { getGeneratedPressRelease } from "@/db";
+import dynamic from "next/dynamic";
 import { headers } from "next/headers";
 import Link from "next/link";
+const Editor = dynamic(() => import("@/components/editor/editor"), {
+  ssr: false,
+});
 
 export default async function Page() {
   const headerList = headers();
@@ -30,14 +32,9 @@ export default async function Page() {
       <ImageKeywordsContainer {...pressRelease} />
       <Link
         href="/impressum"
-        className="bg-white px-2 py-1 block text-center rounded-lg text-black"
+        className="bg-white border border-black rounded-sm px-2 py-1 block text-center text-black cursor-pointer max-w-24 m-auto"
       >
-        <Label
-          htmlFor="/impressum"
-          className="cursor-pointer border border-black rounded-sm px-2 py-1"
-        >
-          Impressum
-        </Label>
+        Impressum
       </Link>
     </div>
   );

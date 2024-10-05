@@ -1,20 +1,7 @@
 import { Toaster } from "@/components/ui/toaster";
-import { cn } from "@/lib/utils";
 import { ToastProvider } from "@radix-ui/react-toast";
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
 
 export const metadata: Metadata = {
   title: "Press Release Generator",
@@ -28,9 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={cn(geistSans.variable, geistMono.variable, "antialiased")}
-      >
+      <body className={"font-custom antialiased"}>
         <ToastProvider>
           <main className="min-h-screen p-2 sm:p-4 grid place-items-center">
             {children}

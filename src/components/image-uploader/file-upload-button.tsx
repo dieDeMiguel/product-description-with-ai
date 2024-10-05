@@ -35,11 +35,6 @@ export function FileUploadButton({
           body: formData,
         });
 
-        if (!uploadResponse.ok) {
-          const errorData = await uploadResponse.json();
-          throw new Error(errorData.error || "Failed to upload image");
-        }
-
         const { url } = await uploadResponse.json();
         setImageUrl(url);
         const captionResponse = await fetch("/api/generate-caption", {
@@ -53,11 +48,6 @@ export function FileUploadButton({
             language,
           }),
         });
-
-        if (!captionResponse.ok) {
-          const errorData = await captionResponse.json();
-          throw new Error(errorData.error || "Failed to generate caption");
-        }
 
         const { caption } = await captionResponse.json();
         setImageCaption(caption);
