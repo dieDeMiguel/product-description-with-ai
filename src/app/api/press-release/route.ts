@@ -7,7 +7,6 @@ export async function POST(request: NextRequest) {
     const { prompt } = await request.json();
     const pressReleaseEntry = await generatePressRelease(prompt);
     await Promise.all([generateKeywordsAndTitle(pressReleaseEntry)]);
-
     return NextResponse.json({ id: pressReleaseEntry.id }, { status: 200 });
   } catch (error) {
     console.error("Error in POST /api/generate-press-release:", error);

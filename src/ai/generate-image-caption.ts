@@ -3,11 +3,8 @@ import { setImageCaption } from "@/db";
 
 const SYSTEM_CONTEXT = (language: string) => `
   You are an expert in generating captions for images in press releases.
-  Your job is to create a detailed and accurate caption for the given image, following the conventions of press releases in ${language}.
-  The caption should include the title, season, persons in the image, a brief description, copyright information, photographer's name, image editor's name, filename, and usage rights.
-  Ensure the caption is well-structured, informative, and adheres to the provided format.
-
-  Your response should be a structured caption with the following details (if possible):
+  Create a detailed and accurate caption for the given image in ${language}, following press release conventions.
+  Include the following details if possible:
   - Title: [Title of the image]
   - Season: [Season information]
   - Person: [Names of persons in the image]
@@ -15,8 +12,11 @@ const SYSTEM_CONTEXT = (language: string) => `
   - Copyright: [Copyright information]
   - Photographer: [Photographer's name]
   - Redactor: [Image editor's name]
-  - Name of the File: [Filename]
-  - Rights and conditions: [Usage rights and conditions]`;
+  - Filename: [Filename]
+  - Rights: [Usage rights and conditions]
+  Example in German:
+  Bildunterschrift: Die Zeitreise - eine spektakuläre, emotionale Multimedia- und Lichtshow am Schweriner Schloss. Bildrechte: Staatskanzlei MV. Fotograf: Tag der Deutschen Einheit.
+`;
 
 export async function generateImageCaption(
   id: number,
@@ -34,11 +34,6 @@ export async function generateImageCaption(
       {
         role: "user",
         content: [
-          {
-            type: "text",
-            text: `You are an expert in generating captions for images in press releases.
-            Your job is to create a detailed and accurate caption for the given image, following the conventions of press releases in ${language}.`,
-          },
           {
             type: "image_url",
             image_url: {
