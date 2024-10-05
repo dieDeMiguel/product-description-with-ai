@@ -40,14 +40,14 @@ export default function PressReleaseGenerator() {
   }
 
   return (
-    <div className="w-full max-w-4xl p-4 flex flex-col gap-xl h-screen items-center justify-around">
-      <div>
+    <div className="w-full sm:w-1/3 p-4 flex flex-col gap-xl h-screen items-center justify-around">
+      <div className="w-full">
         <h1 className="text-2xl font-bold mb-4">Press Release Generator</h1>
         <Textarea
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
           placeholder="What's your press release about? Any language will work : ) Min 10 characters"
-          className="h-40 sm:w--[var(--size-450)]  resize-none mb-4"
+          className="h-40 resize-none mb-4"
         />
         <Button
           onClick={handleGenerate}
