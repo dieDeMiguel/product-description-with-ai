@@ -36,9 +36,11 @@ function Stepper({ currentStep }: { currentStep: number }) {
               <span className="text-white">{index + 1}</span>
             )}
           </div>
-          <div className="text-center">
+          <div className="text-center flex flex-col items-center">
             <p className="font-semibold">{step.title}</p>
-            <p className="text-sm text-gray-500">{step.description}</p>
+            <p className="text-sm text-gray-500 h-12 flex items-center justify-center">
+              {step.description}
+            </p>
           </div>
         </div>
       ))}
