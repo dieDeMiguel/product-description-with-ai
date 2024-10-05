@@ -16,6 +16,7 @@ export default function ImageKeywordsContainer(
   const keywords = pressRelease?.keywords?.split(",");
   const [imageUrl, setImageUrl] = useState<string>(image_url || "");
   const [imageCaption, setImageCaption] = useState<string>(image_caption || "");
+  const [loadingImage, setLoadingImage] = useState<boolean>(true);
 
   useGenerateCaption(id, imageUrl, language, imageCaption, setImageCaption);
 
@@ -33,6 +34,11 @@ export default function ImageKeywordsContainer(
       <div className="w-full text-center my-10">
         {imageUrl ? (
           <div className="flex flex-col gap-4">
+            {loadingImage && (
+              <div className="w-full h-[400px] flex items-center justify-center bg-gray-200 rounded-lg">
+                <Loader2 className="animate-spin text-black" />
+              </div>
+            )}
             <div className="relative">
               <Image
                 src={imageUrl}
@@ -40,6 +46,10 @@ export default function ImageKeywordsContainer(
                 height={200}
                 alt="Generated press release image"
                 className="w-full rounded-lg"
+                onLoadingComplete={() => {
+                  console.log("Image loaded");
+                  setLoadingImage(false);
+                }}
               />
               <Button
                 className="absolute bottom-2 right-2 font-semibold"
@@ -52,9 +62,9 @@ export default function ImageKeywordsContainer(
                 Change Picture
               </Button>
             </div>
-            <div className="flex gap-2 items-center justify-center text-left">
+            <div className="flex gap-2 items-center justify-center">
               {imageCaption ? (
-                <p className="text-center text-sm text-black">{imageCaption}</p>
+                <p className="text-sm text-black text-left">{imageCaption}</p>
               ) : (
                 <Loader2 className="animate-spin text-black" />
               )}
@@ -67,6 +77,8 @@ export default function ImageKeywordsContainer(
             }
             id={id}
             setImageUrl={setImageUrl}
+            setLoadingImage={setLoadingImage}
+            loadingImage={loadingImage}
           />
         )}
       </div>

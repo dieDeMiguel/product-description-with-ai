@@ -2,18 +2,21 @@
 
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 
 export function FileUploadButton({
   id,
   setImageUrl,
   className,
+  setLoadingImage,
+  loadingImage,
 }: {
   id: number;
   setImageUrl: React.Dispatch<React.SetStateAction<string>>;
   className?: string;
+  setLoadingImage: React.Dispatch<React.SetStateAction<boolean>>;
+  loadingImage: boolean;
 }) {
-  const [loadingImage, setLoadingImage] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = async (
@@ -36,8 +39,6 @@ export function FileUploadButton({
       } catch (error) {
         console.error("Error uploading image or generating caption:", error);
         alert("Failed to upload image or generate caption. Please try again.");
-      } finally {
-        setLoadingImage(false);
       }
     }
   };
