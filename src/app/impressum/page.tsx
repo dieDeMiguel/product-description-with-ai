@@ -57,7 +57,7 @@ const ImpressumPage = () => {
       </Card>
       <Link
         href="/"
-        className="bg-white px-2 py-1 rounded-lg text-black mb-10 cursor-pointer"
+        className="bg-white px-2 py-1 rounded-lg text-black mb-10 cursor-pointer font-semibold"
       >
         Home
       </Link>

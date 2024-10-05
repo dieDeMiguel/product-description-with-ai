@@ -1,9 +1,10 @@
 "use client";
 
 import { PressReleaseAsset } from "@/db";
+import useGenerateCaption from "@/hooks/useGenerateCaption";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { FileUploadButton } from "./file-upload-button";
@@ -12,40 +13,14 @@ export default function ImageKeywordsContainer(
   pressRelease: PressReleaseAsset
 ) {
   const { language, id, image_url, image_caption } = pressRelease;
-  console.log("image_url", image_url);
   const keywords = pressRelease?.keywords?.split(",");
   const [imageUrl, setImageUrl] = useState<string>(image_url || "");
   const [imageCaption, setImageCaption] = useState<string>(image_caption || "");
 
-  useEffect(() => {
-    if (imageUrl && language && !imageCaption) {
-      console.log("Generating useEffect", imageUrl, language);
-      const generateCaption = async () => {
-        const captionResponse = await fetch("/api/generate-caption", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            id,
-            imageUrl,
-            language,
-          }),
-        });
-
-        if (!captionResponse.ok) {
-          const errorData = await captionResponse.json();
-          throw new Error(errorData.error || "Failed to generate caption");
-        }
-        const { caption } = await captionResponse.json();
-        setImageCaption(caption);
-      };
-      generateCaption();
-    }
-  }, [id, imageUrl, language]);
+  useGenerateCaption(id, imageUrl, language, imageCaption, setImageCaption);
 
   return (
-    <div className="max-w-[650px] m-auto my-8">
+    <div className="max-w-[650px] m-auto">
       {keywords?.length > 0 && (
         <ul>
           {keywords.map((keyword, index) => (
@@ -57,7 +32,7 @@ export default function ImageKeywordsContainer(
       )}
       <div className="w-full text-center my-10">
         {imageUrl ? (
-          <div>
+          <div className="flex flex-col gap-4">
             <div className="relative">
               <Image
                 src={imageUrl}
@@ -67,7 +42,7 @@ export default function ImageKeywordsContainer(
                 className="w-full rounded-lg"
               />
               <Button
-                className="absolute bottom-2 right-2"
+                className="absolute bottom-2 right-2 font-semibold"
                 variant={"destructive"}
                 onClick={() => {
                   setImageUrl("");
@@ -77,7 +52,7 @@ export default function ImageKeywordsContainer(
                 Change Picture
               </Button>
             </div>
-            <div className="flex gap-2 items-center justify-center mt-4">
+            <div className="flex gap-2 items-center justify-center text-left">
               {imageCaption ? (
                 <p className="text-center text-sm text-black">{imageCaption}</p>
               ) : (
@@ -92,8 +67,6 @@ export default function ImageKeywordsContainer(
             }
             id={id}
             setImageUrl={setImageUrl}
-            setImageCaption={setImageCaption}
-            language={pressRelease.language}
           />
         )}
       </div>

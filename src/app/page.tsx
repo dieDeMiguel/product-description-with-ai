@@ -51,7 +51,7 @@ export default function PressReleaseGenerator() {
         />
         <Button
           onClick={handleGenerate}
-          className="w-full"
+          className="w-full font-semibold"
           disabled={userInput.trim().length < 10}
         >
           Generate Press Release
@@ -59,7 +59,7 @@ export default function PressReleaseGenerator() {
       </div>
       <Link
         href="/impressum"
-        className="bg-white px-2 py-1 rounded-lg text-black cursor-pointer"
+        className="bg-white px-2 py-1 rounded-lg text-black cursor-pointer font-semibold"
       >
         Impressum
       </Link>

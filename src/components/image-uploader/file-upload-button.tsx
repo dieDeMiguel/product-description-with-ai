@@ -7,15 +7,11 @@ import React, { useRef, useState } from "react";
 export function FileUploadButton({
   id,
   setImageUrl,
-  setImageCaption,
   className,
-  language,
 }: {
   id: number;
   setImageUrl: React.Dispatch<React.SetStateAction<string>>;
-  setImageCaption: React.Dispatch<React.SetStateAction<string>>;
   className?: string;
-  language: string;
 }) {
   const [loadingImage, setLoadingImage] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -37,20 +33,6 @@ export function FileUploadButton({
 
         const { url } = await uploadResponse.json();
         setImageUrl(url);
-        const captionResponse = await fetch("/api/generate-caption", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            id,
-            url,
-            language,
-          }),
-        });
-
-        const { caption } = await captionResponse.json();
-        setImageCaption(caption);
       } catch (error) {
         console.error("Error uploading image or generating caption:", error);
         alert("Failed to upload image or generate caption. Please try again.");
@@ -72,6 +54,7 @@ export function FileUploadButton({
       <Button
         onClick={() => fileInputRef.current?.click()}
         disabled={loadingImage}
+        className="font-semibold"
       >
         {loadingImage ? (
           <div className="flex gap-2 items-center">
