@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/toaster";
+import { cn } from "@/lib/utils";
 import { ToastProvider } from "@radix-ui/react-toast";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
@@ -28,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={cn(geistSans.variable, geistMono.variable, "antialiased")}
       >
         <ToastProvider>
           <main className="min-h-screen p-2 sm:p-4 grid place-items-center">

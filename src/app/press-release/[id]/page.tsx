@@ -1,8 +1,9 @@
 import Editor from "@/components/editor/editor";
 import ImageKeywordsContainer from "@/components/image-uploader/image-keywords-container";
-
+import { Label } from "@/components/ui/label";
 import { getGeneratedPressRelease } from "@/db";
 import { headers } from "next/headers";
+import Link from "next/link";
 
 export default async function Page() {
   const headerList = headers();
@@ -27,6 +28,17 @@ export default async function Page() {
         isReadOnly={false}
       />
       <ImageKeywordsContainer {...pressRelease} />
+      <Link
+        href="/impressum"
+        className="bg-white px-2 py-1 rounded-lg text-black"
+      >
+        <Label
+          htmlFor="/impressum"
+          className="cursor-pointer m-auto border border-black rounded-sm px-2 py-1"
+        >
+          Impressum
+        </Label>
+      </Link>
     </div>
   );
 }
