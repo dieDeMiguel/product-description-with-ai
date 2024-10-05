@@ -18,7 +18,7 @@ export default function ImageKeywordsContainer(
   useGenerateCaption(id, imageUrl, language, imageCaption, setImageCaption);
 
   return (
-    <div className="max-w-[650px] m-auto">
+    <div className="max-w-[var(--size-6500)]px] m-auto">
       {keywords?.length > 0 && <KeywordsList keywords={keywords} />}
       <div className="w-full text-center my-10">
         {imageUrl ? (
@@ -30,7 +30,7 @@ export default function ImageKeywordsContainer(
           />
         ) : (
           <FileUploadButton
-            className="min-h-[400px] flex items-center justify-center"
+            className="min-h-[var(--size-4000)] flex items-center justify-center"
             id={id}
             setImageUrl={setImageUrl}
           />

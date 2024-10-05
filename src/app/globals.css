@@ -59,6 +59,16 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    --size-600: 60px;
+    --size-1000: 100px;
+    --size-2000: 200px;
+    --size-3000: 300px;
+    --size-4000: 400px;
+    --size-4200: 420px;
+    --size-4500: 450px;
+    --size-5000: 500px;
+    --size-6000: 600px;
+    --size-9000: 900px;
   }
   .dark {
     --background: 0 0% 3.9%;

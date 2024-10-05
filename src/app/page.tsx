@@ -47,7 +47,7 @@ export default function PressReleaseGenerator() {
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
           placeholder="What's your press release about? Any language will work : ) Min 10 characters"
-          className="h-40 sm:w-[450px] resize-none mb-4"
+          className="h-40 sm:w--[var(--size-450)]  resize-none mb-4"
         />
         <Button
           onClick={handleGenerate}
