@@ -16,7 +16,7 @@ function Stepper({ currentStep }: { currentStep: number }) {
       {steps.map((step, index) => (
         <div
           key={index}
-          className="flex flex-col items-center w-1/3 my-2 sm:my-0 mx-2"
+          className="flex flex-col items-center w-full sm:w-1/3 my-2 sm:my-0 mx-2"
         >
           <div
             className={cn(
