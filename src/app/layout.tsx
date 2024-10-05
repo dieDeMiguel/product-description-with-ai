@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Press Release Generator",
+  title: "Press Release Genie",
   description: "POC for generating press releases using AI",
 };
 

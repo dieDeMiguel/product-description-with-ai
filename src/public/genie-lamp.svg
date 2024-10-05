@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+    width="200px"
+    height="200px"
+    viewBox="0 0 64 64"
+    xmlns="http://www.w3.org/2000/svg"
+>
+    <g stroke="white" stroke-width="2" fill="#FFD700">
+        <ellipse cx="32" cy="58" rx="20" ry="4" fill="#DAA520" stroke="white"/>
+        <path d="M12,58 L12,50 C12,45 20,40 32,40 C44,40 52,45 52,50 L52,58" fill="#FFD700" stroke="white"/>
+        <path d="M32,40 C24,40 18,35 18,30 C18,25 24,20 32,20 C40,20 46,25 46,30 C46,35 40,40 32,40 Z" fill="#FFD700" stroke="white"/>
+        <path d="M46,30 C50,30 54,34 54,38 C54,42 50,46 46,46" stroke="white" stroke-width="4" fill="none"/>
+        <path d="M32,20 L32,10" stroke="white" stroke-width="3"/>
+        <circle cx="32" cy="8" r="2" fill="#FFD700" stroke="white"/>
+        <path d="M30,10 L34,10 L32,8 L30,10 Z" fill="#FFD700" stroke="white"/>
+        <path d="M20,30 C20,25 24,25 24,30" stroke="white" stroke-width="1" fill="none" opacity="0.5"/>
+        <path d="M44,30 C44,25 40,25 40,30" stroke="white" stroke-width="1" fill="none" opacity="0.5"/>
+    </g>
+</svg>

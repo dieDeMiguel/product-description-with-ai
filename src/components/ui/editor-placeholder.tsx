@@ -9,13 +9,13 @@ const EditorPlaceholder: React.FC = () => {
       <Skeleton className="h-6 bg-gray-300 rounded w-full" />
       <Skeleton className="h-6 bg-gray-300 rounded w-full" />
       <Skeleton className="h-6 bg-gray-300 rounded w-full" />
-      <Skeleton className="h-8 bg-gray-300 rounded w-5/6" />
+      <Skeleton className="h-8 bg-gray-300 rounded w-3/4" />
       <Skeleton className="h-6 bg-gray-300 rounded w-full" />
       <Skeleton className="h-6 bg-gray-300 rounded w-full" />
       <Skeleton className="h-6 bg-gray-300 rounded w-full" />
       <Skeleton className="h-6 bg-gray-300 rounded w-full" />
       <Skeleton className="h-8 bg-gray-300 rounded w-full" />
-      <Skeleton className="h-8 bg-gray-300 rounded w-5/6" />
+      <Skeleton className="h-8 bg-gray-300 rounded w-3/4" />
       <Skeleton className="h-6 bg-gray-300 rounded w-full" />
       <Skeleton className="h-6 bg-gray-300 rounded w-full" />
       <Skeleton className="h-6 bg-gray-300 rounded w-full" />

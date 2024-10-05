@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import Stepper from "@/components/ui/stepper";
 import { Textarea } from "@/components/ui/textarea";
+import GenieLamp from "@/public/genie-lamp.svg";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -42,7 +43,13 @@ export default function PressReleaseGenerator() {
   return (
     <div className="w-full sm:w-1/3 p-4 flex flex-col gap-xl h-screen items-center justify-around">
       <div className="w-full">
-        <h1 className="text-2xl font-bold mb-4">Press Release Generator</h1>
+        <div className="flex items-center h-20">
+          <h1 className="text-2xl font-bold">Press Release Genie</h1>
+          <GenieLamp
+            style={{ width: 50, height: 50, marginBottom: 10 }}
+            alt="genie lamp"
+          />
+        </div>
         <Textarea
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
