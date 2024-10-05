@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
 import UploadingIndicator from "./uploading-indicator";
 
@@ -7,7 +10,6 @@ interface ImageWithFallbackProps {
   imageCaption: string;
   setImageUrl: (url: string) => void;
   setImageCaption: (caption: string) => void;
-  setLoadingImage: (loading: boolean) => void;
 }
 
 const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
@@ -15,31 +17,43 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
   imageCaption,
   setImageUrl,
   setImageCaption,
-  setLoadingImage,
 }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   return (
-    <div className="flex flex-col gap-4 w-full h-full">
-      <div className="relative w-full h-full">
+    <div className="w-full flex flex-col gap-4">
+      <div className="relative w-full aspect-video">
         <Image
           src={imageUrl}
-          width={300}
-          height={200}
           alt="Generated press release image"
-          className="w-full rounded-lg"
+          fill
+          className={`object-cover rounded-lg transition-opacity duration-300 ${
+            isLoading ? "opacity-0" : "opacity-100"
+          }`}
+          onLoadingComplete={() => setIsLoading(false)}
+          onError={() => {
+            console.error("Error loading image");
+            setIsLoading(false);
+            setImageUrl("/path/to/fallback-image.jpg");
+          }}
         />
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-lg">
+            <UploadingIndicator />
+          </div>
+        )}
         <Button
           className="absolute bottom-2 right-2 font-semibold"
-          variant={"destructive"}
+          variant="destructive"
           onClick={() => {
             setImageUrl("");
             setImageCaption("");
-            setLoadingImage(false);
           }}
         >
           Change Picture
         </Button>
       </div>
-      <div className="flex gap-2 items-center justify-center">
+      <div className="min-h-[24px] flex items-center justify-center">
         {imageCaption ? (
           <p className="text-sm text-black text-left">{imageCaption}</p>
         ) : (

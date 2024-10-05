@@ -3,6 +3,7 @@ import { getGeneratedPressRelease } from "@/db";
 import dynamic from "next/dynamic";
 import { headers } from "next/headers";
 import Link from "next/link";
+
 const Editor = dynamic(() => import("@/components/editor/editor"), {
   ssr: false,
 });
@@ -13,6 +14,7 @@ export default async function Page() {
   const id = pathname?.split("/").pop() || "";
   const numericId = parseInt(id, 10);
   const pressRelease = await getGeneratedPressRelease(numericId);
+
   return (
     <div className="max-w-[900px] w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-6">
       <Editor
