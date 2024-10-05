@@ -1,6 +1,8 @@
 import { openai } from "@/ai";
 import { setImageCaption } from "@/db";
 
+export const maxDuration = 30;
+
 const SYSTEM_CONTEXT = (language: string) => `
   You are an expert in generating captions for images in press releases.
   Create a detailed and accurate caption for the given image in ${language}, following press release conventions.

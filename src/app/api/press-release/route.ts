@@ -2,6 +2,8 @@ import { generateKeywordsAndTitle } from "@/ai/generate-keyywords-title";
 import { generatePressRelease } from "@/ai/generate-press-release";
 import { NextRequest, NextResponse } from "next/server";
 
+export const maxDuration = 30;
+
 export async function POST(request: NextRequest) {
   try {
     const { prompt } = await request.json();
