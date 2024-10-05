@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { PressReleaseGeneratorSkeleton } from "@/components/ui/skeleton";
+import Stepper from "@/components/ui/stepper";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -11,10 +11,12 @@ import { useState } from "react";
 export default function PressReleaseGenerator() {
   const [userInput, setUserInput] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [currentStep, setCurrentStep] = useState<number>(1);
   const router = useRouter();
 
   const handleGenerate = async () => {
     setIsLoading(true);
+    setTimeout(() => setCurrentStep(2), 1000);
     const response = await fetch(`/api/press-release`, {
       method: "POST",
       body: JSON.stringify({ prompt: userInput }),
@@ -22,12 +24,20 @@ export default function PressReleaseGenerator() {
         "Content-Type": "application/json",
       },
     });
-    const { id } = await response.json();
-    router.push(`/press-release/${id}`);
+    const { pressRelease } = await response.json();
+    setCurrentStep(3);
+    await fetch(`/api/generate-keywords`, {
+      method: "POST",
+      body: JSON.stringify({ pressRelease }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    router.push(`/press-release/${pressRelease.id}`);
   };
 
   if (isLoading) {
-    return <PressReleaseGeneratorSkeleton />;
+    return <Stepper currentStep={currentStep} />;
   }
 
   return (

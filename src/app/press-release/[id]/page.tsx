@@ -30,11 +30,11 @@ export default async function Page() {
       <ImageKeywordsContainer {...pressRelease} />
       <Link
         href="/impressum"
-        className="bg-white px-2 py-1 rounded-lg text-black"
+        className="bg-white px-2 py-1 block text-center rounded-lg text-black"
       >
         <Label
           htmlFor="/impressum"
-          className="cursor-pointer m-auto border border-black rounded-sm px-2 py-1"
+          className="cursor-pointer border border-black rounded-sm px-2 py-1"
         >
           Impressum
         </Label>
