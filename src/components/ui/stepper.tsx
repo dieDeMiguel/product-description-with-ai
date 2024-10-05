@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { Check, Loader2 } from "lucide-react";
 
 const steps = [
@@ -18,14 +19,14 @@ function Stepper({ currentStep }: { currentStep: number }) {
           className="flex flex-col items-center w-1/3 my-2 sm:my-0 mx-2"
         >
           <div
-            className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 
-                ${
-                  currentStep > index + 1
-                    ? "bg-green-500"
-                    : currentStep === index + 1
-                    ? "bg-blue-500"
-                    : "bg-gray-300"
-                }`}
+            className={cn(
+              "w-8 h-8 rounded-full flex items-center justify-center mb-2",
+              currentStep > index + 1
+                ? "bg-green-500"
+                : currentStep === index + 1
+                ? "bg-blue-500"
+                : "bg-gray-300"
+            )}
           >
             {currentStep > index + 1 ? (
               <Check className="text-white" size={16} />
