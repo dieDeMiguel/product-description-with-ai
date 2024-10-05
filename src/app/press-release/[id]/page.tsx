@@ -1,4 +1,5 @@
 import ImageKeywordsContainer from "@/components/image-uploader/image-keywords-container";
+import EditorPlaceholder from "@/components/ui/editor-placeholder";
 import { getGeneratedPressRelease } from "@/db";
 import dynamic from "next/dynamic";
 import { headers } from "next/headers";
@@ -6,6 +7,7 @@ import Link from "next/link";
 
 const Editor = dynamic(() => import("@/components/editor/editor"), {
   ssr: false,
+  loading: () => <EditorPlaceholder />,
 });
 
 export default async function Page() {
@@ -16,7 +18,7 @@ export default async function Page() {
   const pressRelease = await getGeneratedPressRelease(numericId);
 
   return (
-    <div className="max-w-[900px] w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-6">
+    <div className="max-w-[900px] w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg">
       <Editor
         sectionID="title"
         pressRelease={pressRelease}

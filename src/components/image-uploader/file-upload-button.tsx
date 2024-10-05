@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
 import React, { useRef, useState } from "react";
+import UploadingIndicator from "./uploading-indicator";
 
 interface FileUploadButtonProps {
   id: number;
@@ -58,20 +58,17 @@ export function FileUploadButton({
         accept="image/*"
         onChange={handleFileChange}
       />
-      <Button
-        onClick={() => fileInputRef.current?.click()}
-        disabled={isUploading}
-        className="font-semibold flex items-center justify-center"
-      >
-        {isUploading ? (
-          <div className="flex gap-2 items-center">
-            <Loader2 className="animate-spin" size={16} />
-            <span>Uploading...</span>
-          </div>
-        ) : (
-          "Upload Image"
-        )}
-      </Button>
+      {isUploading ? (
+        <UploadingIndicator />
+      ) : (
+        <Button
+          onClick={() => fileInputRef.current?.click()}
+          disabled={isUploading}
+          className="font-semibold flex items-center justify-center"
+        >
+          Upload Image
+        </Button>
+      )}
     </div>
   );
 }
