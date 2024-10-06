@@ -1,6 +1,6 @@
 "use client";
 
-import { loadEditorTools } from "@/utils/editor/loadEditorTools";
+import { loadEditorTools } from "@/utils/editor/load-editor-tools";
 import EditorJS, {
   OutputBlockData,
   ToolConstructable,

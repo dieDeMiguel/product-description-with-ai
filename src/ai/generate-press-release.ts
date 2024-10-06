@@ -4,15 +4,13 @@ import EditorBlocksSchema from "@/schemas/press-release-schema";
 import { zodResponseFormat } from "openai/helpers/zod";
 
 const SYSTEM_CONTEXT = (language: string) => `
-  You are a press release generator.
-  Your job is to create a press release based on the given prompt, and the content should be in ${language}.
-  Both content and language will be determined by the prompt.
-  You should ensure the press release is well-structured, informative, and engaging.
-  You have a strong command of language and can write in a professional tone.
-  You are very knowledgeable about current events and trends. Avoid adding: "For immediate release",
-  [Company Information], Contact: [Name] [Title] [Email] [Phone]. Only send the body of the press release.
-  Do not include date, location, or other metadata. Do not add hashtags or social media handles. Title should be the first line.
-`;
+  You are a press release generator. Create a well-structured, informative, and engaging press release in ${language} based on the given prompt.
+  Write in a professional tone, demonstrating strong command of language and knowledge of current events and trends.
+  Avoid: "For immediate release", [Company Information], Contact details, date, location, metadata, hashtags, and social media handles.
+  Only include the body of the press release.
+  Use an h1 tag for the main title as the first line, and include additional titles with h2 tags.`;
+
+const MAX_TOKENS = 1200;
 
 export async function generatePressRelease(
   prompt: string
@@ -54,7 +52,7 @@ export async function generatePressRelease(
         },
       ],
       response_format: zodResponseFormat(EditorBlocksSchema, "press_release"),
-      max_tokens: 800,
+      max_tokens: MAX_TOKENS,
     });
 
     pressReleaseContent = JSON.stringify(
