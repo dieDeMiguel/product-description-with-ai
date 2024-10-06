@@ -25,6 +25,7 @@ const Editor: React.FC<EditorProps> = ({
   const editorRef = useRef<EditorJS | null>(null);
   const blocks = useEditorBlocks(pressRelease);
   const { toast } = useToast();
+  const useInlineToolbar = true;
 
   const handleSaveChanges = async () => {
     if (editorRef.current) {
@@ -56,7 +57,7 @@ const Editor: React.FC<EditorProps> = ({
 
   useInitializeEditor(
     editorRef,
-    true,
+    useInlineToolbar,
     sectionID,
     blocks,
     isReadOnly,
