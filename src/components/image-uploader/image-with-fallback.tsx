@@ -34,11 +34,10 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
           onError={() => {
             console.error("Error loading image");
             setIsLoading(false);
-            setImageUrl("/path/to/fallback-image.jpg");
           }}
         />
         {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-lg">
+          <div className="h-full w-full flex items-center justify-center">
             <UploadingIndicator />
           </div>
         )}

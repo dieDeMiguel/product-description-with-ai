@@ -38,7 +38,7 @@ export default async function Page() {
       </div>
       <p>Das </p>
       <ImageKeywordsContainer {...pressRelease} />
-      <div className="flex justify-center gap-4">
+      <div className="flex justify-center gap-4 mt-6">
         <Link
           href="/"
           className="block text-center text-gray-500 hover:text-black cursor-pointer"
