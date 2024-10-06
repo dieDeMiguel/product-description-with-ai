@@ -53,7 +53,7 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
           Change Picture
         </Button>
       </div>
-      <div className="min-h-[24px] flex items-center justify-center">
+      <div className="min-h-[var(--size-420)] flex items-center justify-center">
         {imageCaption ? (
           <p className="text-sm text-black text-left">{imageCaption}</p>
         ) : (

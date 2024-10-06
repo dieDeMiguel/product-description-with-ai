@@ -59,8 +59,10 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    --size-420: 24px;
     --size-600: 60px;
     --size-1000: 100px;
+    --size-1200: 120px;
     --size-2000: 200px;
     --size-3000: 300px;
     --size-4000: 400px;
@@ -68,6 +70,7 @@ body {
     --size-4500: 450px;
     --size-5000: 500px;
     --size-6000: 600px;
+    --size-6500: 650px;
     --size-9000: 900px;
   }
   .dark {

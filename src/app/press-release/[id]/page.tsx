@@ -18,7 +18,7 @@ export default async function Page() {
   const pressRelease = await getGeneratedPressRelease(numericId);
 
   return (
-    <div className="max-w-[900px] w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg">
+    <div className="max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-8">
       <Editor
         sectionID="title"
         pressRelease={pressRelease}
@@ -36,7 +36,7 @@ export default async function Page() {
       <ImageKeywordsContainer {...pressRelease} />
       <Link
         href="/impressum"
-        className="bg-black rounded-sm px-2 py-1 block text-center text-white font-semibold cursor-pointer max-w-[120px] m-auto"
+        className="bg-black rounded-sm px-2 py-1 block text-center text-white font-semibold cursor-pointer max-w-[var(--size-1200)] m-auto"
       >
         Impressum
       </Link>

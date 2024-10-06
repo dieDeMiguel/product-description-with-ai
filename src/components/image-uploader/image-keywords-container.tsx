@@ -18,9 +18,9 @@ export default function ImageKeywordsContainer(
   useGenerateCaption(id, imageUrl, language, imageCaption, setImageCaption);
 
   return (
-    <div className="max-w-[var(--size-6500)]px] m-auto">
+    <div className="max-w-maxWidthEditorContent m-auto flex flex-col gap-10">
       {keywords?.length > 0 && <KeywordsList keywords={keywords} />}
-      <div className="w-full text-center my-10">
+      <div className="w-full text-center">
         {imageUrl ? (
           <ImageWithFallback
             imageUrl={imageUrl}

@@ -54,6 +54,10 @@ const config: Config = {
           "5": "hsl(var(--chart-5))",
         },
       },
+      maxWidth: {
+        maxWidthEditorContent: "var(--size-6500)",
+        maxWidthEditorCanvas: "var(--size-9000)",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
