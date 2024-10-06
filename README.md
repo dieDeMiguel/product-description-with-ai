@@ -1,37 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Press Release Genie: Generate press releases with AI on a WYSIWYG Text Editor
 
-## Getting Started
+1. Install Dependencies
 
-First, run the development server:
+   ```
+   pnpm install
+   ```
+
+   1. Setup your environment variables
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env.development.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Then, open the `.env.development.local` file and fill in the required environment variables.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- You'll also need an `OPENAI_API_KEY` to access the OpenAI API.
+- You'll need all the `POSTGRES_*` variables from the Vercel dashboard to access the Vercel Postgres API. The Vercel Postgres API is used to store the current backgrounds and their status.
+- You'll need a `BLOB_READ_WRITE_TOKEN` from the Vercel dashboard to access the Vercel Blob API. The Vercel Blob API is used to store the uploaded images.
+  1. You can get all the Vercel variables by using the Vercel CLI:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+vercel env pull
+```
 
-## Learn More
+1. Initialize your DB
 
-To learn more about Next.js, take a look at the following resources:
+   ```
+   psql "<YOUR POSTGRES_URL>" -f src/db/schema.psql
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   1. Run the development server
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# openai-sdk
+      ````
+      5. Run the development server:
+      ```      5. Run the development server:
+      ````
