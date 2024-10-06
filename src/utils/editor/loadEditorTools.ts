@@ -2,11 +2,19 @@ export const loadEditorTools = async () => {
   const { default: Embed } = await import("@editorjs/embed");
   const { default: List } = await import("@editorjs/list");
   const { default: Paragraph } = await import("@editorjs/paragraph");
+  const { default: Header } = await import("@editorjs/header");
 
   return {
     paragraph: {
       class: Paragraph,
       inlineToolbar: ["link", "bold", "italic"],
+    },
+    header: {
+      class: Header,
+      config: {
+        placeholder: "Enter a header",
+        defaultLevel: 1,
+      },
     },
     embed: {
       class: Embed,

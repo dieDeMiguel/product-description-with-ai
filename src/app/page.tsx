@@ -33,7 +33,7 @@ export default function PressReleaseGenerator() {
         "Content-Type": "application/json",
       },
     });
-    // router.push(`/press-release/${pressRelease.id}`);
+    router.push(`/press-release/${pressRelease.id}`);
   };
 
   if (isLoading) {

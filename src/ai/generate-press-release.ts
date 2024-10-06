@@ -42,7 +42,7 @@ export async function generatePressRelease(
   try {
     // Generate the press release
     const pressReleaseResponse = await openai.beta.chat.completions.parse({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
@@ -54,14 +54,15 @@ export async function generatePressRelease(
         },
       ],
       response_format: zodResponseFormat(EditorBlocksSchema, "press_release"),
-      max_tokens: 400,
+      max_tokens: 800,
     });
 
-    const parsedContent = pressReleaseResponse.choices[0].message.parsed;
-    if (!parsedContent) {
+    pressReleaseContent = JSON.stringify(
+      pressReleaseResponse.choices[0].message.parsed
+    );
+    if (!pressReleaseContent) {
       throw new Error("Failed to generate press release content");
     }
-    pressReleaseContent = parsedContent;
   } catch (error) {
     console.error("Error generating press release:", error);
     throw new Error("Failed to generate press release");

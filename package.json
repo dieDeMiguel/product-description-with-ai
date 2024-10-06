@@ -13,6 +13,7 @@
     "@editorjs/checklist": "^1.6.0",
     "@editorjs/editorjs": "^2.30.5",
     "@editorjs/embed": "^2.7.4",
+    "@editorjs/header": "^2.8.7",
     "@editorjs/link": "^2.6.2",
     "@editorjs/list": "^1.10.0",
     "@editorjs/paragraph": "^2.11.6",
