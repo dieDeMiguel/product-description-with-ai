@@ -66,7 +66,7 @@ export default function PressReleaseGenerator() {
       </div>
       <Link
         href="/impressum"
-        className="bg-white px-2 py-1 rounded-lg text-black cursor-pointer font-semibold"
+        className="text-gray-400 hover:text-white cursor-pointer"
       >
         Impressum
       </Link>

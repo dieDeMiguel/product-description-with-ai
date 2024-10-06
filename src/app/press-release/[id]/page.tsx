@@ -36,7 +36,7 @@ export default async function Page() {
       <ImageKeywordsContainer {...pressRelease} />
       <Link
         href="/impressum"
-        className="bg-black rounded-sm px-2 py-1 block text-center text-white font-semibold cursor-pointer max-w-[var(--size-1200)] m-auto"
+        className="block text-center text-gray-500 hover:text-black cursor-pointer max-w-[var(--size-1200)] m-auto"
       >
         Impressum
       </Link>
