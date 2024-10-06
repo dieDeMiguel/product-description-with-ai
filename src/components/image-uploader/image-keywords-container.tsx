@@ -18,7 +18,7 @@ export default function ImageKeywordsContainer(
   useGenerateCaption(id, imageUrl, language, imageCaption, setImageCaption);
 
   return (
-    <div className="max-w-maxWidthEditorContent m-auto flex flex-col gap-10">
+    <div className="max-w-maxWidthEditorContent m-auto flex flex-col gap-10 mt-4">
       {keywords?.length > 0 && <KeywordsList keywords={keywords} />}
       <div className="w-full text-center">
         {imageUrl ? (
