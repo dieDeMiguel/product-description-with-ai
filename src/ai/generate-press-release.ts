@@ -1,5 +1,7 @@
 import { openai } from "@/ai";
 import { createPressRelease, PressReleaseAsset, setLanguage } from "@/db";
+import EditorBlocksSchema from "@/schemas/press-release-schema";
+import { zodResponseFormat } from "openai/helpers/zod";
 
 const SYSTEM_CONTEXT = (language: string) => `
   You are a press release generator.
@@ -39,7 +41,7 @@ export async function generatePressRelease(
 
   try {
     // Generate the press release
-    const pressReleaseResponse = await openai.chat.completions.create({
+    const pressReleaseResponse = await openai.beta.chat.completions.parse({
       model: "gpt-3.5-turbo",
       messages: [
         {
@@ -51,20 +53,27 @@ export async function generatePressRelease(
           content: prompt,
         },
       ],
+      response_format: zodResponseFormat(EditorBlocksSchema, "press_release"),
       max_tokens: 400,
     });
 
-    pressReleaseContent = pressReleaseResponse.choices[0].message.content ?? "";
-    if (!pressReleaseContent) {
+    const parsedContent = pressReleaseResponse.choices[0].message.parsed;
+    if (!parsedContent) {
       throw new Error("Failed to generate press release content");
     }
+    pressReleaseContent = parsedContent;
   } catch (error) {
     console.error("Error generating press release:", error);
     throw new Error("Failed to generate press release");
   }
 
+  console.log("Detected language:", detectedLanguage);
+  console.log("Press release content:", pressReleaseContent);
+
   try {
-    const pressReleaseEntry = await createPressRelease(pressReleaseContent);
+    const pressReleaseEntry = await createPressRelease(
+      JSON.stringify(pressReleaseContent)
+    );
     if (!pressReleaseEntry) {
       throw new Error("Failed to create press release entry");
     }
