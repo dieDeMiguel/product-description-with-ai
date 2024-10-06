@@ -11,7 +11,7 @@ import { useState } from "react";
 import translations from "../translations/impressum-translations";
 
 const ImpressumPage = () => {
-  const [language, setLanguage] = useState<"en" | "de">("en");
+  const [language, setLanguage] = useState<"en" | "de">("de");
   const {
     title,
     content,
@@ -31,10 +31,16 @@ const ImpressumPage = () => {
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onSelect={() => setLanguage("en")}>
+            <DropdownMenuItem
+              onSelect={() => setLanguage("en")}
+              className={language === "en" ? "bg-gray-200" : ""}
+            >
               {english}
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => setLanguage("de")}>
+            <DropdownMenuItem
+              onSelect={() => setLanguage("de")}
+              className={language === "de" ? "bg-gray-200" : ""}
+            >
               {german}
             </DropdownMenuItem>
           </DropdownMenuContent>

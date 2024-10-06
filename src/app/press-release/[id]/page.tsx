@@ -18,7 +18,7 @@ export default async function Page() {
   const pressRelease = await getGeneratedPressRelease(numericId);
 
   return (
-    <div className="max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-8">
+    <div className="max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-2">
       <Editor
         sectionID="pressrelease_body"
         pressRelease={pressRelease}
@@ -26,13 +26,32 @@ export default async function Page() {
         className="editor-content"
         isReadOnly={false}
       />
+      <div className="max-w-maxWidthEditorCanvas m-auto">
+        <p className="text-xs text-gray-500">
+          The generated content can contain errors, see &apos;Impresum&apos;
+          page for more Information
+        </p>
+        <p className="text-xs text-gray-500">
+          Der generierte Inhalt kann Fehler enthalten, siehe
+          &apos;Impressum&apos;-Seite für weitere Informationen.
+        </p>
+      </div>
+      <p>Das </p>
       <ImageKeywordsContainer {...pressRelease} />
-      <Link
-        href="/impressum"
-        className="block text-center text-gray-500 hover:text-black cursor-pointer max-w-[var(--size-1200)] m-auto"
-      >
-        Impressum
-      </Link>
+      <div className="flex justify-center gap-4">
+        <Link
+          href="/"
+          className="block text-center text-gray-500 hover:text-black cursor-pointer"
+        >
+          Home
+        </Link>
+        <Link
+          href="/impressum"
+          className="block text-center text-gray-500 hover:text-black cursor-pointer"
+        >
+          Impressum
+        </Link>
+      </div>
     </div>
   );
 }

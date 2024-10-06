@@ -91,7 +91,7 @@ const translations = {
         <br />
       </span>,
     ],
-    homeLink: "Startseite",
+    homeLink: "Home",
     language: "Sprache",
     english: "Englisch",
     german: "Deutsch",
