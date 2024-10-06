@@ -4,37 +4,36 @@ import { Button } from "@/components/ui/button";
 import Stepper from "@/components/ui/stepper";
 import { Textarea } from "@/components/ui/textarea";
 import GenieLamp from "@/public/genie-lamp.svg";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useSubmitPressRelease } from "@/hooks/useSubmitPressRelease";
+import { PressReleaseSchema } from "@/schemas/text-area-schema";
+
+type PressReleaseFormData = z.infer<typeof PressReleaseSchema>;
 
 export default function PressReleaseGenerator() {
-  const [userInput, setUserInput] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [currentStep, setCurrentStep] = useState<number>(1);
-  const router = useRouter();
+  const form = useForm<PressReleaseFormData>({
+    resolver: zodResolver(PressReleaseSchema),
+    defaultValues: {
+      userInput: "",
+    },
+  });
 
-  const handleGenerate = async () => {
-    setIsLoading(true);
-    setTimeout(() => setCurrentStep(2), 1000);
-    const response = await fetch(`/api/generate-press-release`, {
-      method: "POST",
-      body: JSON.stringify({ prompt: userInput }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const { pressRelease } = await response.json();
-    setCurrentStep(3);
-    await fetch(`/api/generate-keywords`, {
-      method: "POST",
-      body: JSON.stringify({ pressRelease }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    router.push(`/press-release/${pressRelease.id}`);
-  };
+  const { handleSubmit, formState } = form;
+  const { isSubmitting } = formState;
+
+  const { onSubmit, isLoading, currentStep } = useSubmitPressRelease();
 
   if (isLoading) {
     return <Stepper currentStep={currentStep} />;
@@ -50,19 +49,37 @@ export default function PressReleaseGenerator() {
             alt="genie lamp"
           />
         </div>
-        <Textarea
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          placeholder="What's your press release about? Any language will work : ) Min 10 characters"
-          className="h-40 resize-none mb-4"
-        />
-        <Button
-          onClick={handleGenerate}
-          className="w-full font-semibold"
-          disabled={userInput.trim().length < 10}
-        >
-          Generate Press Release
-        </Button>
+        <Form {...form}>
+          <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
+            <FormField
+              control={form.control}
+              name="userInput"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Briefly describe the content of your press release.
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="What is your press release about? Any language will work :) Minimum 10 characters"
+                      className="h-40 resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              type="submit"
+              className="w-full font-semibold"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Generating..." : "Generate Press Release"}
+            </Button>
+          </form>
+        </Form>
       </div>
       <Link
         href="/impressum"
