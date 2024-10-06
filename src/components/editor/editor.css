@@ -1,3 +1,9 @@
 .codex-editor__redactor {
   padding-bottom: 0px !important;
 }
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}

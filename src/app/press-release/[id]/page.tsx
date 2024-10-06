@@ -20,13 +20,6 @@ export default async function Page() {
   return (
     <div className="max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-8">
       <Editor
-        sectionID="title"
-        pressRelease={pressRelease}
-        wrapperClassName=""
-        className="text-2xl font-bold"
-        isReadOnly={false}
-      />
-      <Editor
         sectionID="pressrelease_body"
         pressRelease={pressRelease}
         wrapperClassName=""
