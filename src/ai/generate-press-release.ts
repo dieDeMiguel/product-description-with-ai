@@ -11,7 +11,7 @@ const SYSTEM_CONTEXT = (language: string) => `
   You have a strong command of language and can write in a professional tone.
   You are very knowledgeable about current events and trends. Avoid adding: "For immediate release",
   [Company Information], Contact: [Name] [Title] [Email] [Phone]. Only send the body of the press release.
-  Do not include the title, date, location, or other metadata. Do not add hashtags or social media handles.
+  Do not include date, location, or other metadata. Do not add hashtags or social media handles. Title should be the first line.
 `;
 
 export async function generatePressRelease(

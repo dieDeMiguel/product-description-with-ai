@@ -17,7 +17,7 @@ export default function PressReleaseGenerator() {
   const handleGenerate = async () => {
     setIsLoading(true);
     setTimeout(() => setCurrentStep(2), 1000);
-    const response = await fetch(`/api/press-release`, {
+    const response = await fetch(`/api/generate-press-release`, {
       method: "POST",
       body: JSON.stringify({ prompt: userInput }),
       headers: {

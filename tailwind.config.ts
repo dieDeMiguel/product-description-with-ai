@@ -1,4 +1,6 @@
+// tailwind.config.ts
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 const config: Config = {
   darkMode: ["class"],
@@ -9,6 +11,16 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      typography: {
+        custom: {
+          css: {
+            h1: {
+              fontSize: "1rem",
+              fontWeight: "700",
+            },
+          },
+        },
+      },
       fontFamily: {
         arial: ["Arial", "sans-serif", "Helvetica"],
       },
@@ -65,6 +77,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [tailwindcssAnimate],
 };
+
 export default config;

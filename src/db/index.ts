@@ -7,7 +7,6 @@ export type PressReleaseAsset = {
   pressrelease_body: string;
   language: string;
   keywords: string;
-  title: string;
   image_url: string;
   image_caption: string;
 };
@@ -47,10 +46,6 @@ export async function setKeywords(id: number, keywords: string): Promise<void> {
   await sql`UPDATE pressreleases_assets SET keywords=${keywords} WHERE id=${id}`;
 }
 
-export async function setTitle(id: number, title: string): Promise<void> {
-  await sql`UPDATE pressreleases_assets SET title=${title} WHERE id=${id}`;
-}
-
 export async function setImageUrl(image: string, id: string): Promise<void> {
   await sql`UPDATE pressreleases_assets SET image_url=${image} WHERE id=${id}`;
 }
@@ -64,12 +59,10 @@ export async function setImageCaption(
 
 export async function updatePressReleaseField(
   id: number,
-  field: "title" | "pressrelease_body",
+  field: "pressrelease_body",
   value: string
 ): Promise<void> {
-  if (field === "title") {
-    await sql`UPDATE pressreleases_assets SET title=${value} WHERE id=${id}`;
-  } else if (field === "pressrelease_body") {
+  if (field === "pressrelease_body") {
     await sql`UPDATE pressreleases_assets SET pressrelease_body=${value} WHERE id=${id}`;
   } else {
     throw new Error("Invalid field specified");

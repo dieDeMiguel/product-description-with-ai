@@ -3,7 +3,6 @@ CREATE TABLE IF NOT EXISTS pressreleases_assets (
   pressrelease_body TEXT,
   language TEXT,
   keywords TEXT,
-  title TEXT,
   image_url TEXT,
   image_caption TEXT
 );

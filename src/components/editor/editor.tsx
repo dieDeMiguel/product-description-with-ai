@@ -22,10 +22,8 @@ const Editor: React.FC<EditorProps> = ({
   pressRelease,
   isReadOnly,
 }) => {
-  console.log("pressRelease", pressRelease);
   const editorRef = useRef<EditorJS | null>(null);
-  const blocks = useEditorBlocks(pressRelease, sectionID);
-  console.log("blocks", blocks);
+  const blocks = useEditorBlocks(pressRelease);
   const { toast } = useToast();
 
   const handleSaveChanges = async () => {
