@@ -5,5 +5,8 @@
 h1 {
   font-size: 2rem;
   font-weight: 700;
+}
+
+.ce-block:has(.ce-block__content h1) {
   margin-bottom: 1rem;
 }

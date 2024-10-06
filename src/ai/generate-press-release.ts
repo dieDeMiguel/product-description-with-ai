@@ -68,9 +68,6 @@ export async function generatePressRelease(
     throw new Error("Failed to generate press release");
   }
 
-  console.log("Detected language:", detectedLanguage);
-  console.log("Press release content:", pressReleaseContent);
-
   try {
     const pressReleaseEntry = await createPressRelease(
       JSON.stringify(pressReleaseContent)
