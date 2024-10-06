@@ -12,7 +12,7 @@ const steps = [
 
 function Stepper({ currentStep }: { currentStep: number }) {
   return (
-    <div className="flex flex-col sm:flex-row justify-between items-center">
+    <div className="flex flex-col justify-center sm:flex-row sm:justify-between items-center h-screen">
       {steps.map((step, index) => (
         <div
           key={index}
