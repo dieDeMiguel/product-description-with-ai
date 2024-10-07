@@ -76,7 +76,7 @@ export default function PressReleaseGenerator() {
               render={({ field, fieldState: { error } }) => {
                 const { value, ...restValues } = field;
                 return (
-                  <FormItem className="flex items-center space-x-2">
+                  <FormItem className="flex items-end space-x-2">
                     <FormControl>
                       <Checkbox
                         {...restValues}
@@ -86,7 +86,7 @@ export default function PressReleaseGenerator() {
                         className={error ? "mb-s" : ""}
                       />
                     </FormControl>
-                    <FormLabel htmlFor="terms">
+                    <FormLabel htmlFor="terms" className="!my-0">
                       I understand that this is a demo project and not a real
                       press release generator. See &apos;Impressum&apos; for
                       more information.
