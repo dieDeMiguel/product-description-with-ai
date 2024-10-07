@@ -1,14 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import Stepper from "@/components/ui/stepper";
-import { Textarea } from "@/components/ui/textarea";
-import GenieLamp from "@/public/genie-lamp.svg";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -17,8 +10,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import Stepper from "@/components/ui/stepper";
+import { Textarea } from "@/components/ui/textarea";
 import { useSubmitPressRelease } from "@/hooks/useSubmitPressRelease";
-import { PressReleaseSchema } from "@/schemas/text-area-schema";
+import GenieLamp from "@/public/genie-lamp.svg";
+import { PressReleaseSchema } from "@/schemas/form-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 type PressReleaseFormData = z.infer<typeof PressReleaseSchema>;
 
@@ -66,10 +66,35 @@ export default function PressReleaseGenerator() {
                       {...field}
                     />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
+            />
+            <FormField
+              control={form.control}
+              name="terms"
+              render={({ field, fieldState: { error } }) => {
+                const { value, ...restValues } = field;
+                return (
+                  <FormItem className="flex items-center space-x-2">
+                    <FormControl>
+                      <Checkbox
+                        {...restValues}
+                        id="terms"
+                        checked={value}
+                        onCheckedChange={field.onChange}
+                        className={error ? "mb-s" : ""}
+                      />
+                    </FormControl>
+                    <FormLabel htmlFor="terms">
+                      I understand that this is a fun project and not a real
+                      press release generator. See &apos;Impressum&apos; for
+                      more information.
+                    </FormLabel>
+                    <FormMessage>{error?.message}</FormMessage>
+                  </FormItem>
+                );
+              }}
             />
             <Button
               type="submit"
