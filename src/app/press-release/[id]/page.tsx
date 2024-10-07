@@ -36,7 +36,6 @@ export default async function Page() {
           &apos;Impressum&apos;-Seite für weitere Informationen.
         </p>
       </div>
-      <p>Das </p>
       <ImageKeywordsContainer {...pressRelease} />
       <div className="flex justify-center gap-4 mt-6">
         <Link
