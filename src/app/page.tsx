@@ -40,7 +40,7 @@ export default function PressReleaseGenerator() {
   }
 
   return (
-    <div className="w-full sm:w-1/3 p-4 flex flex-col gap-xl h-screen items-center justify-around">
+    <div className="w-full max-w-maxWidthEditorCanvas sm:w-2/3 lg:1/2 p-4 flex flex-col gap-xl h-screen items-center justify-around">
       <div className="w-full">
         <div className="flex items-center h-20">
           <h1 className="text-2xl font-bold">Press Release Genie</h1>
@@ -87,7 +87,7 @@ export default function PressReleaseGenerator() {
                       />
                     </FormControl>
                     <FormLabel htmlFor="terms">
-                      I understand that this is a fun project and not a real
+                      I understand that this is a demo project and not a real
                       press release generator. See &apos;Impressum&apos; for
                       more information.
                     </FormLabel>
