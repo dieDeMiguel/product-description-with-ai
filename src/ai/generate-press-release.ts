@@ -67,9 +67,7 @@ export async function generatePressRelease(
   }
 
   try {
-    const pressReleaseEntry = await createPressRelease(
-      JSON.stringify(pressReleaseContent)
-    );
+    const pressReleaseEntry = await createPressRelease(pressReleaseContent);
     if (!pressReleaseEntry) {
       throw new Error("Failed to create press release entry");
     }
