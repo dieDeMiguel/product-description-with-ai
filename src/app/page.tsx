@@ -40,9 +40,11 @@ export default function PasswordForm() {
 
     const formData = new FormData();
     formData.append("password", data.password);
+    console.log("formData", formData.get("password"));
 
     try {
       const response = await checkPassword(formData);
+      console.log("response", response);
 
       if (response?.issues && response?.issues?.password) {
         setError("password", {

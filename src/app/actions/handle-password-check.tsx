@@ -38,9 +38,12 @@ export async function checkPassword(formData: FormData): Promise<FormState> {
   if (!parsed.success) {
     const fieldIssues: Record<string, string> = {};
     for (const issue of parsed.error.issues) {
+      console.log(issue);
       const fieldName = issue.path[0] as string;
       fieldIssues[fieldName] = issue.message;
     }
+
+    console.log("One or more form fields are invalid", fieldIssues);
 
     return {
       message: "One or more form fields are invalid",
