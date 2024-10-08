@@ -14,15 +14,30 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { checkPassword, FormState } from "./actions/handle-password-check";
+import { checkPassword } from "./actions/handle-password-check";
 
-const PasswordSchema = z.object({
-  password: z.string().min(1, "Password is required"),
-});
+const PasswordSchema = z
+  .object({
+    password: z.string().min(1, "Password is required"),
+  })
+  .refine(
+    (data) => {
+      if (!process.env.ADMIN_PASSWORD) {
+        return false;
+      }
+      return data.password === process.env.ADMIN_PASSWORD;
+    },
+    {
+      message: "Incorrect password",
+      path: ["password"],
+    }
+  );
 
 type PasswordFormData = z.infer<typeof PasswordSchema>;
 
 export default function PasswordForm() {
+  const [serverError, setServerError] = useState<string | null>(null);
+
   const form = useForm<PasswordFormData>({
     resolver: zodResolver(PasswordSchema),
     defaultValues: {
@@ -33,19 +48,17 @@ export default function PasswordForm() {
   const { handleSubmit, formState, setError } = form;
   const { isSubmitting } = formState;
 
-  const [serverError, setServerError] = useState<string | null>(null);
-
   const onSubmit: SubmitHandler<PasswordFormData> = async (data) => {
+    console.log("Checking password...", data);
     setServerError(null);
 
     const formData = new FormData();
     formData.append("password", data.password);
 
     try {
-      const response: FormState = await checkPassword(formData);
-      console.log(response);
+      const response = await checkPassword(formData);
 
-      if (response?.issues && response?.issues?.password) {
+      if (response.issues && response.issues.password) {
         setError("password", {
           type: "server",
           message: response.issues.password,
