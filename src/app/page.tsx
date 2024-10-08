@@ -16,22 +16,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { checkPassword } from "./actions/handle-password-check";
 
-const PasswordSchema = z
-  .object({
-    password: z.string().min(1, "Password is required"),
-  })
-  .refine(
-    (data) => {
-      if (!process.env.ADMIN_PASSWORD) {
-        return false;
-      }
-      return data.password === process.env.ADMIN_PASSWORD;
-    },
-    {
-      message: "Incorrect password",
-      path: ["password"],
-    }
-  );
+const PasswordSchema = z.object({
+  password: z.string().min(1, "Password is required"),
+});
 
 type PasswordFormData = z.infer<typeof PasswordSchema>;
 
@@ -49,7 +36,6 @@ export default function PasswordForm() {
   const { isSubmitting } = formState;
 
   const onSubmit: SubmitHandler<PasswordFormData> = async (data) => {
-    console.log("Checking password...", data);
     setServerError(null);
 
     const formData = new FormData();
@@ -58,7 +44,7 @@ export default function PasswordForm() {
     try {
       const response = await checkPassword(formData);
 
-      if (response.issues && response.issues.password) {
+      if (response?.issues && response?.issues?.password) {
         setError("password", {
           type: "server",
           message: response.issues.password,

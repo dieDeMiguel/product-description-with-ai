@@ -16,14 +16,13 @@ const PasswordSchema = z
   })
   .refine(
     (data) => {
-      console.log(process.env.ADMIN_PASSWORD, data.password);
-      if (!process.env.ADMIN_PASSWORD) {
+      if (!process.env.ACCESS_PASSWORD) {
         console.error(
-          "ADMIN_PASSWORD is not defined in environment variables."
+          "ACCESS_PASSWORD is not defined in environment variables."
         );
         return false;
       }
-      return data.password === process.env.ADMIN_PASSWORD;
+      return data.password === process.env.ACCESS_PASSWORD;
     },
     {
       message: "Incorrect password",
@@ -35,7 +34,6 @@ export async function checkPassword(formData: FormData): Promise<FormState> {
   const parsed = PasswordSchema.safeParse(
     Object.fromEntries(formData.entries())
   );
-  console.log(parsed);
 
   if (!parsed.success) {
     const fieldIssues: Record<string, string> = {};
