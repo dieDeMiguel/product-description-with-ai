@@ -32,8 +32,7 @@ const Editor: React.FC<EditorProps> = ({
       editorRef.current.save().then(async (outputData) => {
         if (!outputData) return;
         const blocksOnly = { blocks: outputData.blocks };
-        let stringifiedBlocks = JSON.stringify(blocksOnly).replace(/"/g, '\\"');
-        stringifiedBlocks = `\"${stringifiedBlocks}\"`;
+        const stringifiedBlocks = JSON.stringify(blocksOnly);
         try {
           await fetch(`/api/update-press-release`, {
             method: "POST",
