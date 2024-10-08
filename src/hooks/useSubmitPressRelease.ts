@@ -18,11 +18,13 @@ export const useSubmitPressRelease = (): UseSubmitPressReleaseResult => {
 
   const onSubmit = async (data: PressReleaseFormData) => {
     setIsLoading(true);
-    setCurrentStep(1);
 
     try {
+      // Delay step 1 so that step 2 takes proportionally not so long
+      setTimeout(() => {
+        setCurrentStep(2);
+      }, 2500);
       // Step 1: Generate the press release
-      setCurrentStep(2);
       const response = await fetch(`/api/generate-press-release`, {
         method: "POST",
         body: JSON.stringify({ prompt: data.userInput }),
