@@ -1,57 +1,34 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { z } from "zod";
+import { passwordSchema } from "../schema/schema";
 
 export type FormState = {
   message: string;
   fields?: Record<string, string>;
-  issues?: Record<string, string>;
-  success?: boolean;
+  issues?: string[];
 };
 
-const PasswordSchema = z
-  .object({
-    password: z.string().min(1, "Password is required"),
-  })
-  .refine(
-    (data) => {
-      if (!process.env.ACCESS_PASSWORD) {
-        console.error(
-          "ACCESS_PASSWORD is not defined in environment variables."
-        );
-        return false;
-      }
-      return data.password === process.env.ACCESS_PASSWORD;
-    },
-    {
-      message: "Incorrect password",
-      path: ["password"],
-    }
-  );
-
-export async function checkPassword(formData: FormData): Promise<FormState> {
-  const parsed = PasswordSchema.safeParse(
-    Object.fromEntries(formData.entries())
-  );
+export async function onSubmitAction(
+  prevState: FormState,
+  data: FormData
+): Promise<FormState> {
+  const formData = Object.fromEntries(data);
+  const parsed = passwordSchema.safeParse(formData);
 
   if (!parsed.success) {
-    const fieldIssues: Record<string, string> = {};
-    for (const issue of parsed.error.issues) {
-      console.log(issue);
-      const fieldName = issue.path[0] as string;
-      fieldIssues[fieldName] = issue.message;
+    const fields: Record<string, string> = {};
+    for (const key of Object.keys(formData)) {
+      fields[key] = formData[key].toString();
     }
-
-    console.log("One or more form fields are invalid", fieldIssues);
-
     return {
-      message: "One or more form fields are invalid",
-      issues: fieldIssues,
+      message: "Invalid form data",
+      fields,
+      issues: parsed.error.issues.map((issue) => issue.message),
     };
   }
 
   redirect("/genie");
 
-  return { message: "Password verified successfully", success: true };
+  return { message: "Password verified successfully" };
 }

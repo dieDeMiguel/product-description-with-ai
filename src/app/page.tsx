@@ -11,61 +11,62 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useRef } from "react";
+import { useFormState } from "react-dom";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { checkPassword } from "./actions/handle-password-check";
+import { onSubmitAction } from "./actions/handle-password-check";
+import { passwordSchema } from "./schema/schema";
 
-const PasswordSchema = z.object({
-  password: z.string().min(1, "Password is required"),
-});
-
-type PasswordFormData = z.infer<typeof PasswordSchema>;
+type PasswordFormData = z.infer<typeof passwordSchema>;
 
 export default function PasswordForm() {
-  const [serverError, setServerError] = useState<string | null>(null);
+  const [state, formAction] = useFormState(onSubmitAction, {
+    message: "",
+  });
 
   const form = useForm<PasswordFormData>({
-    resolver: zodResolver(PasswordSchema),
+    resolver: zodResolver(passwordSchema),
     defaultValues: {
       password: "",
+      ...(state.fields ?? {}),
     },
   });
 
-  const { handleSubmit, formState, setError } = form;
+  const { formState } = form;
   const { isSubmitting } = formState;
 
-  const onSubmit: SubmitHandler<PasswordFormData> = async (data) => {
-    setServerError(null);
-
-    const formData = new FormData();
-    formData.append("password", data.password);
-    console.log("formData", formData.get("password"));
-
-    try {
-      const response = await checkPassword(formData);
-      console.log("response", response);
-
-      if (response?.issues && response?.issues?.password) {
-        setError("password", {
-          type: "server",
-          message: response.issues.password,
-        });
-      }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        setServerError(error.message || "An unexpected error occurred");
-      } else {
-        setServerError("An unexpected error occurred");
-      }
-    }
-  };
+  const formRef = useRef<HTMLFormElement>(null);
 
   return (
     <div className="w-full max-w-md mx-auto p-4 flex flex-col gap-4 h-screen items-center justify-center">
       <h1 className="text-2xl font-bold">Enter Password</h1>
       <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
+        {state?.message && !state.issues && (
+          <p className="text-red-500 text-center">{state.message}</p>
+        )}
+        {state?.issues && (
+          <div className="text-red-500">
+            <ul>
+              {state.issues.map((issue, index) => (
+                <li className="flex gap-1" key={index}>
+                  {issue}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        <form
+          ref={formRef}
+          action={formAction}
+          onSubmit={(evt) => {
+            evt.preventDefault();
+            form.handleSubmit(() => {
+              formAction(new FormData(formRef.current!));
+            })(evt);
+          }}
+          className="w-full space-y-4"
+        >
           <FormField
             control={form.control}
             name="password"
@@ -83,9 +84,6 @@ export default function PasswordForm() {
               </FormItem>
             )}
           />
-          {serverError && (
-            <p className="text-red-500 text-center">{serverError}</p>
-          )}
           <Button
             type="submit"
             className="w-full font-semibold"
