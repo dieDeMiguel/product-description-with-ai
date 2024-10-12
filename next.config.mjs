@@ -9,8 +9,16 @@ const nextConfig = {
       test: /\.svg$/,
       use: ["@svgr/webpack"],
     });
-
     return config;
+  },
+  async redirects() {
+    return [
+      {
+        source: "/maintenance",
+        destination: "/maintenance",
+        permanent: false,
+      },
+    ];
   },
 };
 
