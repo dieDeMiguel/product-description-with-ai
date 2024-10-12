@@ -15,7 +15,6 @@ export function middleware(request: NextRequest) {
   const isAllowed = allowedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path)
   );
-  console.log("isAllowed", isAllowed);
 
   if (!isAllowed) {
     return NextResponse.rewrite(new URL("/maintenance", request.url));
