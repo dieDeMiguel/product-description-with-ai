@@ -42,7 +42,7 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
           </div>
         )}
         <Button
-          className="absolute bottom-2 right-2 font-semibold"
+          className="absolute bottom-2 left-2 font-semibold bg-badgeBackground text-black hover:text-white"
           variant="destructive"
           onClick={() => {
             setImageUrl("");

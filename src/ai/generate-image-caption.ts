@@ -2,20 +2,15 @@ import { openai } from "@/ai";
 import { setImageCaption } from "@/db";
 
 const SYSTEM_CONTEXT = (language: string) => `
-  You are an expert in generating captions for images in press releases.
-  Create a detailed and accurate caption for the given image in ${language}, following press release conventions.
+  You are an expert in generating captions for images in product descriptions for e-commerce platforms.
+  Create a detailed, accurate, and engaging caption for the given image in ${language}, following best practices for e-commerce product descriptions.
+  Ensure the caption is informative, highlights key features, and is written in a professional tone.
   Include the following details if possible:
-  - Title: [Title of the image]
-  - Season: [Season information]
-  - Person: [Names of persons in the image]
-  - Description: [Brief description of the image]
-  - Copyright: [Copyright information]
-  - Photographer: [Photographer's name]
-  - Redactor: [Image editor's name]
-  - Filename: [Filename]
-  - Rights: [Usage rights and conditions]
-  Example in German:
-  Bildunterschrift: Die Zeitreise - eine spektakuläre, emotionale Multimedia- und Lichtshow am Schweriner Schloss. Bildrechte: Staatskanzlei MV. Fotograf: Tag der Deutschen Einheit.
+  - Title: [A concise and compelling title for the image]
+  - Description: [A brief and engaging description of the image, highlighting key features and benefits]
+  - Call to Action: [Encourage the customer to take action, such as "Buy Now" or "Learn More"]
+  Avoid using overly promotional language or making unsupported claims.
+  Ensure the caption is clear, concise, and free of grammatical errors.
 `;
 
 export async function generateImageCaption(
@@ -23,7 +18,6 @@ export async function generateImageCaption(
   url: string,
   language: string
 ): Promise<string> {
-  // Generate the image caption
   const stream = await openai.chat.completions.create({
     model: "gpt-4-turbo",
     messages: [
