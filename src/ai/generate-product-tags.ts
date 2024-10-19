@@ -1,36 +1,36 @@
 "use server";
 
-import { ProductDescriptionAsset, setKeywords } from "@/db";
+import { ProductDescriptionAsset, setProductTags } from "@/db";
 import { openai } from "@ai-sdk/openai";
 import { generateText } from "ai";
 
-const SYSTEM_CONTEXT_KEYWORD_EXTRACTION = `You are a keyword extraction expert for press releases.
-Your job is to read a press release and extract relevant keywords from it.
-You should ensure that the keywords are accurate, relevant, and representative of the main topics and themes of the press release.
-You have a strong command of language and are familiar with best practices in the German press release industry.
+const SYSTEM_CONTEXT_KEYWORD_EXTRACTION = `You are a keyword extraction expert for e-commerce product descriptions.
+Your job is to read a product description and extract relevant tags from it.
+You should ensure that the tags are accurate, relevant, and representative of the main features and benefits of the product.
+You have a strong command of language and are familiar with best practices in the e-commerce industry.
 Avoid extracting common words, filler words, or irrelevant information.
-Only extract keywords that are significant and add value to the understanding of the press release.
-Provide keywords separated by a comma. Format: "Keywords: [keyword1, keyword2, ...]"`;
+Only extract tags that are significant and add value to the understanding of the product.
+Provide tags separated by a comma. Format: "Tags: [tag1, tag2, ...]"`;
 
 export async function generateProductTags(
-  pressReleaseEntry: ProductDescriptionAsset
+  productDescriptionEntry: ProductDescriptionAsset
 ): Promise<void> {
-  const id = pressReleaseEntry.id;
-  const prompt = pressReleaseEntry.pressrelease_body;
+  const id = productDescriptionEntry.id;
+  const prompt = productDescriptionEntry.description;
 
   try {
     const { text } = await generateText({
       model: openai("gpt-3.5-turbo"),
       prompt: `${SYSTEM_CONTEXT_KEYWORD_EXTRACTION} ${prompt}`,
     });
-    const keywordsPart = text.split("Keywords:")[1];
-    if (!keywordsPart) {
-      throw new Error("Failed to extract keywords from the response");
+    const tagsPart = text.split("Tags:")[1];
+    if (!tagsPart) {
+      throw new Error("Failed to extract tags from the response");
     }
-    const keywords = keywordsPart.split(",").map((keyword) => keyword.trim());
-    await setKeywords(id, keywords.join(","));
+    const tags = tagsPart.split(",").map((tag) => tag.trim());
+    await setProductTags(id, tags.join(","));
   } catch (error) {
-    console.error("Error generating keywords:", error);
+    console.error("Error generating tags:", error);
     throw error;
   }
 }

@@ -1,5 +1,9 @@
 import { openai } from "@/ai";
-import { createPressRelease, ProductDescriptionAsset, setLanguage } from "@/db";
+import {
+  createProductDescription,
+  ProductDescriptionAsset,
+  setLanguage,
+} from "@/db";
 import EditorBlocksSchema from "@/schemas/press-release-schema";
 
 import { zodResponseFormat } from "openai/helpers/zod";
@@ -73,7 +77,7 @@ export async function generateProductDescription(
   }
 
   try {
-    const productDescriptionEntry = await createPressRelease(
+    const productDescriptionEntry = await createProductDescription(
       productDescriptionContent
     );
     if (!productDescriptionEntry) {
