@@ -7,6 +7,8 @@ export type ProductDescriptionAsset = {
   description: string;
   language: string;
   tags: string;
+  image_url: string;
+  image_caption: string;
 };
 
 export async function setProductDescription(

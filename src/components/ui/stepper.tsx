@@ -4,10 +4,10 @@ import { Check, Loader2 } from "lucide-react";
 const steps = [
   { title: "Send Prompt", description: "Sending your prompt to Sam Altman" },
   {
-    title: "Generate Press Release",
-    description: "AI creates your press release",
+    title: "Generating Product Description",
+    description: "AI creates your product description",
   },
-  { title: "Generate Keywords", description: "Extracting relevant keywords" },
+  { title: "Generate Tags", description: "Extracting relevant tags" },
 ];
 
 function Stepper({ currentStep }: { currentStep: number }) {

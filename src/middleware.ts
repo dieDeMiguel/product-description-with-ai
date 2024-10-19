@@ -4,22 +4,6 @@ import { NextResponse } from "next/server";
 export function middleware(request: NextRequest) {
   const headers = new Headers(request.headers);
   headers.set("x-current-path", request.nextUrl.pathname);
-
-  // Allow API routes, static assets, and favicon
-  const allowedPaths = [
-    "/api",
-    "/_next/static",
-    "/_next/image",
-    "/favicon.ico",
-  ];
-  const isAllowed = allowedPaths.some((path) =>
-    request.nextUrl.pathname.startsWith(path)
-  );
-
-  if (!isAllowed) {
-    return NextResponse.rewrite(new URL("/maintenance", request.url));
-  }
-
   return NextResponse.next({ headers });
 }
 
