@@ -1,6 +1,6 @@
 "use server";
 
-import { PressReleaseAsset, setKeywords } from "@/db";
+import { ProductDescriptionAsset, setKeywords } from "@/db";
 import { openai } from "@ai-sdk/openai";
 import { generateText } from "ai";
 
@@ -13,7 +13,7 @@ Only extract keywords that are significant and add value to the understanding of
 Provide keywords separated by a comma. Format: "Keywords: [keyword1, keyword2, ...]"`;
 
 export async function generateProductTags(
-  pressReleaseEntry: PressReleaseAsset
+  pressReleaseEntry: ProductDescriptionAsset
 ): Promise<void> {
   const id = pressReleaseEntry.id;
   const prompt = pressReleaseEntry.pressrelease_body;

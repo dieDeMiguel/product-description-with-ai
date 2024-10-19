@@ -1,22 +1,23 @@
 import { openai } from "@/ai";
-import { createPressRelease, PressReleaseAsset, setLanguage } from "@/db";
+import { createPressRelease, ProductDescriptionAsset, setLanguage } from "@/db";
 import EditorBlocksSchema from "@/schemas/press-release-schema";
+
 import { zodResponseFormat } from "openai/helpers/zod";
 
 const SYSTEM_CONTEXT = (language: string) => `
-  You are a press release generator. Create a well-structured, informative, and engaging press release in ${language} based on the given prompt.
-  Write in a professional tone, demonstrating strong command of language and knowledge of current events and trends.
+  You are a product description generator. Create a well-structured, informative, and engaging product description in ${language} based on the given prompt.
+  Write in a professional tone, demonstrating strong command of language and knowledge of e-commerce trends.
   Avoid: "For immediate release", [Company Information], Contact details, date, location, metadata, hashtags, and social media handles.
-  Only include the body of the press release.
+  Only include the body of the product description.
   Use an h1 tag for the main title as the first line, and include additional titles with h2 tags.`;
 
 const MAX_TOKENS = 1200;
 
 export async function generateProductDescription(
   prompt: string
-): Promise<PressReleaseAsset> {
+): Promise<ProductDescriptionAsset> {
   let detectedLanguage: string;
-  let pressReleaseContent: string;
+  let productDescriptionContent: string;
   try {
     // Detect language
     const languageDetectionResponse = await openai.chat.completions.create({
@@ -24,7 +25,7 @@ export async function generateProductDescription(
       messages: [
         {
           role: "user",
-          content: `Detect the language of the following text: "${prompt}"`,
+          content: `Detect the language of the following text, return only the language as text: "${prompt}"`,
         },
       ],
     });
@@ -38,43 +39,50 @@ export async function generateProductDescription(
   }
 
   try {
-    // Generate the press release
-    const pressReleaseResponse = await openai.beta.chat.completions.parse({
-      model: "gpt-4o",
-      messages: [
-        {
-          role: "system",
-          content: SYSTEM_CONTEXT(detectedLanguage),
-        },
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
-      response_format: zodResponseFormat(EditorBlocksSchema, "press_release"),
-      max_tokens: MAX_TOKENS,
-    });
-
-    pressReleaseContent = JSON.stringify(
-      pressReleaseResponse.choices[0].message.parsed
+    // Generate the product description
+    const productDescriptionResponse = await openai.beta.chat.completions.parse(
+      {
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content: SYSTEM_CONTEXT(detectedLanguage),
+          },
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
+        response_format: zodResponseFormat(
+          EditorBlocksSchema,
+          "product_description"
+        ),
+        max_tokens: MAX_TOKENS,
+      }
     );
-    if (!pressReleaseContent) {
-      throw new Error("Failed to generate press release content");
+
+    productDescriptionContent = JSON.stringify(
+      productDescriptionResponse.choices[0].message.parsed
+    );
+    if (!productDescriptionContent) {
+      throw new Error("Failed to generate product description content");
     }
   } catch (error) {
-    console.error("Error generating press release:", error);
-    throw new Error("Failed to generate press release");
+    console.error("Error generating product description:", error);
+    throw new Error("Failed to generate product description");
   }
 
   try {
-    const pressReleaseEntry = await createPressRelease(pressReleaseContent);
-    if (!pressReleaseEntry) {
-      throw new Error("Failed to create press release entry");
+    const productDescriptionEntry = await createPressRelease(
+      productDescriptionContent
+    );
+    if (!productDescriptionEntry) {
+      throw new Error("Failed to create product description entry");
     }
-    await setLanguage(pressReleaseEntry?.id, detectedLanguage);
-    return pressReleaseEntry;
+    await setLanguage(productDescriptionEntry?.id, detectedLanguage);
+    return productDescriptionEntry;
   } catch (error) {
-    console.error("Error creating press release entry:", error);
-    throw new Error("Failed to create press release entry");
+    console.error("Error creating product description entry:", error);
+    throw new Error("Failed to create product description entry");
   }
 }

@@ -1,5 +1,5 @@
 "use client";
-import { PressReleaseAsset } from "@/db";
+import { ProductDescriptionAsset } from "@/db";
 import { useToast } from "@/hooks/use-toast";
 import useInitializeEditor from "@/hooks/useInitializeEditor";
 import { cn } from "@/lib/utils";
@@ -8,10 +8,10 @@ import EditorJS from "@editorjs/editorjs";
 import { useRef } from "react";
 import "./editor.css";
 interface EditorProps {
-  sectionID: keyof PressReleaseAsset;
+  sectionID: keyof ProductDescriptionAsset;
   className?: string;
   wrapperClassName?: string;
-  pressRelease: PressReleaseAsset;
+  pressRelease: ProductDescriptionAsset;
   isReadOnly: boolean;
 }
 

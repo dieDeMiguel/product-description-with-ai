@@ -1,9 +1,9 @@
-import { PressReleaseAsset } from "@/db";
+import { ProductDescriptionAsset } from "@/db";
 import { OutputBlockData } from "@editorjs/editorjs";
 import { useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-const useEditorBlocks = (data: PressReleaseAsset | null | undefined) =>
+const useEditorBlocks = (data: ProductDescriptionAsset | null | undefined) =>
   useMemo(() => {
     if (data?.pressrelease_body) {
       const parsedBody = JSON.parse(data?.pressrelease_body);

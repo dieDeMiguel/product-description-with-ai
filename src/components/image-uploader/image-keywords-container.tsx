@@ -1,6 +1,6 @@
 "use client";
 
-import { PressReleaseAsset } from "@/db";
+import { ProductDescriptionAsset } from "@/db";
 import useGenerateCaption from "@/hooks/useGenerateCaption";
 import { useState } from "react";
 import { FileUploadButton } from "./file-upload-button";
@@ -8,7 +8,7 @@ import ImageWithFallback from "./image-with-fallback";
 import KeywordsList from "./keywords-list";
 
 export default function ImageKeywordsContainer(
-  pressRelease: PressReleaseAsset
+  pressRelease: ProductDescriptionAsset
 ) {
   const { language, id, image_url, image_caption } = pressRelease;
   const keywords = pressRelease?.keywords?.split(",");

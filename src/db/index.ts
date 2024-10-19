@@ -2,7 +2,7 @@
 
 import { sql } from "@vercel/postgres";
 
-export type PressReleaseAsset = {
+export type ProductDescriptionAsset = {
   id: number;
   pressrelease_body: string;
   language: string;
@@ -20,13 +20,13 @@ export async function setPressRelease(
 
 export async function getGeneratedPressRelease(
   id: number
-): Promise<PressReleaseAsset> {
+): Promise<ProductDescriptionAsset> {
   try {
     const result = await sql`SELECT * FROM pressreleases_assets WHERE id=${id}`;
     if (result.rows.length === 0) {
       throw new Error(`No press release found with id ${id}`);
     }
-    const pressReleaseAsset = result.rows[0] as PressReleaseAsset;
+    const pressReleaseAsset = result.rows[0] as ProductDescriptionAsset;
     return pressReleaseAsset;
   } catch (error) {
     console.error("Error fetching press release:", error);
@@ -36,10 +36,10 @@ export async function getGeneratedPressRelease(
 
 export async function createPressRelease(
   pressRelease: string
-): Promise<PressReleaseAsset> {
+): Promise<ProductDescriptionAsset> {
   const result =
     await sql`INSERT INTO pressreleases_assets (pressrelease_body) VALUES (${pressRelease}) RETURNING *`;
-  return result.rows[0] as PressReleaseAsset;
+  return result.rows[0] as ProductDescriptionAsset;
 }
 
 export async function setKeywords(id: number, keywords: string): Promise<void> {
