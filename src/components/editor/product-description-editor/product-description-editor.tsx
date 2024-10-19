@@ -1,9 +1,6 @@
-import ImageKeywordsContainer from "@/components/image-uploader/image-keywords-container";
 import EditorPlaceholder from "@/components/ui/editor-placeholder";
-import { getProductDescription } from "@/db";
-
+import { OutputBlockData } from "@editorjs/editorjs";
 import dynamic from "next/dynamic";
-import { headers } from "next/headers";
 import Link from "next/link";
 
 const Editor = dynamic(() => import("@/components/editor/editor"), {
@@ -11,13 +8,13 @@ const Editor = dynamic(() => import("@/components/editor/editor"), {
   loading: () => <EditorPlaceholder />,
 });
 
-export default async function Page() {
-  const headerList = headers();
-  const pathname = headerList.get("x-current-path");
-  const id = pathname?.split("/").pop() || "";
-  const numericId = parseInt(id, 10);
-  const productDescription = await getProductDescription(numericId);
+interface ProductDescriptionEditorProps {
+  productDescription: OutputBlockData[];
+}
 
+const ProductDescriptionEditor: React.FC<ProductDescriptionEditorProps> = ({
+  productDescription,
+}) => {
   return (
     <div className="max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-2">
       <Editor
@@ -37,7 +34,6 @@ export default async function Page() {
           &apos;Impressum&apos;-Seite für weitere Informationen.
         </p>
       </div>
-      <ImageKeywordsContainer {...productDescription} />
       <div className="flex justify-center gap-4 mt-6">
         <Link
           href="/"
@@ -54,4 +50,6 @@ export default async function Page() {
       </div>
     </div>
   );
-}
+};
+
+export default ProductDescriptionEditor;

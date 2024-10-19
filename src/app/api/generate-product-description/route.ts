@@ -52,7 +52,6 @@ export async function POST(request: NextRequest) {
       prompt: prompt,
       maxTokens: MAX_TOKENS,
     });
-
     return result.toTextStreamResponse();
   } catch (error) {
     console.error("Error in POST /api/generate-product-description:", error);

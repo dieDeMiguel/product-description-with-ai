@@ -34,7 +34,8 @@ export default function ProductDescriptionForm({
   const form = useForm<ProductDescriptionFormData>({
     resolver: zodResolver(ProductDescriptionSchema),
     defaultValues: {
-      userInput: "",
+      userInput:
+        "A new tesla model X with ultra efficient rotor and stator cutting edge technology and 20k cycle lithium battery",
       terms: false,
     },
   });
