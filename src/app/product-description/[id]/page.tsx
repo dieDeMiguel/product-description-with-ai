@@ -16,13 +16,13 @@ export default async function Page() {
   const pathname = headerList.get("x-current-path");
   const id = pathname?.split("/").pop() || "";
   const numericId = parseInt(id, 10);
-  const pressRelease = await getProductDescription(numericId);
+  const productDescription = await getProductDescription(numericId);
 
   return (
     <div className="max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-2">
       <Editor
         sectionID="description"
-        productDescription={pressRelease}
+        productDescription={productDescription}
         wrapperClassName=""
         className="editor-content"
         isReadOnly={false}
@@ -37,7 +37,7 @@ export default async function Page() {
           &apos;Impressum&apos;-Seite für weitere Informationen.
         </p>
       </div>
-      <ImageKeywordsContainer {...pressRelease} />
+      <ImageKeywordsContainer {...productDescription} />
       <div className="flex justify-center gap-4 mt-6">
         <Link
           href="/"

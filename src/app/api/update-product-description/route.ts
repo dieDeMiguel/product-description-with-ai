@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error in PUT /api/update-press-release-field:", error);
+    console.error("Error in PUT /api/update-product-description-field:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

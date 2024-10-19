@@ -12,19 +12,19 @@ import {
 } from "@/components/ui/form";
 import Stepper from "@/components/ui/stepper";
 import { Textarea } from "@/components/ui/textarea";
-import { useSubmitProductDescription } from "@/hooks/useSubmitPressRelease";
+import { useSubmitProductDescription } from "@/hooks/useSubmitProductDescription";
 import GenieLamp from "@/public/genie-lamp.svg";
-import { PressReleaseSchema } from "@/schemas/form-schema";
+import { ProductDescriptionSchema } from "@/schemas/form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-type PressReleaseFormData = z.infer<typeof PressReleaseSchema>;
+type ProductDescriptionFormData = z.infer<typeof ProductDescriptionSchema>;
 
 export default function ProductDescriptionGenerator() {
-  const form = useForm<PressReleaseFormData>({
-    resolver: zodResolver(PressReleaseSchema),
+  const form = useForm<ProductDescriptionFormData>({
+    resolver: zodResolver(ProductDescriptionSchema),
     defaultValues: {
       userInput: "",
     },

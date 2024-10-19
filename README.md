@@ -1,4 +1,4 @@
-## Press Release Genie: Generate press releases with AI on a WYSIWYG Text Editor
+## Product Description Genie: Generate Product Descriptions with AI on a WYSIWYG Text Editor
 
 1. Install Dependencies
 

@@ -37,13 +37,14 @@ export const useSubmitProductDescription = (): UseSubmitPressReleaseResult => {
         throw new Error("Error generating the product description.");
       }
 
-      const { pressRelease } = await response.json();
+      const { productDescriptionEntry } = await response.json();
+      console.log("productDescriptionEntry", productDescriptionEntry);
 
       // Step 2: Generate keywords
       setCurrentStep(3);
       const keywordsResponse = await fetch(`/api/generate-product-tags`, {
         method: "POST",
-        body: JSON.stringify({ pressRelease }),
+        body: JSON.stringify({ productDescriptionEntry }),
         headers: {
           "Content-Type": "application/json",
         },
@@ -52,7 +53,7 @@ export const useSubmitProductDescription = (): UseSubmitPressReleaseResult => {
       if (!keywordsResponse.ok) {
         throw new Error("Error generating keywords.");
       }
-      router.push(`/press-release/${pressRelease.id}`);
+      router.push(`/product-description/${productDescriptionEntry.id}`);
     } catch (error: unknown) {
       console.error(error);
       if (error instanceof Error) {

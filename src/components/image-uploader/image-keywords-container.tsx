@@ -8,10 +8,10 @@ import ImageWithFallback from "./image-with-fallback";
 import KeywordsList from "./keywords-list";
 
 export default function ImageKeywordsContainer(
-  pressRelease: ProductDescriptionAsset
+  productDescription: ProductDescriptionAsset
 ) {
-  const { language, id, image_url, image_caption } = pressRelease;
-  const keywords = pressRelease?.keywords?.split(",");
+  const { language, id, image_url, image_caption } = productDescription;
+  const keywords = productDescription?.tags?.split(",");
   const [imageUrl, setImageUrl] = useState<string>(image_url || "");
   const [imageCaption, setImageCaption] = useState<string>(image_caption || "");
 

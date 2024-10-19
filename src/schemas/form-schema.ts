@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const PressReleaseSchema = z.object({
+export const ProductDescriptionSchema = z.object({
   userInput: z
     .string()
     .min(10, {

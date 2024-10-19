@@ -4,7 +4,7 @@ import {
   ProductDescriptionAsset,
   setLanguage,
 } from "@/db";
-import EditorBlocksSchema from "@/schemas/press-release-schema";
+import EditorBlocksSchema from "@/schemas/product-description-schema";
 
 import { zodResponseFormat } from "openai/helpers/zod";
 

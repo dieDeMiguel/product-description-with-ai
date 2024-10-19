@@ -25,7 +25,7 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
       <div className="relative w-full aspect-video">
         <Image
           src={imageUrl}
-          alt="Generated press release image"
+          alt="Product"
           fill
           className={`object-cover rounded-lg transition-opacity duration-300 ${
             isLoading ? "opacity-0" : "opacity-100"

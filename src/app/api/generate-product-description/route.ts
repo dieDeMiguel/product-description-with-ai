@@ -4,11 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const { prompt } = await request.json();
-    const pressReleaseEntry = await generateProductDescription(prompt);
-    return NextResponse.json(
-      { pressRelease: pressReleaseEntry },
-      { status: 200 }
-    );
+    const productDescriptionEntry = await generateProductDescription(prompt);
+    return NextResponse.json({ productDescriptionEntry }, { status: 200 });
   } catch (error) {
     console.error("Error in POST /api/generate-product-description:", error);
     return NextResponse.json(
