@@ -1,4 +1,4 @@
-"use client";
+ie"use client";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -43,7 +43,7 @@ export default function ProductDescriptionGenerator() {
     <div className="w-full max-w-maxWidthEditorCanvas sm:w-2/3 lg:1/2 p-4 flex flex-col gap-xl h-screen items-center justify-around">
       <div className="w-full">
         <div className="flex items-center h-20">
-          <h1 className="text-2xl font-bold">Product Description Generator</h1>
+          <h1 className="text-2xl font-bold">Product Description Genie</h1>
           <GenieLamp
             style={{ width: 50, height: 50, marginBottom: 10 }}
             alt="genie lamp"
