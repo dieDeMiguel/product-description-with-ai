@@ -4,8 +4,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Press Release Genie",
-  description: "POC for generating press releases using AI",
+  title: "Product Description Generator",
+  description: "POC for generating product descriptions using AI",
 };
 
 export default function RootLayout({

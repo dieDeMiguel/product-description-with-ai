@@ -12,7 +12,7 @@ const SYSTEM_CONTEXT = (language: string) => `
 
 const MAX_TOKENS = 1200;
 
-export async function generatePressRelease(
+export async function generateProductDescription(
   prompt: string
 ): Promise<PressReleaseAsset> {
   let detectedLanguage: string;

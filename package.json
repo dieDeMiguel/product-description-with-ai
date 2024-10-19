@@ -1,6 +1,7 @@
 {
-  "name": "nextjs-ai-sdk",
-  "version": "0.1.0",
+  "name": "product-description-generator",
+  "version": "1.0.0",
+  "description": "A tool to generate compelling product descriptions for e-commerce platforms.",
   "private": true,
   "scripts": {
     "dev": "next dev",

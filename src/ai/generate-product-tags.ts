@@ -12,7 +12,7 @@ Avoid extracting common words, filler words, or irrelevant information.
 Only extract keywords that are significant and add value to the understanding of the press release.
 Provide keywords separated by a comma. Format: "Keywords: [keyword1, keyword2, ...]"`;
 
-export async function generateKeywords(
+export async function generateProductTags(
   pressReleaseEntry: PressReleaseAsset
 ): Promise<void> {
   const id = pressReleaseEntry.id;

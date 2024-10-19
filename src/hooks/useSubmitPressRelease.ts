@@ -11,7 +11,7 @@ interface UseSubmitPressReleaseResult {
   currentStep: number;
 }
 
-export const useSubmitPressRelease = (): UseSubmitPressReleaseResult => {
+export const useSubmitProductDescription = (): UseSubmitPressReleaseResult => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const router = useRouter();
@@ -25,7 +25,7 @@ export const useSubmitPressRelease = (): UseSubmitPressReleaseResult => {
         setCurrentStep(2);
       }, 2500);
       // Step 1: Generate the press release
-      const response = await fetch(`/api/generate-press-release`, {
+      const response = await fetch(`/api/generate-product-description`, {
         method: "POST",
         body: JSON.stringify({ prompt: data.userInput }),
         headers: {
@@ -34,14 +34,14 @@ export const useSubmitPressRelease = (): UseSubmitPressReleaseResult => {
       });
 
       if (!response.ok) {
-        throw new Error("Error generating the press release.");
+        throw new Error("Error generating the product description.");
       }
 
       const { pressRelease } = await response.json();
 
       // Step 2: Generate keywords
       setCurrentStep(3);
-      const keywordsResponse = await fetch(`/api/generate-keywords`, {
+      const keywordsResponse = await fetch(`/api/generate-product-tags`, {
         method: "POST",
         body: JSON.stringify({ pressRelease }),
         headers: {
