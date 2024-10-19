@@ -11,9 +11,7 @@ import { zodResponseFormat } from "openai/helpers/zod";
 const SYSTEM_CONTEXT = (language: string) => `
   You are a product description generator. Create a well-structured, informative, and engaging product description in ${language} based on the given prompt.
   Write in a professional tone, demonstrating strong command of language and knowledge of e-commerce trends.
-  Avoid: "For immediate release", [Company Information], Contact details, date, location, metadata, hashtags, and social media handles.
-  Only include the body of the product description.
-  Use an h1 tag for the main title as the first line, and include additional titles with h2 tags.`;
+  Only include the body of the product description. Use an h1 tag for the main title as the first line, and include additional titles with h2 tags.`;
 
 const MAX_TOKENS = 1200;
 

@@ -1,22 +1,22 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-interface PressReleaseFormData {
+interface ProductDescriptionFormData {
   userInput: string;
 }
 
-interface UseSubmitPressReleaseResult {
-  onSubmit: (data: PressReleaseFormData) => Promise<void>;
+interface UseSubmitProductDescription {
+  onSubmit: (data: ProductDescriptionFormData) => Promise<void>;
   isLoading: boolean;
   currentStep: number;
 }
 
-export const useSubmitProductDescription = (): UseSubmitPressReleaseResult => {
+export const useSubmitProductDescription = (): UseSubmitProductDescription => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const router = useRouter();
 
-  const onSubmit = async (data: PressReleaseFormData) => {
+  const onSubmit = async (data: ProductDescriptionFormData) => {
     setIsLoading(true);
 
     try {
