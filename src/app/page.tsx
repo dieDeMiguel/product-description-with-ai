@@ -1,40 +1,18 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
+import ProductDescriptionForm from "@/components/product-description-form/product-description-form";
 import GenieLamp from "@/public/genie-lamp.svg";
 import { ProductDescriptionSchema } from "@/schemas/form-schema";
 import EditorBlocksSchema from "@/schemas/product-description-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { experimental_useObject as useObject } from "ai/react";
 import Link from "next/link";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 type ProductDescriptionFormData = z.infer<typeof ProductDescriptionSchema>;
 
 export default function ProductDescriptionGenerator() {
-  const form = useForm<ProductDescriptionFormData>({
-    resolver: zodResolver(ProductDescriptionSchema),
-    defaultValues: {
-      userInput: "",
-    },
-  });
-
-  const { handleSubmit, formState } = form;
-  const { isSubmitting } = formState;
-
-  const { object, submit } = useObject({
+  const { object, submit, isLoading } = useObject({
     api: "/api/generate-product-description",
     schema: EditorBlocksSchema,
   });
@@ -58,62 +36,7 @@ export default function ProductDescriptionGenerator() {
             alt="genie lamp"
           />
         </div>
-        <Form {...form}>
-          <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
-            <FormField
-              control={form.control}
-              name="userInput"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Describe your product.</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="What is your product about? Any language will work :) Minimum 10 characters"
-                      className="h-40 resize-none"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="terms"
-              render={({ field, fieldState: { error } }) => {
-                const { value, ...restValues } = field;
-                return (
-                  <FormItem className="flex items-end space-x-2">
-                    <FormControl>
-                      <Checkbox
-                        {...restValues}
-                        id="terms"
-                        checked={value}
-                        onCheckedChange={field.onChange}
-                        className={error ? "mb-s" : ""}
-                      />
-                    </FormControl>
-                    <FormLabel htmlFor="terms" className="!my-0">
-                      I understand that this is a demo project and not a real
-                      product description generator. See &apos;Impressum&apos;
-                      for more information.
-                    </FormLabel>
-                    <FormMessage>{error?.message}</FormMessage>
-                  </FormItem>
-                );
-              }}
-            />
-            <Button
-              type="submit"
-              className="w-full font-semibold"
-              disabled={isSubmitting}
-            >
-              {isSubmitting
-                ? "Generating..."
-                : "Generate a Product Description"}
-            </Button>
-          </form>
-        </Form>
+        <ProductDescriptionForm onSubmit={onSubmit} isSubmitting={isLoading} />
       </div>
       <Link
         href="/impressum"
