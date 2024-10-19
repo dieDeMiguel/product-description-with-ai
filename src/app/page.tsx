@@ -10,13 +10,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import Stepper from "@/components/ui/stepper";
 import { Textarea } from "@/components/ui/textarea";
-import { useSubmitProductDescription } from "@/hooks/useSubmitProductDescription";
 import GenieLamp from "@/public/genie-lamp.svg";
 import { ProductDescriptionSchema } from "@/schemas/form-schema";
+import EditorBlocksSchema from "@/schemas/product-description-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { experimental_useObject as useObject } from "ai/react";
 import Link from "next/link";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -33,11 +34,19 @@ export default function ProductDescriptionGenerator() {
   const { handleSubmit, formState } = form;
   const { isSubmitting } = formState;
 
-  const { onSubmit, isLoading, currentStep } = useSubmitProductDescription();
+  const { object, submit } = useObject({
+    api: "/api/generate-product-description",
+    schema: EditorBlocksSchema,
+  });
 
-  if (isLoading) {
-    return <Stepper currentStep={currentStep} />;
-  }
+  useEffect(() => {
+    if (!object?.blocks) return;
+    console.log(object?.blocks);
+  }, [object]);
+
+  const onSubmit = async (data: ProductDescriptionFormData) => {
+    await submit(data);
+  };
 
   return (
     <div className="w-full max-w-maxWidthEditorCanvas sm:w-2/3 lg:1/2 p-4 flex flex-col gap-xl h-screen items-center justify-around">

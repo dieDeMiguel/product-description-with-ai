@@ -1,12 +1,10 @@
-import { openai } from "@/ai";
-import {
-  createProductDescription,
-  ProductDescriptionAsset,
-  setLanguage,
-} from "@/db";
-import EditorBlocksSchema from "@/schemas/product-description-schema";
+"use server";
+import "server-only";
 
-import { zodResponseFormat } from "openai/helpers/zod";
+import { openai } from "@/ai";
+import EditorBlocksSchema from "@/schemas/product-description-schema";
+import { openai as vercelAi } from "@ai-sdk/openai";
+import { streamObject } from "ai";
 
 const SYSTEM_CONTEXT = (language: string) => `
   You are a product description generator. Create a well-structured, informative, and engaging product description in ${language} based on the given prompt.
@@ -15,11 +13,8 @@ const SYSTEM_CONTEXT = (language: string) => `
 
 const MAX_TOKENS = 1200;
 
-export async function generateProductDescription(
-  prompt: string
-): Promise<ProductDescriptionAsset> {
+export async function generateProductDescription(prompt: string) {
   let detectedLanguage: string;
-  let productDescriptionContent: string;
   try {
     // Detect language
     const languageDetectionResponse = await openai.chat.completions.create({
@@ -39,52 +34,13 @@ export async function generateProductDescription(
     console.error("Error detecting language:", error);
     throw new Error("Failed to detect language");
   }
+  // Generate product description stream:
+  const result = await streamObject({
+    model: vercelAi("gpt-4-turbo"),
+    schema: EditorBlocksSchema,
+    prompt: SYSTEM_CONTEXT(detectedLanguage),
+    maxTokens: MAX_TOKENS,
+  });
 
-  try {
-    // Generate the product description
-    const productDescriptionResponse = await openai.beta.chat.completions.parse(
-      {
-        model: "gpt-4o",
-        messages: [
-          {
-            role: "system",
-            content: SYSTEM_CONTEXT(detectedLanguage),
-          },
-          {
-            role: "user",
-            content: prompt,
-          },
-        ],
-        response_format: zodResponseFormat(
-          EditorBlocksSchema,
-          "product_description"
-        ),
-        max_tokens: MAX_TOKENS,
-      }
-    );
-
-    productDescriptionContent = JSON.stringify(
-      productDescriptionResponse.choices[0].message.parsed
-    );
-    if (!productDescriptionContent) {
-      throw new Error("Failed to generate product description content");
-    }
-  } catch (error) {
-    console.error("Error generating product description:", error);
-    throw new Error("Failed to generate product description");
-  }
-
-  try {
-    const productDescriptionEntry = await createProductDescription(
-      productDescriptionContent
-    );
-    if (!productDescriptionEntry) {
-      throw new Error("Failed to create product description entry");
-    }
-    await setLanguage(productDescriptionEntry?.id, detectedLanguage);
-    return productDescriptionEntry;
-  } catch (error) {
-    console.error("Error creating product description entry:", error);
-    throw new Error("Failed to create product description entry");
-  }
+  return result.toTextStreamResponse();
 }
