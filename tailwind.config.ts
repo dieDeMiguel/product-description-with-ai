@@ -27,6 +27,7 @@ const config: Config = {
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        badgeBackground: "hsl(var(--badge-background))",
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
