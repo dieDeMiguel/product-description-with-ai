@@ -1,6 +1,7 @@
 import ImageKeywordsContainer from "@/components/image-uploader/image-keywords-container";
 import EditorPlaceholder from "@/components/ui/editor-placeholder";
-import { getGeneratedPressRelease } from "@/db";
+import { getProductDescription } from "@/db";
+
 import dynamic from "next/dynamic";
 import { headers } from "next/headers";
 import Link from "next/link";
@@ -15,13 +16,13 @@ export default async function Page() {
   const pathname = headerList.get("x-current-path");
   const id = pathname?.split("/").pop() || "";
   const numericId = parseInt(id, 10);
-  const pressRelease = await getGeneratedPressRelease(numericId);
+  const pressRelease = await getProductDescription(numericId);
 
   return (
     <div className="max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-2">
       <Editor
-        sectionID="pressrelease_body"
-        pressRelease={pressRelease}
+        sectionID="description"
+        productDescription={pressRelease}
         wrapperClassName=""
         className="editor-content"
         isReadOnly={false}

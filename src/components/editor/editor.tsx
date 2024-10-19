@@ -11,7 +11,7 @@ interface EditorProps {
   sectionID: keyof ProductDescriptionAsset;
   className?: string;
   wrapperClassName?: string;
-  pressRelease: ProductDescriptionAsset;
+  productDescription: ProductDescriptionAsset;
   isReadOnly: boolean;
 }
 
@@ -19,11 +19,11 @@ const Editor: React.FC<EditorProps> = ({
   sectionID,
   className = "",
   wrapperClassName = "",
-  pressRelease,
+  productDescription,
   isReadOnly,
 }) => {
   const editorRef = useRef<EditorJS | null>(null);
-  const blocks = useEditorBlocks(pressRelease);
+  const blocks = useEditorBlocks(productDescription);
   const { toast } = useToast();
   const useInlineToolbar = true;
 
@@ -34,10 +34,10 @@ const Editor: React.FC<EditorProps> = ({
         const blocksOnly = { blocks: outputData.blocks };
         const stringifiedBlocks = JSON.stringify(blocksOnly);
         try {
-          await fetch(`/api/update-press-release`, {
+          await fetch(`/api/update-product-description`, {
             method: "POST",
             body: JSON.stringify({
-              id: pressRelease.id,
+              id: productDescription.id,
               field: sectionID,
               value: stringifiedBlocks,
             }),

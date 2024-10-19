@@ -4,7 +4,7 @@ import { Check, Loader2 } from "lucide-react";
 const steps = [
   { title: "Send Prompt", description: "Sending your prompt to Sam Altman" },
   {
-    title: "Generating Product Description",
+    title: "Generating Description",
     description: "AI creates your product description",
   },
   { title: "Generate Tags", description: "Extracting relevant tags" },

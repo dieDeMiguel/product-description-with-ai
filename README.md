@@ -31,6 +31,7 @@ vercel env pull
 
    1. Run the development server
 
-      ```
+      ````
       5. Run the development server:
-      ```
+      ```      5. Run the development server:
+      ````

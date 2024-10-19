@@ -5,8 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 
 const useEditorBlocks = (data: ProductDescriptionAsset | null | undefined) =>
   useMemo(() => {
-    if (data?.pressrelease_body) {
-      const parsedBody = JSON.parse(data?.pressrelease_body);
+    if (data?.description) {
+      const parsedBody = JSON.parse(data?.description);
       return parsedBody?.blocks?.map((block: OutputBlockData) => ({
         ...block,
         id: block.id || uuidv4(),
