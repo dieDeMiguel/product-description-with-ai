@@ -3,6 +3,7 @@ import { openai } from "@/ai";
 import EditorBlocksSchema from "@/schemas/product-description-schema";
 import { openai as vercelAi } from "@ai-sdk/openai";
 import { streamObject } from "ai";
+import { throttle } from "lodash";
 import { NextRequest, NextResponse } from "next/server";
 import "server-only";
 
@@ -52,7 +53,7 @@ export async function POST(request: NextRequest) {
       prompt: prompt,
       maxTokens: MAX_TOKENS,
     });
-    return result.toTextStreamResponse();
+    return throttle(() => result.toTextStreamResponse(), 2000)();
   } catch (error) {
     console.error("Error in POST /api/generate-product-description:", error);
     return NextResponse.json(

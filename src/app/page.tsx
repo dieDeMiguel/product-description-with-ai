@@ -22,8 +22,6 @@ export default function ProductDescriptionGenerator() {
     await submit(data);
   };
 
-  // if (isLoading) return Stepper({ currentStep: 1 });
-
   return (
     <div className="w-full max-w-maxWidthEditorCanvas sm:w-2/3 lg:1/2 p-4 flex flex-col gap-xl h-screen items-center justify-around">
       <div className="w-full">
