@@ -31,7 +31,8 @@ p {
 
 .custom-h1,
 .custom-h2,
-.custom-p {
+.custom-p,
+button {
   width: 650px;
   margin: 0 auto;
 }

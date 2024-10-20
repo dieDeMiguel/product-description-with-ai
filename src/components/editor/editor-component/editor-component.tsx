@@ -33,7 +33,14 @@ const EditorComponent = ({
     <div className="prose max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-2">
       {isLoading && (
         <>
-          <Button onClick={() => stop()}>Stop Stream</Button>
+          <Button
+            onClick={() => {
+              stop();
+              setShowEditor(true);
+            }}
+          >
+            Stop Stream
+          </Button>
           <RenderedBlocks blocks={editorData} />
         </>
       )}
