@@ -1,5 +1,5 @@
 import EditorPlaceholder from "@/components/ui/editor-placeholder";
-import EditorJS, { OutputBlockData } from "@editorjs/editorjs";
+import EditorJS from "@editorjs/editorjs";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
@@ -10,7 +10,8 @@ const Editor = dynamic(() => import("@/components/editor/editor"), {
 });
 
 interface ProductDescriptionEditorProps {
-  productDescription: OutputBlockData[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  productDescription: any;
 }
 
 const ProductDescriptionEditor: React.FC<ProductDescriptionEditorProps> = ({
