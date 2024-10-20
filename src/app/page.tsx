@@ -1,12 +1,13 @@
 "use client";
 
-import ProductDescriptionEditor from "@/components/editor/product-description-editor/product-description-editor";
 import ProductDescriptionForm from "@/components/product-description-form/product-description-form";
 import GenieLamp from "@/public/genie-lamp.svg";
 import { ProductDescriptionSchema } from "@/schemas/form-schema";
 import EditorBlocksSchema from "@/schemas/product-description-schema";
+import BlockRenderer from "@/utils/editor/block-renderer";
+import { OutputBlockData } from "@editorjs/editorjs";
 import { experimental_useObject as useObject } from "ai/react";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { z } from "zod";
 
 type ProductDescriptionFormData = z.infer<typeof ProductDescriptionSchema>;
@@ -21,6 +22,13 @@ export default function ProductDescriptionGenerator() {
     await submit(data);
   };
 
+  const renderedBlocks = useMemo(() => {
+    if (object?.blocks) {
+      return <BlockRenderer blocks={object.blocks as OutputBlockData[]} />;
+    }
+    return null;
+  }, [object]);
+
   useEffect(() => console.log("object", object), [object]);
 
   return (
@@ -34,7 +42,7 @@ export default function ProductDescriptionGenerator() {
           />
         </div>
         {object?.blocks?.length && !isLoading ? (
-          <ProductDescriptionEditor productDescription={object.blocks} />
+          renderedBlocks
         ) : (
           <ProductDescriptionForm
             onSubmit={onSubmit}

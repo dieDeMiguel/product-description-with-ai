@@ -3,8 +3,8 @@ import { openai } from "@/ai";
 import EditorBlocksSchema from "@/schemas/product-description-schema";
 import { openai as vercelAi } from "@ai-sdk/openai";
 import { streamObject } from "ai";
-import { NextRequest, NextResponse } from "next/server";
-import "server-only";
+import fs from "fs/promises";
+import { NextResponse } from "next/server";
 
 const SYSTEM_CONTEXT = (language: string) => `
   You are a product description generator. Create a well-structured, informative, and engaging product description in ${language} based on the given prompt.
@@ -13,9 +13,15 @@ const SYSTEM_CONTEXT = (language: string) => `
 
 const MAX_TOKENS = 1200;
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
-    const data = await request.json();
+    const jsonData = await fs.readFile("data.json", "utf-8");
+
+    // Parse the JSON data
+    const data = JSON.parse(jsonData);
+    // Return the JSON data as the response
+    return NextResponse.json(data, { status: 200 });
+    // const data = await request.json();
     const prompt = data?.userInput;
     console.log("Prompt:", prompt);
     if (!prompt) {
