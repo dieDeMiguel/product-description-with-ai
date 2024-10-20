@@ -1,22 +1,29 @@
-import ImageKeywordsContainer from "@/components/image-uploader/image-keywords-container";
 import EditorPlaceholder from "@/components/ui/editor-placeholder";
-import { getProductDescription } from "@/db";
-
+import EditorJS from "@editorjs/editorjs";
 import dynamic from "next/dynamic";
-import { headers } from "next/headers";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 
 const Editor = dynamic(() => import("@/components/editor/editor/editor"), {
   ssr: false,
   loading: () => <EditorPlaceholder />,
 });
 
-export default async function Page() {
-  const headerList = headers();
-  const pathname = headerList.get("x-current-path");
-  const id = pathname?.split("/").pop() || "";
-  const numericId = parseInt(id, 10);
-  const productDescription = await getProductDescription(numericId);
+interface ProductDescriptionEditorProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  productDescription: any;
+}
+
+const ProductDescriptionEditor: React.FC<ProductDescriptionEditorProps> = ({
+  productDescription,
+}) => {
+  const editorRef = useRef<EditorJS>(null);
+
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.render({ blocks: productDescription });
+    }
+  }, [productDescription]);
 
   return (
     <div className="max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-2">
@@ -29,7 +36,7 @@ export default async function Page() {
       />
       <div className="max-w-maxWidthEditorCanvas m-auto">
         <p className="text-xs text-gray-500">
-          The generated content can contain errors, see &apos;Impresum&apos;
+          The generated content can contain errors, see &apos;Impressum&apos;
           page for more Information
         </p>
         <p className="text-xs text-gray-500">
@@ -37,7 +44,6 @@ export default async function Page() {
           &apos;Impressum&apos;-Seite für weitere Informationen.
         </p>
       </div>
-      <ImageKeywordsContainer {...productDescription} />
       <div className="flex justify-center gap-4 mt-6">
         <Link
           href="/"
@@ -54,4 +60,6 @@ export default async function Page() {
       </div>
     </div>
   );
-}
+};
+
+export default ProductDescriptionEditor;
