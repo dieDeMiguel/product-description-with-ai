@@ -7,9 +7,7 @@ import { ProductDescriptionSchema } from "@/schemas/form-schema";
 import EditorBlocksSchema from "@/schemas/product-description-schema";
 import { OutputBlockData } from "@editorjs/editorjs";
 import { experimental_useObject as useObject } from "ai/react";
-import { debounce } from "lodash";
 import Link from "next/link";
-import { useEffect } from "react";
 import { z } from "zod";
 
 type ProductDescriptionFormData = z.infer<typeof ProductDescriptionSchema>;
@@ -25,22 +23,6 @@ export default function ProductDescriptionGenerator() {
   };
 
   // if (isLoading) return Stepper({ currentStep: 1 });
-
-  useEffect(() => {
-    const debouncedUpdate = debounce((obj) => {
-      // Handle the debounced object update here
-      console.log(obj);
-    }, 1000);
-
-    if (object) {
-      debouncedUpdate(object);
-    }
-
-    // Cleanup function to cancel any pending debounced calls
-    return () => {
-      debouncedUpdate.cancel();
-    };
-  }, [object]);
 
   return (
     <div className="w-full max-w-maxWidthEditorCanvas sm:w-2/3 lg:1/2 p-4 flex flex-col gap-xl h-screen items-center justify-around">
