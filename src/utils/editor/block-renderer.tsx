@@ -1,35 +1,41 @@
+"use client";
+
 import { OutputBlockData } from "@editorjs/editorjs";
-import React from "react";
+import { useMemo } from "react";
+import ReactMarkdown from "react-markdown";
 
 const BlockRenderer = ({ blocks }: { blocks: OutputBlockData[] }) => {
-  return (
-    <div className="prose">
-      {blocks.map((block) => {
+  const markdownContent = useMemo(() => {
+    return blocks
+      .map((block) => {
         switch (block.type) {
           case "header":
-            return (
-              <Header
-                key={block.id}
-                level={block.data.level!}
-                text={block.data.text}
-              />
-            );
+            const hashes = "#".repeat(block.data.level || 1);
+            return `${hashes} ${block.data.text}`;
           case "paragraph":
-            return <Paragraph key={block.id} text={block.data.text} />;
+            return block.data.text;
           default:
-            return null;
+            return "";
         }
-      })}
-    </div>
+      })
+      .join("\n\n");
+  }, [blocks]);
+
+  const components = {
+    h1: ({ ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+      <h1 className="font-arial" {...props} />
+    ),
+    h2: ({ ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+      <h2 className="font-arial" {...props} />
+    ),
+    p: ({ ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
+      <p className="font-arial" {...props} />
+    ),
+  };
+
+  return (
+    <ReactMarkdown components={components}>{markdownContent}</ReactMarkdown>
   );
 };
 
 export default BlockRenderer;
-
-const Header = ({ level, text }: { level: number; text: string }) => {
-  const Tag = `h${level}` as keyof JSX.IntrinsicElements;
-  return React.createElement(Tag, { className: "" }, text);
-};
-const Paragraph = ({ text }: { text: string }) => {
-  return <p className="ce-paragraph cdx-block">{text}</p>;
-};
