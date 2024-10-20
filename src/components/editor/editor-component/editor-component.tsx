@@ -1,4 +1,5 @@
 import EditorPlaceholder from "@/components/ui/editor-placeholder";
+import { OutputBlockData } from "@editorjs/editorjs";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 
@@ -7,17 +8,12 @@ const Editor = dynamic(() => import("@/components/editor/editor/editor"), {
   loading: () => <EditorPlaceholder />,
 });
 
-interface EditorProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  productDescription: any;
-}
-
-const EditorComponent: React.FC<EditorProps> = ({ productDescription }) => {
+const EditorComponent = ({ editorData }: { editorData: OutputBlockData[] }) => {
   return (
     <div className="max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-2">
       <Editor
         sectionID="description"
-        productDescription={productDescription}
+        editorData={editorData}
         wrapperClassName=""
         className="editor-content"
         isReadOnly={false}

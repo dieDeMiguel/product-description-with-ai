@@ -4,7 +4,11 @@ import { OutputBlockData } from "@editorjs/editorjs";
 import { useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 
-const BlockRenderer = ({ blocks }: { blocks: OutputBlockData[] }) => {
+interface RenderedBlocksProps {
+  blocks: OutputBlockData[];
+}
+
+const RenderedBlocks = ({ blocks }: RenderedBlocksProps) => {
   const markdownContent = useMemo(() => {
     return blocks
       .map((block) => {
@@ -41,4 +45,4 @@ const BlockRenderer = ({ blocks }: { blocks: OutputBlockData[] }) => {
   );
 };
 
-export default BlockRenderer;
+export default RenderedBlocks;
