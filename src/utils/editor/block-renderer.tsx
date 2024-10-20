@@ -23,13 +23,13 @@ const BlockRenderer = ({ blocks }: { blocks: OutputBlockData[] }) => {
 
   const components = {
     h1: ({ ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h1 className="font-arial" {...props} />
+      <h1 className="font-arial my-8" {...props} />
     ),
     h2: ({ ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h2 className="font-arial" {...props} />
+      <h2 className="font-arial my-8" {...props} />
     ),
     p: ({ ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
-      <p className="font-arial" {...props} />
+      <p className="font-arial my-8" {...props} />
     ),
   };
 

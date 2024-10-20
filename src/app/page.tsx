@@ -1,7 +1,6 @@
 // src/app/product-description-generator/page.tsx
 "use client";
 
-import ProductDescriptionEditor from "@/components/editor/product-description-editor/product-description-editor";
 import ProductDescriptionForm from "@/components/product-description-form/product-description-form";
 import GenieLamp from "@/public/genie-lamp.svg";
 import { ProductDescriptionSchema } from "@/schemas/form-schema";
@@ -34,23 +33,29 @@ export default function ProductDescriptionGenerator() {
   return (
     <div className="w-full max-w-maxWidthEditorCanvas sm:w-2/3 lg:1/2 p-4 flex flex-col gap-xl h-screen items-center justify-around">
       <div className="w-full">
-        <div className="flex items-center h-20">
-          <h1 className="text-2xl font-bold">Product Description Genie</h1>
-          <GenieLamp
-            style={{ width: 50, height: 50, marginBottom: 10 }}
-            alt="genie lamp"
-          />
-        </div>
-        {object?.blocks?.length && !isLoading ? (
+        {object?.blocks?.length ? (
           <>
-            <ProductDescriptionEditor productDescription={object.blocks} />
+            {/* <ProductDescriptionEditor productDescription={object.blocks} /> */}
             {renderedBlocks}
           </>
         ) : (
-          <ProductDescriptionForm
-            onSubmit={onSubmit}
-            isSubmitting={isLoading}
-          />
+          <>
+            <div className="flex flex-col items-center">
+              <div className="flex items-center">
+                <h1 className="text-2xl font-bold">
+                  Product Description Genie
+                </h1>
+                <GenieLamp
+                  style={{ width: 50, height: 50, marginBottom: 10 }}
+                  alt="genie lamp"
+                />
+              </div>
+              <ProductDescriptionForm
+                onSubmit={onSubmit}
+                isSubmitting={isLoading}
+              />
+            </div>
+          </>
         )}
       </div>
     </div>
