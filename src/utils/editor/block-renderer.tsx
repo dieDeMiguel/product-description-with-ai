@@ -10,10 +10,11 @@ const BlockRenderer = ({ blocks }: { blocks: OutputBlockData[] }) => {
       .map((block) => {
         switch (block.type) {
           case "header":
-            const hashes = "#".repeat(block.data.level || 1);
-            return `${hashes} ${block.data.text}`;
+            const level = block.data?.level || 1;
+            const hashes = "#".repeat(level);
+            return `${hashes} ${block.data?.text || ""}`;
           case "paragraph":
-            return block.data.text;
+            return block.data?.text || "";
           default:
             return "";
         }
@@ -23,18 +24,20 @@ const BlockRenderer = ({ blocks }: { blocks: OutputBlockData[] }) => {
 
   const components = {
     h1: ({ ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h1 className="font-arial my-8" {...props} />
+      <h1 className="my-8" {...props} />
     ),
     h2: ({ ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h2 className="font-arial my-8" {...props} />
+      <h2 className="my-8" {...props} />
     ),
     p: ({ ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
-      <p className="font-arial my-8" {...props} />
+      <p className="my-8" {...props} />
     ),
   };
 
   return (
-    <ReactMarkdown components={components}>{markdownContent}</ReactMarkdown>
+    <ReactMarkdown className="font-arial" components={components}>
+      {markdownContent}
+    </ReactMarkdown>
   );
 };
 
