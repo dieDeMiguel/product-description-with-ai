@@ -27,6 +27,7 @@
     "@radix-ui/react-toast": "^1.2.2",
     "@shadcn/ui": "^0.0.4",
     "@svgr/webpack": "^8.1.0",
+    "@tailwindcss/typography": "^0.5.15",
     "@vercel/blob": "^0.24.0",
     "@vercel/postgres": "^0.10.0",
     "ai": "^3.4.7",
