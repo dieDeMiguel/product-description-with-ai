@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { OutputBlockData } from "@editorjs/editorjs";
@@ -27,14 +28,29 @@ const RenderedBlocks = ({ blocks }: RenderedBlocksProps) => {
   }, [blocks]);
 
   const components = {
-    h1: ({ ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h1 className="custom-h1" {...props} />
+    h1: ({
+      node,
+      ...props
+    }: React.HTMLAttributes<HTMLHeadingElement> & { node?: unknown }) => (
+      <h1 className="custom-h1" {...props}>
+        {props.children}
+      </h1>
     ),
-    h2: ({ ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h2 className="custom-h2" {...props} />
+    h2: ({
+      node,
+      ...props
+    }: React.HTMLAttributes<HTMLHeadingElement> & { node?: unknown }) => (
+      <h2 className="custom-h2" {...props}>
+        {props.children}
+      </h2>
     ),
-    p: ({ ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
-      <p className="custom-p" {...props} />
+    p: ({
+      node,
+      ...props
+    }: React.HTMLAttributes<HTMLParagraphElement> & { node?: unknown }) => (
+      <p className="custom-p" {...props}>
+        {props.children}
+      </p>
     ),
   };
 

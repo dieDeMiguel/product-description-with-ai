@@ -32,30 +32,6 @@ body {
   }
 }
 
-.custom-h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  padding: 0.6em 0 3px;
-  margin: 0;
-  line-height: 1.25em;
-  outline: none;
-}
-
-.custom-h2 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  padding: 0.6em 0 3px;
-  margin: 0;
-  line-height: 1.25em;
-  outline: none;
-}
-
-.custom-p {
-  line-height: 1.6em;
-  padding: 0.4em 0;
-  outline: none;
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;
