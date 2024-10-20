@@ -1,4 +1,3 @@
-// src/app/product-description-generator/page.tsx
 "use client";
 
 import ProductDescriptionForm from "@/components/product-description-form/product-description-form";

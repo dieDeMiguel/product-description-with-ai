@@ -24,18 +24,18 @@ const BlockRenderer = ({ blocks }: { blocks: OutputBlockData[] }) => {
 
   const components = {
     h1: ({ ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h1 className="my-8 custom-h1" {...props} />
+      <h1 className="custom-h1" {...props} />
     ),
     h2: ({ ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h2 className="my-8" {...props} />
+      <h2 className="custom-h2" {...props} />
     ),
     p: ({ ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
-      <p className="my-8" {...props} />
+      <p className="custom-p" {...props} />
     ),
   };
 
   return (
-    <div className="custom">
+    <div>
       <ReactMarkdown components={components}>{markdownContent}</ReactMarkdown>
     </div>
   );

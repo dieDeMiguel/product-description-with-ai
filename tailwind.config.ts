@@ -10,36 +10,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      typography: {
-        custom: {
-          css: {
-            h1: {
-              fontSize: "2rem !important",
-              fontWeight: "700 !important",
-              padding: ".6em 0 3px !important",
-              margin: "0 !important",
-              lineHeight: "1.25em !important",
-              outline: "none !important",
-            },
-            h2: {
-              fontSize: "1.2rem",
-              fontWeight: "700",
-              padding: ".6em 0 3px",
-              margin: "0",
-              lineHeight: "1.25em",
-              outline: "none",
-            },
-            p: {
-              lineHeight: "1.6em",
-              padding: ".4em 0",
-              outline: "none",
-            },
-            "h1, h2": {
-              outline: "none",
-            },
-          },
-        },
-      },
+      typography: {},
       fontFamily: {
         arial: ["Arial", "sans-serif", "Helvetica"],
       },
@@ -97,23 +68,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [
-    tailwindcssAnimate,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    function ({ addComponents }: { addComponents: any }) {
-      const newComponents = {
-        ".custom-h1": {
-          fontSize: "2rem !important",
-          fontWeight: "700 !important",
-          padding: ".6em 0 3px !important",
-          margin: "0 !important",
-          lineHeight: "1.25em !important",
-          outline: "none !important",
-        },
-      };
-      addComponents(newComponents);
-    },
-  ],
+  plugins: [tailwindcssAnimate],
 };
 
 export default config;
