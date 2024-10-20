@@ -1,7 +1,8 @@
 import EditorPlaceholder from "@/components/ui/editor-placeholder";
-import { OutputBlockData } from "@editorjs/editorjs";
+import EditorJS, { OutputBlockData } from "@editorjs/editorjs";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 
 const Editor = dynamic(() => import("@/components/editor/editor"), {
   ssr: false,
@@ -15,6 +16,14 @@ interface ProductDescriptionEditorProps {
 const ProductDescriptionEditor: React.FC<ProductDescriptionEditorProps> = ({
   productDescription,
 }) => {
+  const editorRef = useRef<EditorJS>(null);
+
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.render({ blocks: productDescription });
+    }
+  }, [productDescription]);
+
   return (
     <div className="max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-2">
       <Editor
@@ -23,10 +32,11 @@ const ProductDescriptionEditor: React.FC<ProductDescriptionEditorProps> = ({
         wrapperClassName=""
         className="editor-content"
         isReadOnly={false}
+        ref={editorRef}
       />
       <div className="max-w-maxWidthEditorCanvas m-auto">
         <p className="text-xs text-gray-500">
-          The generated content can contain errors, see &apos;Impresum&apos;
+          The generated content can contain errors, see &apos;Impressum&apos;
           page for more Information
         </p>
         <p className="text-xs text-gray-500">

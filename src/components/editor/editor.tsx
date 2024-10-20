@@ -1,10 +1,12 @@
+// src/components/editor/editor.tsx
 "use client";
 import { ProductDescriptionAsset } from "@/db";
 import useInitializeEditor from "@/hooks/useInitializeEditor";
 import { cn } from "@/lib/utils";
 import EditorJS, { OutputBlockData } from "@editorjs/editorjs";
-import { useRef } from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import "./editor.css";
+
 interface EditorProps {
   sectionID: keyof ProductDescriptionAsset;
   className?: string;
@@ -13,63 +15,41 @@ interface EditorProps {
   isReadOnly: boolean;
 }
 
-const Editor: React.FC<EditorProps> = ({
-  sectionID,
-  className = "",
-  wrapperClassName = "",
-  productDescription,
-  isReadOnly,
-}) => {
-  const editorRef = useRef<EditorJS | null>(null);
-  // const { toast } = useToast();
-  const useInlineToolbar = true;
+const Editor = forwardRef<EditorJS | null, EditorProps>(
+  (
+    {
+      sectionID,
+      className = "",
+      wrapperClassName = "",
+      productDescription,
+      isReadOnly,
+    },
+    ref
+  ) => {
+    const editorRef = useRef<EditorJS | null>(null);
 
-  // const handleSaveChanges = async () => {
-  //   if (editorRef.current) {
-  //     editorRef.current.save().then(async (outputData) => {
-  //       if (!outputData) return;
-  //       const blocksOnly = { blocks: outputData.blocks };
-  //       const stringifiedBlocks = JSON.stringify(blocksOnly);
-  //       try {
-  //         await fetch(`/api/update-product-description`, {
-  //           method: "POST",
-  //           body: JSON.stringify({
-  //             id: productDescription.id,
-  //             field: sectionID,
-  //             value: stringifiedBlocks,
-  //           }),
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //         });
-  //         toast({
-  //           description: "Your content has been saved",
-  //           className: "bg-blue-500 text-white",
-  //         });
-  //       } catch (error) {
-  //         console.error("Error saving changes:", error);
-  //       }
-  //     });
-  //   }
-  // };
+    useInitializeEditor(
+      editorRef,
+      true,
+      sectionID,
+      productDescription,
+      isReadOnly
+    );
 
-  useInitializeEditor(
-    editorRef,
-    useInlineToolbar,
-    sectionID,
-    productDescription,
-    isReadOnly
-    // handleSaveChanges
-  );
-  return (
-    <div className={cn("editor-wrapper", wrapperClassName)}>
-      <div
-        id={`${sectionID}`}
-        key={`${sectionID}`}
-        className={cn("editor-content text-black", className)}
-      />
-    </div>
-  );
-};
+    useImperativeHandle(ref, () => editorRef.current as EditorJS);
+
+    return (
+      <div className={cn("editor-wrapper", wrapperClassName)}>
+        <div
+          id={`${sectionID}`}
+          key={`${sectionID}`}
+          className={cn("editor-content text-black", className)}
+        />
+      </div>
+    );
+  }
+);
+
+Editor.displayName = "Editor";
 
 export default Editor;
