@@ -5,6 +5,7 @@ import { OutputBlockData } from "@editorjs/editorjs";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import "../editor/editor.css";
 
 const Editor = dynamic(() => import("@/components/editor/editor/editor"), {
   ssr: false,
@@ -29,7 +30,7 @@ const EditorComponent = ({
   }, [isLoading]);
 
   return (
-    <div className="max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-2">
+    <div className="prose max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-2">
       {isLoading && (
         <>
           <Button onClick={() => stop()}>Stop Stream</Button>

@@ -1,4 +1,5 @@
 // tailwind.config.ts
+import typography from "@tailwindcss/typography";
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
 
@@ -77,8 +78,7 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
     },
+    plugins: [tailwindcssAnimate, typography],
   },
-  plugins: [tailwindcssAnimate],
 };
-
 export default config;
