@@ -1,30 +1,18 @@
 import EditorPlaceholder from "@/components/ui/editor-placeholder";
-import EditorJS from "@editorjs/editorjs";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
 
 const Editor = dynamic(() => import("@/components/editor/editor/editor"), {
   ssr: false,
   loading: () => <EditorPlaceholder />,
 });
 
-interface ProductDescriptionEditorProps {
+interface EditorProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   productDescription: any;
 }
 
-const ProductDescriptionEditor: React.FC<ProductDescriptionEditorProps> = ({
-  productDescription,
-}) => {
-  const editorRef = useRef<EditorJS>(null);
-
-  useEffect(() => {
-    if (editorRef.current) {
-      editorRef.current.render({ blocks: productDescription });
-    }
-  }, [productDescription]);
-
+const EditorComponent: React.FC<EditorProps> = ({ productDescription }) => {
   return (
     <div className="max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-2">
       <Editor
@@ -62,4 +50,4 @@ const ProductDescriptionEditor: React.FC<ProductDescriptionEditorProps> = ({
   );
 };
 
-export default ProductDescriptionEditor;
+export default EditorComponent;
