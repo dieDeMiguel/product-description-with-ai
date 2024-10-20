@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
       prompt: prompt,
       maxTokens: MAX_TOKENS,
     });
-    return throttle(() => result.toTextStreamResponse(), 2000)();
+    return throttle(() => result.toTextStreamResponse(), 10000)();
   } catch (error) {
     console.error("Error in POST /api/generate-product-description:", error);
     return NextResponse.json(

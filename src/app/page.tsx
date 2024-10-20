@@ -7,7 +7,6 @@ import { ProductDescriptionSchema } from "@/schemas/form-schema";
 import EditorBlocksSchema from "@/schemas/product-description-schema";
 import { OutputBlockData } from "@editorjs/editorjs";
 import { experimental_useObject as useObject } from "ai/react";
-import Link from "next/link";
 import { z } from "zod";
 
 type ProductDescriptionFormData = z.infer<typeof ProductDescriptionSchema>;
@@ -43,12 +42,6 @@ export default function ProductDescriptionGenerator() {
           />
         )}
       </div>
-      <Link
-        href="/impressum"
-        className="text-gray-400 hover:text-white cursor-pointer"
-      >
-        Impressum
-      </Link>
     </div>
   );
 }
