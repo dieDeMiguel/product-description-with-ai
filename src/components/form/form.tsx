@@ -42,7 +42,7 @@ export default function FormComponent({ onSubmit, isSubmitting }: FormProps) {
   const { errors } = formState;
 
   return (
-    <>
+    <div className="grid">
       <div className="flex items-center h-20">
         <h1 className="text-2xl font-bold">Product Description Genie</h1>
         <GenieLamp
@@ -104,6 +104,6 @@ export default function FormComponent({ onSubmit, isSubmitting }: FormProps) {
           </Button>
         </form>
       </Form>
-    </>
+    </div>
   );
 }
