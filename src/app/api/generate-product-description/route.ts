@@ -17,7 +17,6 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
     const prompt = data?.userInput;
-    console.log("Prompt:", prompt);
     if (!prompt) {
       return NextResponse.json(
         { error: "Missing prompt in request body" },
@@ -26,7 +25,6 @@ export async function POST(request: NextRequest) {
     }
     let detectedLanguage: string;
     try {
-      // Detect language
       const languageDetectionResponse = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
         messages: [

@@ -1,5 +1,3 @@
-// tailwind.config.ts
-import typography from "@tailwindcss/typography";
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
 
@@ -16,12 +14,12 @@ const config: Config = {
         custom: {
           css: {
             h1: {
-              fontSize: "2rem",
-              fontWeight: "700",
-              padding: ".6em 0 3px",
-              margin: "0",
-              lineHeight: "1.25em",
-              outline: "none",
+              fontSize: "2rem !important",
+              fontWeight: "700 !important",
+              padding: ".6em 0 3px !important",
+              margin: "0 !important",
+              lineHeight: "1.25em !important",
+              outline: "none !important",
             },
             h2: {
               fontSize: "1.2rem",
@@ -99,7 +97,23 @@ const config: Config = {
       },
     },
   },
-  plugins: [tailwindcssAnimate, typography],
+  plugins: [
+    tailwindcssAnimate,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function ({ addComponents }: { addComponents: any }) {
+      const newComponents = {
+        ".custom-h1": {
+          fontSize: "2rem !important",
+          fontWeight: "700 !important",
+          padding: ".6em 0 3px !important",
+          margin: "0 !important",
+          lineHeight: "1.25em !important",
+          outline: "none !important",
+        },
+      };
+      addComponents(newComponents);
+    },
+  ],
 };
 
 export default config;

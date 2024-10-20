@@ -24,7 +24,7 @@ const BlockRenderer = ({ blocks }: { blocks: OutputBlockData[] }) => {
 
   const components = {
     h1: ({ ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h1 className="my-8" {...props} />
+      <h1 className="my-8 custom-h1" {...props} />
     ),
     h2: ({ ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
       <h2 className="my-8" {...props} />
@@ -35,9 +35,9 @@ const BlockRenderer = ({ blocks }: { blocks: OutputBlockData[] }) => {
   };
 
   return (
-    <ReactMarkdown className="font-arial" components={components}>
-      {markdownContent}
-    </ReactMarkdown>
+    <div className="custom">
+      <ReactMarkdown components={components}>{markdownContent}</ReactMarkdown>
+    </div>
   );
 };
 
