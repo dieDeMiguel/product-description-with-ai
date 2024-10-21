@@ -56,7 +56,9 @@ const RenderedBlocks = ({ blocks }: RenderedBlocksProps) => {
 
   return (
     <div>
-      <ReactMarkdown components={components}>{markdownContent}</ReactMarkdown>
+      <ReactMarkdown className="text-left" components={components}>
+        {markdownContent}
+      </ReactMarkdown>
     </div>
   );
 };

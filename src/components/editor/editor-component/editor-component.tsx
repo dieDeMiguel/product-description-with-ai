@@ -5,7 +5,6 @@ import { OutputBlockData } from "@editorjs/editorjs";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import "../editor/editor.css";
 
 const Editor = dynamic(() => import("@/components/editor/editor/editor"), {
   ssr: false,

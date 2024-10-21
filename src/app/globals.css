@@ -26,6 +26,52 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.codex-editor__redactor {
+  padding-bottom: 0px !important;
+}
+
+h1.ce-header,
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  padding: 0.6em 0 3px;
+  margin: 0;
+  line-height: 1.25em;
+  outline: none;
+  color: black;
+}
+
+h2.ce-header,
+h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 0.6em 0 3px;
+  margin: 0;
+  line-height: 1.25em;
+  outline: none;
+  color: black;
+}
+
+p.ce-header,
+p {
+  line-height: 1.6em;
+  padding: 0.4em 0;
+  outline: none;
+  color: black;
+}
+
+.custom-h1,
+.custom-h2,
+.custom-p,
+button {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.ce-block:has(.ce-block__content h1) {
+  margin-bottom: 1rem;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
