@@ -10,4 +10,5 @@ export const ProductDescriptionSchema = z.object({
   terms: z.boolean().refine((value) => value === true, {
     message: "You must agree to the terms and conditions.",
   }),
+  detectedLanguage: z.string().optional(),
 });

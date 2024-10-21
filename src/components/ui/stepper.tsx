@@ -37,8 +37,8 @@ function Stepper({ currentStep }: { currentStep: number }) {
             )}
           </div>
           <div className="text-center flex flex-col items-center">
-            <p className="font-semibold">{step.title}</p>
-            <p className="text-sm text-gray-500 h-12 flex items-center justify-center">
+            <p className="font-semibold text-white">{step.title}</p>
+            <p className="text-sm text-gray-200 h-12 flex items-center justify-center">
               {step.description}
             </p>
           </div>
