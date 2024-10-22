@@ -7,6 +7,7 @@ import { ProductDescriptionSchema } from "@/schemas/form-schema";
 import EditorBlocksSchema from "@/schemas/product-description-schema";
 import { OutputBlockData } from "@editorjs/editorjs";
 import { experimental_useObject as useObject } from "ai/react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 
@@ -61,6 +62,12 @@ export default function ProductDescriptionGenerator() {
       ) : step > 0 ? (
         <Stepper currentStep={step} />
       ) : null}
+      <Link
+        href="/impressum"
+        className="text-gray-400 hover:text-white cursor-pointer"
+      >
+        Impressum
+      </Link>
     </div>
   );
 }

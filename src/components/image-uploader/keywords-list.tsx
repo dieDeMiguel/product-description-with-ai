@@ -13,7 +13,7 @@ const KeywordsList: React.FC<KeywordsListProps> = ({ keywords }) => {
     <ul>
       {keywords.map((keyword, index) => (
         <Badge
-          className="bg-badgeBackground inline-block mx-1 text-black"
+          className="bg-badgeBackground inline-block mx-1 text-black hover:text-white"
           key={index}
         >
           {keyword}
