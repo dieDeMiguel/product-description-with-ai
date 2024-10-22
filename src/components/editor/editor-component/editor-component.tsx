@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { ProductDescriptionAsset } from "@/db";
 import RenderedBlocks from "@/utils/editor/block-renderer";
 import { OutputBlockData } from "@editorjs/editorjs";
 import { useRouter } from "next/navigation";
@@ -16,19 +17,23 @@ const EditorComponent = ({
 }) => {
   const router = useRouter();
   const handleAcceptDescription = async () => {
-    const id = await fetch("/api/create-product-description-entry", {
+    const response = await fetch("/api/create-product-description-entry", {
       method: "POST",
       body: JSON.stringify({ editorData, language }),
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        return data.id;
-      });
-    console.log(id);
-    router.push(`/product-description/${id}`);
+    });
+    const productDescriptionAsset: ProductDescriptionAsset =
+      await response.json();
+    await fetch("/api/generate-product-tags", {
+      method: "POST",
+      body: JSON.stringify({ productDescriptionAsset }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    router.push(`/product-description/${productDescriptionAsset.id}`);
   };
   const handleStartOver = () => {
     window.location.reload();
