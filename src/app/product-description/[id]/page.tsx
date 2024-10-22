@@ -24,7 +24,7 @@ export default async function Page() {
   }
 
   return (
-    <div className="max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-2">
+    <div className="max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md min-h-[600px] overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-2">
       <Editor
         sectionID="description"
         editorData={JSON.parse(productDescription.description).blocks || []}

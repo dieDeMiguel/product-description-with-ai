@@ -20,7 +20,7 @@ export default function ImageKeywordsContainer(
   return (
     <div className="max-w-maxWidthEditorContent m-auto flex flex-col gap-10 mt-4">
       <div className="text-black space-y-2">
-        <h3>Product Tags:</h3>
+        <h3 className="font-bold">Product Tags:</h3>
         {keywords?.length > 0 && <KeywordsList keywords={keywords} />}
       </div>
       <div className="w-full text-center">

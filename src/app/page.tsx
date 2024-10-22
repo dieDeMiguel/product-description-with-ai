@@ -7,7 +7,7 @@ import { ProductDescriptionSchema } from "@/schemas/form-schema";
 import EditorBlocksSchema from "@/schemas/product-description-schema";
 import { OutputBlockData } from "@editorjs/editorjs";
 import { experimental_useObject as useObject } from "ai/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 
 type FormData = z.infer<typeof ProductDescriptionSchema>;
@@ -15,12 +15,10 @@ type FormData = z.infer<typeof ProductDescriptionSchema>;
 export default function ProductDescriptionGenerator() {
   const [step, setStep] = useState<number>(0);
   const [language, setLanguage] = useState<string>("");
+  const [editorData, setEditorData] = useState<OutputBlockData[]>([]);
   const { object, submit, isLoading, stop } = useObject({
     api: "/api/generate-product-description",
     schema: EditorBlocksSchema,
-    onFinish: () => {
-      setStep(0);
-    },
   });
 
   const onSubmit = async (data: FormData) => {
@@ -32,24 +30,33 @@ export default function ProductDescriptionGenerator() {
       },
       body: JSON.stringify({ userInput: data.userInput }),
     });
-
+    setStep(2);
     const result = await response.json();
     const detectedLanguage = result?.detectedLanguage;
     setLanguage(detectedLanguage);
     const mutableData = { ...data, detectedLanguage };
-    setStep(2);
-    await submit(mutableData);
+    submit(mutableData);
   };
+
+  useEffect(() => {
+    if (object?.blocks) {
+      setEditorData(object.blocks as OutputBlockData[]);
+    }
+  }, [object?.blocks]);
 
   return (
     <div className="w-full p-4 flex flex-col gap-xl h-screen items-center justify-around">
-      {!isLoading && !object?.blocks && <FormComponent onSubmit={onSubmit} />}
-      {object?.blocks ? (
+      {!isLoading && !object?.blocks && step === 0 && (
+        <FormComponent onSubmit={onSubmit} />
+      )}
+      {editorData.length ? (
         <EditorComponent
-          editorData={object.blocks as OutputBlockData[]}
+          editorData={editorData}
           isLoading={isLoading}
           stop={stop}
           language={language}
+          setStep={setStep}
+          setEditorData={setEditorData}
         />
       ) : step > 0 ? (
         <Stepper currentStep={step} />

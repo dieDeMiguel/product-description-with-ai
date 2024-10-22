@@ -62,8 +62,7 @@ p {
 
 .custom-h1,
 .custom-h2,
-.custom-p,
-button {
+.custom-p {
   max-width: 650px;
   margin: 0 auto;
 }

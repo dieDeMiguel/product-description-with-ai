@@ -9,14 +9,20 @@ const EditorComponent = ({
   stop,
   isLoading,
   language,
+  setStep,
+  setEditorData,
 }: {
   editorData: OutputBlockData[];
   isLoading: boolean;
   stop: () => void;
   language: string;
+  setStep: (step: number) => void;
+  setEditorData: (editorData: OutputBlockData[]) => void;
 }) => {
   const router = useRouter();
   const handleAcceptDescription = async () => {
+    setStep(3);
+    setEditorData([]);
     const response = await fetch("/api/create-product-description-entry", {
       method: "POST",
       body: JSON.stringify({ editorData, language }),
@@ -40,18 +46,16 @@ const EditorComponent = ({
   };
 
   return (
-    <div className="prose max-w-maxWidthEditorCanvas w-full shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col justify-between gap-2">
+    <div className="prose max-w-maxWidthEditorCanvas w-full min-h-[400px] shadow-md overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col justify-between gap-2">
       <div className="self-start text-center w-full">
         <div className="flex justify-center w-full">
           {isLoading ? (
             <Button onClick={() => stop()}>Stop Stream</Button>
           ) : (
-            <>
-              <Button onClick={handleAcceptDescription}>
-                Accept this version
-              </Button>
+            <div className="flex gap-4">
+              <Button onClick={handleAcceptDescription}>I like it</Button>
               <Button onClick={handleStartOver}>Start over</Button>
-            </>
+            </div>
           )}
         </div>
         <RenderedBlocks blocks={editorData} />

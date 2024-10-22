@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={"font-custom antialiased"}>
         <ToastProvider>
-          <main className="grid place-items-center">{children}</main>
+          <main className="grid place-items-center py-8">{children}</main>
           <Toaster />
         </ToastProvider>
       </body>
