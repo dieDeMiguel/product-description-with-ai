@@ -36,13 +36,13 @@ const RenderedBlocks = ({ blocks }: RenderedBlocksProps) => {
         {props.children}
       </h1>
     ),
-    h4: ({
+    h2: ({
       node,
       ...props
     }: React.HTMLAttributes<HTMLHeadingElement> & { node?: unknown }) => (
-      <h4 className="custom-h4" {...props}>
+      <h2 className="custom-h2" {...props}>
         {props.children}
-      </h4>
+      </h2>
     ),
     p: ({
       node,
@@ -56,7 +56,10 @@ const RenderedBlocks = ({ blocks }: RenderedBlocksProps) => {
 
   return (
     <div>
-      <ReactMarkdown className="text-left" components={components}>
+      <ReactMarkdown
+        className="text-left block-renderer"
+        components={components}
+      >
         {markdownContent}
       </ReactMarkdown>
     </div>

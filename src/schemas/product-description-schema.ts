@@ -12,12 +12,12 @@ const EditorBlock = z
   .refine(
     (block) => {
       if (block.type === "header") {
-        return block.data.level === 1 || block.data.level === 4;
+        return block.data.level === 1 || block.data.level === 2;
       }
       return true;
     },
     {
-      message: "Header level must be 1 or 4",
+      message: "Header level must be 1 or 2",
       path: ["data", "level"],
     }
   );

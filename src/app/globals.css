@@ -41,8 +41,8 @@ h1 {
   color: black;
 }
 
-h4.ce-header,
-h4 {
+h2.ce-header,
+h2 {
   font-size: 1.2rem;
   font-weight: 700;
   padding: 0.6em 0 3px;
@@ -61,7 +61,7 @@ p {
 }
 
 .custom-h1,
-.custom-h4,
+.custom-h2,
 .custom-p {
   max-width: 650px;
   margin: 0 auto;
