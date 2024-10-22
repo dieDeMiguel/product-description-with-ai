@@ -27,6 +27,7 @@ const EditorComponent = ({
       .then((data) => {
         return data.id;
       });
+    console.log(id);
     router.push(`/product-description/${id}`);
   };
   const handleStartOver = () => {

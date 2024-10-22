@@ -1,3 +1,4 @@
+import Disclaimer from "@/components/editor/disclaimer/disclaimer";
 import ImageKeywordsContainer from "@/components/image-uploader/image-keywords-container";
 import EditorPlaceholder from "@/components/ui/editor-placeholder";
 import { getProductDescription, ProductDescriptionAsset } from "@/db";
@@ -17,7 +18,7 @@ export default async function Page() {
   const id = pathname?.split("/").pop() || "";
   const productDescription: ProductDescriptionAsset =
     await getProductDescription(+id);
-  console.log("productDescription", productDescription);
+
   if (!productDescription) {
     return <div>Product description not found</div>;
   }
@@ -26,21 +27,12 @@ export default async function Page() {
     <div className="max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col gap-2">
       <Editor
         sectionID="description"
-        editorData={JSON.parse(productDescription?.description || "[]")}
+        editorData={JSON.parse(productDescription.description).blocks || []}
         wrapperClassName=""
         className="editor-content"
         isReadOnly={false}
       />
-      <div className="max-w-maxWidthEditorCanvas m-auto">
-        <p className="text-xs text-gray-500">
-          The generated content can contain errors, see &apos;Impresum&apos;
-          page for more Information
-        </p>
-        <p className="text-xs text-gray-500">
-          Der generierte Inhalt kann Fehler enthalten, siehe
-          &apos;Impressum&apos;-Seite für weitere Informationen.
-        </p>
-      </div>
+      <Disclaimer />
       <ImageKeywordsContainer {...productDescription} />
       <div className="flex justify-center gap-4 mt-6">
         <Link
