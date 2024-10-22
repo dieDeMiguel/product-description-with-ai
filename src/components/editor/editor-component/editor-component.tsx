@@ -46,7 +46,7 @@ const EditorComponent = ({
   };
 
   return (
-    <div className="prose max-w-maxWidthEditorCanvas w-full min-h-[400px] shadow-md overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col justify-between gap-2">
+    <div className="prose max-w-maxWidthEditorCanvas w-full min-h-[400px] shadow-md overflow-auto bg-white px-4 pt-8 pb-14 lg:px-6 rounded-lg flex flex-col justify-between gap-2">
       <div className="self-start text-center w-full">
         <div className="flex justify-center w-full">
           {isLoading ? (
