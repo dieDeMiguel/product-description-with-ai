@@ -41,7 +41,6 @@ export default function ProductDescriptionGenerator() {
 
   useEffect(() => {
     if (object?.blocks) {
-      console.log(object.blocks);
       setEditorData(object.blocks as OutputBlockData[]);
     }
   }, [object?.blocks]);

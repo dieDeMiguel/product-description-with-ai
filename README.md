@@ -12,7 +12,7 @@
 cp .env.example .env.development.local
 ```
 
-2. Then, open the `.env.development.local` file and fill in the required environment variables.
+1. Then, open the `.env.development.local` file and fill in the required environment variables.
 
 - You'll also need an `OPENAI_API_KEY` to access the OpenAI API.
 - You'll need all the `POSTGRES_*` variables from the Vercel dashboard to access the Vercel Postgres API. The Vercel Postgres API is used to store the current backgrounds and their status.
@@ -23,14 +23,14 @@ cp .env.example .env.development.local
 vercel env pull
 ```
 
-3. Initialize your DB
+1. Initialize your DB
 
    ```
    psql "<YOUR POSTGRES_URL>" -f src/db/schema.psql
    ```
 
-4. Run the development server
+2. Run the development server
 
-      ```
-      pnpm dev
-      ```
+   ```
+   pnpm dev
+   ```

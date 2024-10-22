@@ -31,8 +31,7 @@ export default function FormComponent({ onSubmit }: FormProps) {
   const form = useForm<FormData>({
     resolver: zodResolver(ProductDescriptionSchema),
     defaultValues: {
-      userInput:
-        "A new tesla model X with ultra efficient rotor and stator cutting edge technology and 20k cycle lithium battery",
+      userInput: "",
       terms: false,
     },
   });
