@@ -10,10 +10,10 @@ const KeywordsList: React.FC<KeywordsListProps> = ({ keywords }) => {
   }
 
   return (
-    <ul>
+    <ul className="flex flex-wrap gap-2">
       {keywords.map((keyword, index) => (
         <Badge
-          className="bg-badgeBackground inline-block mx-1 text-black hover:text-white"
+          className="bg-badgeBackground inline-block text-black hover:text-white"
           key={index}
         >
           {keyword}
