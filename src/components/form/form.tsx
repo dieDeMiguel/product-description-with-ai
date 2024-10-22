@@ -25,10 +25,9 @@ type FormData = z.infer<typeof ProductDescriptionSchema>;
 
 interface FormProps {
   onSubmit: (data: FormData) => void;
-  isSubmitting: boolean;
 }
 
-export default function FormComponent({ onSubmit, isSubmitting }: FormProps) {
+export default function FormComponent({ onSubmit }: FormProps) {
   const form = useForm<FormData>({
     resolver: zodResolver(ProductDescriptionSchema),
     defaultValues: {
@@ -44,7 +43,9 @@ export default function FormComponent({ onSubmit, isSubmitting }: FormProps) {
   return (
     <div className="grid">
       <div className="flex items-center h-20">
-        <h1 className="text-2xl font-bold">Product Description Genie</h1>
+        <h1 className="text-2xl font-bold text-white">
+          Product Description Genie
+        </h1>
         <GenieLamp
           style={{ width: 50, height: 50, marginBottom: 10 }}
           alt="genie lamp"
@@ -95,12 +96,8 @@ export default function FormComponent({ onSubmit, isSubmitting }: FormProps) {
               );
             }}
           />
-          <Button
-            type="submit"
-            className="w-full font-semibold"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Generating..." : "Generate a Product Description"}
+          <Button type="submit" className="w-full font-semibold">
+            Generate a Product Description
           </Button>
         </form>
       </Form>

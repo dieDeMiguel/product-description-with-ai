@@ -40,6 +40,7 @@ export async function createProductDescription(
 ): Promise<ProductDescriptionAsset> {
   const result =
     await sql`INSERT INTO productdescription_assets (description) VALUES (${description}) RETURNING *`;
+  console.log(result?.rows[0]);
   return result.rows[0] as ProductDescriptionAsset;
 }
 

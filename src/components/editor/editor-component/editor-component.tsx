@@ -1,72 +1,54 @@
 import { Button } from "@/components/ui/button";
 import RenderedBlocks from "@/utils/editor/block-renderer";
 import { OutputBlockData } from "@editorjs/editorjs";
-import dynamic from "next/dynamic";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import Disclaimer from "../disclaimer/disclaimer";
-
-const Editor = dynamic(() => import("@/components/editor/editor/editor"), {
-  ssr: false,
-});
+import { useRouter } from "next/navigation";
 
 const EditorComponent = ({
   editorData,
-  isLoading,
   stop,
+  isLoading,
+  language,
 }: {
   editorData: OutputBlockData[];
   isLoading: boolean;
   stop: () => void;
+  language: string;
 }) => {
-  const [showEditor, setShowEditor] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (!isLoading) {
-      setShowEditor(true);
-    }
-  }, [isLoading]);
+  const router = useRouter();
+  const handleAcceptDescription = async () => {
+    const id = await fetch("/api/create-product-description-entry", {
+      method: "POST",
+      body: JSON.stringify({ editorData, language }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        return data.id;
+      });
+    router.push(`/product-description/${id}`);
+  };
+  const handleStartOver = () => {
+    window.location.reload();
+  };
 
   return (
-    <div className="prose max-w-maxWidthEditorCanvas w-full lg:w-3/4 shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col justify-between gap-2">
-      {isLoading && (
-        <div className="self-start text-center w-full">
-          <Button
-            onClick={() => {
-              stop();
-              setShowEditor(true);
-            }}
-          >
-            Stop Stream
-          </Button>
-          <RenderedBlocks blocks={editorData} />
+    <div className="prose max-w-maxWidthEditorCanvas w-full shadow-md h-full overflow-auto bg-white px-4 py-8 lg:px-6 rounded-lg flex flex-col justify-between gap-2">
+      <div className="self-start text-center w-full">
+        <div className="flex justify-center w-full">
+          {isLoading ? (
+            <Button onClick={() => stop()}>Stop Stream</Button>
+          ) : (
+            <>
+              <Button onClick={handleAcceptDescription}>
+                Accept this version
+              </Button>
+              <Button onClick={handleStartOver}>Start over</Button>
+            </>
+          )}
         </div>
-      )}
-      {showEditor && (
-        <div className="editor">
-          <Editor
-            sectionID="description"
-            editorData={editorData}
-            wrapperClassName=""
-            className="editor-content"
-            isReadOnly={false}
-          />
-          <Disclaimer />
-        </div>
-      )}
-      <div className="flex justify-center gap-4 mt-6">
-        <Link
-          href="/"
-          className="block text-center text-gray-500 hover:text-black cursor-pointer"
-        >
-          Home
-        </Link>
-        <Link
-          href="/impressum"
-          className="block text-center text-gray-500 hover:text-black cursor-pointer"
-        >
-          Impressum
-        </Link>
+        <RenderedBlocks blocks={editorData} />
       </div>
     </div>
   );
