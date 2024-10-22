@@ -7,7 +7,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   const { editorData, language } = await request.json();
-  console.log("Request body: editorData", editorData);
   const blocks = {
     blocks: editorData,
   };

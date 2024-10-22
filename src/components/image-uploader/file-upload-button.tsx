@@ -10,6 +10,8 @@ interface FileUploadButtonProps {
   className?: string;
 }
 
+const MAX_FILE_SIZE = 2 * 1024 * 1024;
+
 export function FileUploadButton({
   id,
   setImageUrl,
@@ -23,6 +25,12 @@ export function FileUploadButton({
   ) => {
     const file = event.target.files?.[0];
     if (file) {
+      if (file.size > MAX_FILE_SIZE) {
+        alert(
+          "File size exceeds the maximum limit of 2MB. Please choose a smaller file."
+        );
+        return;
+      }
       const formData = new FormData();
       formData.append("image", file);
       formData.append("id", id.toString());
@@ -66,7 +74,7 @@ export function FileUploadButton({
           disabled={isUploading}
           className="font-semibold flex items-center justify-center"
         >
-          Upload Image
+          Upload Image (Max 2MB)
         </Button>
       )}
     </div>
