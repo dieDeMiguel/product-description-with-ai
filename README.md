@@ -6,7 +6,7 @@
    pnpm install
    ```
 
-   1. Setup your environment variables
+   Setup your environment variables
 
 ```bash
 cp .env.example .env.development.local
@@ -18,19 +18,18 @@ cp .env.example .env.development.local
 - You'll need all the `POSTGRES_*` variables from the Vercel dashboard to access the Vercel Postgres API. The Vercel Postgres API is used to store the current backgrounds and their status.
 - You'll need a `BLOB_READ_WRITE_TOKEN` from the Vercel dashboard to access the Vercel Blob API. The Vercel Blob API is used to store the uploaded images.
   1. You can get all the Vercel variables by using the Vercel CLI:
+- Initialize your DB
 
-```
-vercel env pull
-```
+  ```
+  psql "<YOUR POSTGRES_URL>" -f src/db/schema.psql
+  ```
 
-1. Initialize your DB
+  Run the development server
 
-   ```
-   psql "<YOUR POSTGRES_URL>" -f src/db/schema.psql
-   ```
+  ```
+  pnpm dev
+  ```
 
-2. Run the development server
-
-   ```
-   pnpm dev
-   ```
+  1. ```
+     Live Version: https://product-description-ai.vercel.app
+     ```
