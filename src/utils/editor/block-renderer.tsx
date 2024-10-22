@@ -36,13 +36,13 @@ const RenderedBlocks = ({ blocks }: RenderedBlocksProps) => {
         {props.children}
       </h1>
     ),
-    h2: ({
+    h4: ({
       node,
       ...props
     }: React.HTMLAttributes<HTMLHeadingElement> & { node?: unknown }) => (
-      <h2 className="custom-h2" {...props}>
+      <h4 className="custom-h4" {...props}>
         {props.children}
-      </h2>
+      </h4>
     ),
     p: ({
       node,

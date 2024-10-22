@@ -13,7 +13,7 @@ export const loadEditorTools = async () => {
       class: Header,
       config: {
         placeholder: "Enter a header",
-        levels: [1, 2],
+        levels: [1, 4],
         defaultLevel: 1,
       },
     },
