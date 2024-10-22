@@ -5,6 +5,7 @@ import EditorJS, {
   OutputBlockData,
   ToolConstructable,
 } from "@editorjs/editorjs";
+import { debounce } from "lodash";
 import { MutableRefObject, useEffect } from "react";
 
 const useInitializeEditor = (
@@ -12,8 +13,8 @@ const useInitializeEditor = (
   inlineToolbar: boolean,
   sectionID: string,
   editorData: OutputBlockData[],
-  isReadOnly: boolean
-  //  handleSaveChanges: () => void
+  isReadOnly: boolean,
+  handleSaveChanges: () => void
 ) => {
   useEffect(() => {
     const initializeEditor = async () => {
@@ -29,7 +30,7 @@ const useInitializeEditor = (
             readOnly: isReadOnly,
             autofocus: !isReadOnly,
             hideToolbar: true,
-            // onChange: debounce(handleSaveChanges, 1000),
+            onChange: debounce(handleSaveChanges, 1000),
             data: {
               time: new Date().getTime(),
               blocks:

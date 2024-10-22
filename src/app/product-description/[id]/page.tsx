@@ -31,6 +31,7 @@ export default async function Page() {
         wrapperClassName=""
         className="editor-content"
         isReadOnly={false}
+        id={productDescription?.id}
       />
       <Disclaimer />
       <ImageKeywordsContainer {...productDescription} />
