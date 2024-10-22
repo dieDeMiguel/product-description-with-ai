@@ -1,5 +1,6 @@
 import { Toaster } from "@/components/ui/toaster";
 import { ToastProvider } from "@radix-ui/react-toast";
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -20,6 +21,7 @@ export default function RootLayout({
           <main className="grid place-items-center py-8">{children}</main>
           <Toaster />
         </ToastProvider>
+        <Analytics />
       </body>
     </html>
   );
