@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
+import { cn } from "@/lib/utils";
 import { OutputBlockData } from "@editorjs/editorjs";
 import { useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 
 interface RenderedBlocksProps {
   blocks: OutputBlockData[];
+  isGenerating: boolean;
 }
 
-const RenderedBlocks = ({ blocks }: RenderedBlocksProps) => {
+const RenderedBlocks = ({ blocks, isGenerating }: RenderedBlocksProps) => {
   const markdownContent = useMemo(() => {
     return blocks
       .map((block) => {
@@ -55,14 +57,14 @@ const RenderedBlocks = ({ blocks }: RenderedBlocksProps) => {
   };
 
   return (
-    <div>
+    <>
       <ReactMarkdown
-        className="text-left block-renderer"
+        className={cn("text-left", isGenerating && "block-renderer")}
         components={components}
       >
         {markdownContent}
       </ReactMarkdown>
-    </div>
+    </>
   );
 };
 

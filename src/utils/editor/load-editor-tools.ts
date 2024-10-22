@@ -13,6 +13,7 @@ export const loadEditorTools = async () => {
       class: Header,
       config: {
         placeholder: "Enter a header",
+        inlineToolbar: ["link", "bold", "italic"],
         levels: [1, 2],
         defaultLevel: 1,
       },

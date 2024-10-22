@@ -58,7 +58,7 @@ const EditorComponent = ({
             </div>
           )}
         </div>
-        <RenderedBlocks blocks={editorData} />
+        <RenderedBlocks blocks={editorData} isGenerating={isLoading} />
       </div>
     </div>
   );

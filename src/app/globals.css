@@ -67,6 +67,10 @@ p {
   margin: 0 auto;
 }
 
+.block-renderer:last-child {
+  mask-image: linear-gradient(to top, transparent 15%, black 35%);
+}
+
 .ce-block:has(.ce-block__content h1) {
   margin-bottom: 1rem;
 }
