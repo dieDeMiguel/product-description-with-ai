@@ -11,7 +11,7 @@ const useInitializeEditor = (
   ref: MutableRefObject<EditorJS | null>,
   inlineToolbar: boolean,
   sectionID: string,
-  data: OutputBlockData[],
+  editorData: OutputBlockData[],
   isReadOnly: boolean
   //  handleSaveChanges: () => void
 ) => {
@@ -33,8 +33,8 @@ const useInitializeEditor = (
             data: {
               time: new Date().getTime(),
               blocks:
-                data.length > 0
-                  ? data
+                editorData.length > 0
+                  ? editorData
                   : [
                       {
                         type: "paragraph",
@@ -70,7 +70,7 @@ const useInitializeEditor = (
         }
       }
     };
-  }, [ref, sectionID, data]);
+  }, [ref, sectionID, editorData]);
 };
 
 export default useInitializeEditor;
