@@ -35,5 +35,5 @@ pnpm dev
 5.Live Version:
 
 ```bash
- https://product-description-ai.vercel.app
+https://product-description-ai.vercel.app
 ```
