@@ -3,7 +3,7 @@
 import { setImageUrl } from "@/db";
 import { put } from "@vercel/blob";
 
-export const handleUploadImage = async (formData: FormData, id: number) => {
+export const handleUploadImage = async (formData: FormData, uuid: string) => {
   const file = formData.get("image") as Blob;
   if (!file) {
     throw new Error("No image file provided");
@@ -11,7 +11,6 @@ export const handleUploadImage = async (formData: FormData, id: number) => {
 
   const buffer = await file.arrayBuffer();
   const data = Buffer.from(buffer);
-  const stringId = id.toString();
 
   const randomFileName = Math.random().toString(36).substring(2);
 
@@ -19,7 +18,7 @@ export const handleUploadImage = async (formData: FormData, id: number) => {
     access: "public",
   });
 
-  await setImageUrl(url, stringId);
+  await setImageUrl(url, uuid);
 
   return { url };
 };

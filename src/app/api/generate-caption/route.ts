@@ -4,10 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const { id, imageUrl, language } = await request.json();
+    const { uuid, imageUrl, language } = await request.json();
 
-    const caption = await generateImageCaption(id, imageUrl, language);
-    await setImageCaption(id, caption);
+    const caption = await generateImageCaption(uuid, imageUrl, language);
+    await setImageCaption(uuid, caption);
 
     return NextResponse.json({ caption }, { status: 200 });
   } catch (error) {

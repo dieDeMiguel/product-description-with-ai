@@ -5,7 +5,7 @@ import React, { useRef, useState } from "react";
 import UploadingIndicator from "./uploading-indicator";
 
 interface FileUploadButtonProps {
-  id: number;
+  uuid: string;
   setImageUrl: (url: string) => void;
   className?: string;
 }
@@ -13,7 +13,7 @@ interface FileUploadButtonProps {
 const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
 export function FileUploadButton({
-  id,
+  uuid,
   setImageUrl,
   className,
 }: FileUploadButtonProps) {
@@ -33,7 +33,7 @@ export function FileUploadButton({
       }
       const formData = new FormData();
       formData.append("image", file);
-      formData.append("id", id.toString());
+      formData.append("uuid", uuid.toString());
       setIsUploading(true);
       try {
         const uploadResponse = await fetch("/api/upload-image", {

@@ -10,12 +10,12 @@ import KeywordsList from "./keywords-list";
 export default function ImageKeywordsContainer(
   productDescription: ProductDescriptionAsset
 ) {
-  const { language, id, image_url, image_caption } = productDescription;
+  const { language, uuid, image_url, image_caption } = productDescription;
   const keywords = productDescription?.tags?.split(",");
   const [imageUrl, setImageUrl] = useState<string>(image_url || "");
   const [imageCaption, setImageCaption] = useState<string>(image_caption || "");
 
-  useGenerateCaption(id, imageUrl, language, imageCaption, setImageCaption);
+  useGenerateCaption(uuid, imageUrl, language, imageCaption, setImageCaption);
 
   return (
     <div className="max-w-maxWidthEditorContent m-auto flex flex-col gap-10 mt-4">
@@ -34,7 +34,7 @@ export default function ImageKeywordsContainer(
         ) : (
           <FileUploadButton
             className="min-h-[var(--size-4000)] flex items-center justify-center"
-            id={id}
+            uuid={uuid}
             setImageUrl={setImageUrl}
           />
         )}

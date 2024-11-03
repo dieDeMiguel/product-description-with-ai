@@ -14,7 +14,7 @@ const SYSTEM_CONTEXT = (language: string) => `
 `;
 
 export async function generateImageCaption(
-  id: number,
+  uuid: string,
   url: string,
   language: string
 ): Promise<string> {
@@ -44,6 +44,6 @@ export async function generateImageCaption(
   if (!caption) {
     throw new Error("Failed to generate image caption");
   }
-  await setImageCaption(id, caption);
+  await setImageCaption(uuid, caption);
   return caption;
 }

@@ -1,9 +1,11 @@
 "use server";
 
 import { sql } from "@vercel/postgres";
+import { v4 as uuidv4 } from "uuid";
 
 export type ProductDescriptionAsset = {
   id: number;
+  uuid: string;
   description: string;
   language: string;
   tags: string;
@@ -12,20 +14,20 @@ export type ProductDescriptionAsset = {
 };
 
 export async function setProductDescription(
-  id: number,
+  uuid: string,
   description: string
 ): Promise<void> {
-  await sql`UPDATE productdescription_assets SET description=${description} WHERE id=${id}`;
+  await sql`UPDATE productdescription_assets SET description=${description} WHERE uuid=${uuid}`;
 }
 
 export async function getProductDescription(
-  id: number
+  uuid: string
 ): Promise<ProductDescriptionAsset> {
   try {
     const result =
-      await sql`SELECT * FROM productdescription_assets WHERE id=${id}`;
+      await sql`SELECT * FROM productdescription_assets WHERE uuid=${uuid}`;
     if (result.rows.length === 0) {
-      throw new Error(`No product description found with id ${id}`);
+      throw new Error(`No product description found with uuid ${uuid}`);
     }
     const productDescriptionAsset = result.rows[0] as ProductDescriptionAsset;
     return productDescriptionAsset;
@@ -38,26 +40,33 @@ export async function getProductDescription(
 export async function createProductDescription(
   description: string
 ): Promise<ProductDescriptionAsset> {
+  const uuid = uuidv4();
   const result =
-    await sql`INSERT INTO productdescription_assets (description) VALUES (${description}) RETURNING *`;
+    await sql`INSERT INTO productdescription_assets (uuid, description) VALUES (${uuid}, ${description}) RETURNING *`;
   return result.rows[0] as ProductDescriptionAsset;
 }
 
-export async function setProductTags(id: number, tags: string): Promise<void> {
-  await sql`UPDATE productdescription_assets SET tags=${tags} WHERE id=${id}`;
+export async function setProductTags(
+  uuid: string,
+  tags: string
+): Promise<void> {
+  await sql`UPDATE productdescription_assets SET tags=${tags} WHERE uuid=${uuid}`;
 }
 
-export async function setLanguage(id: number, language: string): Promise<void> {
-  await sql`UPDATE productdescription_assets SET language=${language} WHERE id=${id}`;
+export async function setLanguage(
+  uuid: string,
+  language: string
+): Promise<void> {
+  await sql`UPDATE productdescription_assets SET language=${language} WHERE uuid=${uuid}`;
 }
 
-export async function setImageUrl(image: string, id: string): Promise<void> {
-  await sql`UPDATE productdescription_assets SET image_url=${image} WHERE id=${id}`;
+export async function setImageUrl(image: string, uuid: string): Promise<void> {
+  await sql`UPDATE productdescription_assets SET image_url=${image} WHERE uuid=${uuid}`;
 }
 
 export async function setImageCaption(
-  id: number,
+  uuid: string,
   caption: string
 ): Promise<void> {
-  await sql`UPDATE productdescription_assets SET image_caption=${caption} WHERE id=${id}`;
+  await sql`UPDATE productdescription_assets SET image_caption=${caption} WHERE uuid=${uuid}`;
 }

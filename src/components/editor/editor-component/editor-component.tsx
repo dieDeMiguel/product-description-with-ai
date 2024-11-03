@@ -39,7 +39,7 @@ const EditorComponent = ({
         "Content-Type": "application/json",
       },
     });
-    router.push(`/product-description/${productDescriptionAsset.id}`);
+    router.push(`/product-description/${productDescriptionAsset.uuid}`);
   };
   const handleStartOver = () => {
     window.location.reload();

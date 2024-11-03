@@ -4,16 +4,16 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
-    const id = parseInt(formData.get("id") as string, 10);
+    const uuid = formData.get("uuid") as string;
     const image = formData.get("image") as File;
-    if (!id || !image) {
+    if (!uuid || !image) {
       return NextResponse.json(
-        { error: "Missing 'id' or 'image" },
+        { error: "Missing 'uuid' or 'image" },
         { status: 400 }
       );
     }
 
-    const { url } = await handleUploadImage(formData, id);
+    const { url } = await handleUploadImage(formData, uuid);
 
     return NextResponse.json({ url }, { status: 200 });
   } catch (error) {

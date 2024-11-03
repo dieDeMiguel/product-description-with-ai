@@ -12,7 +12,7 @@ interface EditorProps {
   wrapperClassName?: string;
   editorData: OutputBlockData[];
   isReadOnly: boolean;
-  id: number;
+  uuid: string;
 }
 
 const Editor: React.FC<EditorProps> = ({
@@ -21,7 +21,7 @@ const Editor: React.FC<EditorProps> = ({
   wrapperClassName = "",
   editorData,
   isReadOnly,
-  id,
+  uuid: id,
 }) => {
   const editorRef = useRef<EditorJS | null>(null);
 

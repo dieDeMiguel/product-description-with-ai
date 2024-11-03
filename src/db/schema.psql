@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS productdescription_assets (
   id SERIAL PRIMARY KEY,
+  uuid UUID DEFAULT gen_random_uuid(),
   description TEXT,
   language TEXT,
   tags TEXT,

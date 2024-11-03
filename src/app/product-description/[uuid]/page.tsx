@@ -13,9 +13,9 @@ const Editor = dynamic(() => import("@/components/editor/editor/editor"), {
 export default async function Page() {
   const headerList = await headers();
   const pathname = headerList.get("x-current-path");
-  const id = pathname?.split("/").pop() || "";
+  const uuid = pathname?.split("/").pop() || "";
   const productDescription: ProductDescriptionAsset =
-    await getProductDescription(+id);
+    await getProductDescription(uuid);
 
   if (!productDescription) {
     return <div>Product description not found</div>;
@@ -29,7 +29,7 @@ export default async function Page() {
         wrapperClassName=""
         className="editor-content"
         isReadOnly={false}
-        id={productDescription?.id}
+        uuid={productDescription?.uuid}
       />
       <Disclaimer />
       <ImageKeywordsContainer {...productDescription} />

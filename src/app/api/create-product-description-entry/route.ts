@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     if (!productDescriptionEntry) {
       throw new Error("Failed to create product description entry");
     }
-    await setLanguage(productDescriptionEntry?.id, language);
+    await setLanguage(productDescriptionEntry?.uuid, language);
   } catch (error) {
     console.error("Error creating product description entry:", error);
     throw new Error("Failed to create product description entry");

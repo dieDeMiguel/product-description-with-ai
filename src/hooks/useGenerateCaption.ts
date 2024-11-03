@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 const useGenerateCaption = (
-  id: number,
+  uuid: string,
   imageUrl: string,
   language: string,
   imageCaption: string,
@@ -16,7 +16,7 @@ const useGenerateCaption = (
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id,
+            uuid,
             imageUrl,
             language,
           }),
@@ -31,7 +31,7 @@ const useGenerateCaption = (
       };
       generateCaption();
     }
-  }, [id, imageUrl, language, imageCaption, setImageCaption]);
+  }, [uuid, imageUrl, language, imageCaption, setImageCaption]);
 };
 
 export default useGenerateCaption;
