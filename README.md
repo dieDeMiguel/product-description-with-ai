@@ -22,9 +22,9 @@ https://github.com/user-attachments/assets/d23f2874-8922-4c06-b18c-67c00e34c573
 
 - Setup your environment variables
 
-```bash
-cp .env.example .env.development.local
-```
+  ```bash
+  cp .env.example .env.development.local
+  ```
 
 - Then, open the `.env.development.local` file and fill in the required environment variables.
 
@@ -44,10 +44,7 @@ cp .env.example .env.development.local
 
 - Run the development server
 
-```
-pnpm dev
-```
+  ```
+  pnpm dev
+  ```
 
-```
-pnpm dev
-```
