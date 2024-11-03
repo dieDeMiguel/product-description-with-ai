@@ -1,5 +1,3 @@
-&lt;div align="center"&gt;
-
 https://github.com/user-attachments/assets/d23f2874-8922-4c06-b18c-67c00e34c573
 
 # Product Description Genie
@@ -29,12 +27,14 @@ cp .env.example .env.development.local
 ```
 
 - Then, open the `.env.development.local` file and fill in the required environment variables.
-- You'll also need an `OPENAI_API_KEY` to access the OpenAI API.
-- You'll need all the `POSTGRES_*` variables from the Vercel dashboard to access the Vercel Postgres API. The Vercel Postgres API is used to store the current backgrounds and their status.
-- You'll need a `BLOB_READ_WRITE_TOKEN` from the Vercel dashboard to access the Vercel Blob API. The Vercel Blob API is used to store the uploaded images.
-- You can get all the Vercel variables by using the Vercel CLI:
 
-  1. Follow these[ ](https://vercel.com/docs/cli/project-linking)[these steps.](https://vercel.com/docs/cli/link)
+- You'll also need an `OPENAI_API_KEY` to access the OpenAI API.
+
+- You'll need all the `POSTGRES_*` variables from the Vercel dashboard to access the Vercel Postgres API. The Vercel Postgres API is used to store the current backgrounds and their status.
+
+- You'll need a `BLOB_READ_WRITE_TOKEN` from the Vercel dashboard to access the Vercel Blob API. The Vercel Blob API is used to store the uploaded images.
+
+- You can get all the Vercel variables by using the Vercel CLI by running `vercel link`
 
 - Initialize your DB
 
