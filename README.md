@@ -1,6 +1,6 @@
 &lt;div align="center"&gt;
 
-&lt;video width="600" controls&gt;&lt;source src="public/videos/ai-product-description.mp4" type="video/mp4"&gt;Your browser does not support the video tag.&lt;/video&gt;
+https://github.com/user-attachments/assets/d23f2874-8922-4c06-b18c-67c00e34c573
 
 # Product Description Genie
 
