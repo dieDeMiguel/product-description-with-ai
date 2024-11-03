@@ -4,13 +4,13 @@ https://github.com/user-attachments/assets/d23f2874-8922-4c06-b18c-67c00e34c573
 
 ## Generate Product Descriptions with AI on a WYSIWYG Text Editor
 
-### Main Features
-
 <div align="left">
 <a href="https://www.manuelsanchezdev.com/blog/integrating-llm-frontend">
  Live Site
 </a>
 </div>
+
+### Main Features
 
 - **Live feedback through stream**: Content is streamed directly into the UI.
 - **Tailored Content Generation**: User can prompt any product and get a description.
