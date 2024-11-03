@@ -2,7 +2,6 @@ import Disclaimer from "@/components/editor/disclaimer/disclaimer";
 import ImageKeywordsContainer from "@/components/image-uploader/image-keywords-container";
 import EditorPlaceholder from "@/components/ui/editor-placeholder";
 import { getProductDescription, ProductDescriptionAsset } from "@/db";
-
 import dynamic from "next/dynamic";
 import { headers } from "next/headers";
 import Link from "next/link";
@@ -13,7 +12,7 @@ const Editor = dynamic(() => import("@/components/editor/editor/editor"), {
 });
 
 export default async function Page() {
-  const headerList = headers();
+  const headerList = await headers();
   const pathname = headerList.get("x-current-path");
   const id = pathname?.split("/").pop() || "";
   const productDescription: ProductDescriptionAsset =

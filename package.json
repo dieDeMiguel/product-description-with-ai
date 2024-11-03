@@ -4,7 +4,7 @@
   "description": "A tool to generate compelling product descriptions for e-commerce platforms.",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo -p 3001",
+    "dev": "next dev --turbopack -p 3001",
     "build": "next build",
     "start": "next start -p 3001",
     "lint": "next lint"
@@ -36,10 +36,10 @@
     "clsx": "^2.1.1",
     "lodash": "^4.17.21",
     "lucide-react": "^0.445.0",
-    "next": "14.2.13",
+    "next": "15.0.2",
     "openai": "^4.65.0",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "19.0.0-rc-02c0e824-20241028",
+    "react-dom": "19.0.0-rc-02c0e824-20241028",
     "react-hook-form": "^7.53.0",
     "react-markdown": "^9.0.1",
     "tailwind": "^4.0.0",
@@ -51,14 +51,20 @@
   "devDependencies": {
     "@types/lodash": "^4.17.7",
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "npm:types-react@19.0.0-rc.1",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
     "@types/uuid": "^10.0.0",
     "concurrently": "^9.0.1",
     "eslint": "^8",
-    "eslint-config-next": "14.2.13",
+    "eslint-config-next": "15.0.2",
     "postcss": "^8",
     "tailwindcss": "^3.4.13",
     "typescript": "^5"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "npm:types-react@19.0.0-rc.1",
+      "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
+    }
   }
 }
