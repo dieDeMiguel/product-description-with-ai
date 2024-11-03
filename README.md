@@ -2,8 +2,6 @@
 
 &lt;video width="600" controls&gt;&lt;source src="public/videos/ai-product-description.mp4" type="video/mp4"&gt;Your browser does not support the video tag.&lt;/video&gt;
 
-&lt;a href="[https://github.com/midudev/la-velada-web-oficial](https://product-description-ai.vercel.app/)"&gt;Live Site &lt;/a&gt;
-
 # Product Description Genie
 
 ## Generate Product Descriptions with AI on a WYSIWYG Text Editor
@@ -13,6 +11,8 @@
 - **Live feedback through stream**: Content is streamed directly into the UI.
 - **Tailored Content Generation**: User can prompt any product and get a description.
 - **Multilanguage**: Content will be generated in the prompted language.
+- **Automatic Product Tags:** Tags are generated automatically.
+- **Image description**: This features allows the user to upload an image and get a photo description
 
 ### Installation:
 
@@ -43,6 +43,10 @@ cp .env.example .env.development.local
   ```
 
 - Run the development server
+
+```
+pnpm dev
+```
 
 ```
 pnpm dev
