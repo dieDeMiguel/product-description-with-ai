@@ -30,7 +30,7 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
           className={`object-cover rounded-lg transition-opacity duration-300 ${
             isLoading ? "opacity-0" : "opacity-100"
           }`}
-          // onLoad={() => setIsLoading(false)}
+          onLoad={() => setIsLoading(false)}
           onError={() => {
             console.error("Error loading image");
             setIsLoading(false);
