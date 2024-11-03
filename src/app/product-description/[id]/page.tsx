@@ -7,7 +7,6 @@ import { headers } from "next/headers";
 import Link from "next/link";
 
 const Editor = dynamic(() => import("@/components/editor/editor/editor"), {
-  ssr: false,
   loading: () => <EditorPlaceholder />,
 });
 
