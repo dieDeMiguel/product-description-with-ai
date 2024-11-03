@@ -16,7 +16,7 @@ export async function generateProductDescriptionSetLanguage(
     if (!productDescriptionEntry) {
       throw new Error("Failed to create product description entry");
     }
-    await setLanguage(productDescriptionEntry?.id, detectedLanguage);
+    await setLanguage(productDescriptionEntry?.uuid, detectedLanguage);
     return productDescriptionEntry;
   } catch (error) {
     console.error("Error creating product description entry:", error);
