@@ -8,7 +8,7 @@ https://github.com/user-attachments/assets/d23f2874-8922-4c06-b18c-67c00e34c573
 
 <div align="center">
 <a href="https://www.manuelsanchezdev.com/blog/integrating-llm-frontend">
-  <img width="300px" src="/public/genie-lamp.svg" alt="live site" width="800" />
+  <img width="300px" src="/genie-lamp.svg" alt="live site" width="800" />
 </a>
 <p>Live Site</p>
 </div>
