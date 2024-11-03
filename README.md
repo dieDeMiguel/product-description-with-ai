@@ -1,11 +1,6 @@
 &lt;div align="center"&gt;
 
-```html
-<video width="600" controls>
-  <source src="public/videos/ai-product-description.mp4" type="video/mp4" />
-  Your browser does not support the video tag.
-</video>
-```
+&lt;video width="600" controls&gt;&lt;source src="public/videos/a[i-product-description.mp4](http://ai-product-description.mp)" type="video/mp4"&gt;Your browser does not support the video tag.&lt;/video&gt;
 
 &lt;a href="[https://github.com/midudev/la-velada-web-oficial](https://product-description-ai.vercel.app/)"&gt;Live Site &lt;/a&gt;
 
