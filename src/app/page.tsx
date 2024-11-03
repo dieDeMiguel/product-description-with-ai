@@ -13,7 +13,7 @@ import { z } from "zod";
 
 type FormData = z.infer<typeof ProductDescriptionSchema>;
 
-export default function ProductDescriptionGenerator() {
+export default function Page() {
   const [step, setStep] = useState<number>(0);
   const [language, setLanguage] = useState<string>("");
   const [editorData, setEditorData] = useState<OutputBlockData[]>([]);
