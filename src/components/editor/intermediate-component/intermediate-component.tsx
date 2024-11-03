@@ -4,7 +4,7 @@ import RenderedBlocks from "@/utils/editor/block-renderer";
 import { OutputBlockData } from "@editorjs/editorjs";
 import { useRouter } from "next/navigation";
 
-const EditorComponent = ({
+const IntermediateComponent = ({
   editorData,
   stop,
   isLoading,
@@ -64,4 +64,4 @@ const EditorComponent = ({
   );
 };
 
-export default EditorComponent;
+export default IntermediateComponent;

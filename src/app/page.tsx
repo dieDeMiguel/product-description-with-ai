@@ -1,6 +1,6 @@
 "use client";
 
-import EditorComponent from "@/components/editor/editor-component/editor-component";
+import IntermediateComponent from "@/components/editor/intermediate-component/intermediate-component";
 import FormComponent from "@/components/form/form";
 import Stepper from "@/components/ui/stepper";
 import { ProductDescriptionSchema } from "@/schemas/form-schema";
@@ -51,7 +51,7 @@ export default function Page() {
         <FormComponent onSubmit={onSubmit} />
       )}
       {editorData.length ? (
-        <EditorComponent
+        <IntermediateComponent
           editorData={editorData}
           isLoading={isLoading}
           stop={stop}
