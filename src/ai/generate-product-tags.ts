@@ -10,12 +10,12 @@ You should ensure that the tags are accurate, relevant, and representative of th
 You have a strong command of language and are familiar with best practices in the e-commerce industry.
 Avoid extracting common words, filler words, or irrelevant information.
 Only extract tags that are significant and add value to the understanding of the product.
-Provide tags separated by a comma. Format: "Tags: [tag1, tag2, ...]"`;
+Provide tags separated by a comma. Format: "Tags: tag1, tag2, tag3"`;
 
 export async function generateProductTags(
   productDescriptionEntry: ProductDescriptionAsset
 ): Promise<void> {
-  const id = productDescriptionEntry.id;
+  const uuid = productDescriptionEntry.uuid;
   const prompt = productDescriptionEntry.description;
 
   try {
@@ -28,7 +28,7 @@ export async function generateProductTags(
       throw new Error("Failed to extract tags from the response");
     }
     const tags = tagsPart.split(",").map((tag) => tag.trim());
-    await setProductTags(id, tags.join(","));
+    await setProductTags(uuid, tags.join(","));
   } catch (error) {
     console.error("Error generating tags:", error);
     throw error;
