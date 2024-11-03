@@ -22,10 +22,7 @@ const nextConfig = {
   },
   reactStrictMode: false,
   images: {
-    domains: [
-      "t3xyzgvkkyktkixg.public.blob.vercel-storage.com",
-      "wnihnutqxzywjzzi.public.blob.vercel-storage.com",
-    ],
+    domains: ["t3xyzgvkkyktkixg.public.blob.vercel-storage.com"],
   },
   webpack(config) {
     config.module.rules.push({
