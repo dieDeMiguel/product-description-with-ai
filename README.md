@@ -6,11 +6,10 @@ https://github.com/user-attachments/assets/d23f2874-8922-4c06-b18c-67c00e34c573
 
 ### Main Features
 
-<div align="center">
+<div align="left">
 <a href="https://www.manuelsanchezdev.com/blog/integrating-llm-frontend">
-  <img width="300px" src="/genie-lamp.svg" alt="live site" width="800" />
+ Live Site
 </a>
-<p>Live Site</p>
 </div>
 
 - **Live feedback through stream**: Content is streamed directly into the UI.
