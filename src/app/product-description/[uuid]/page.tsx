@@ -3,7 +3,7 @@ import Disclaimer from "@/components/editor/disclaimer/disclaimer";
 import ImageContainer from "@/components/image-uploader/image-keywords-container";
 import Tags from "@/components/tags/tags";
 import EditorPlaceholder from "@/components/ui/editor-placeholder";
-import { Skeleton } from "@/components/ui/skeleton";
+import SkeletonTags from "@/components/ui/SkeletonTags";
 import { getProductDescription, ProductDescriptionAsset } from "@/db";
 import dynamic from "next/dynamic";
 import { headers } from "next/headers";
@@ -38,7 +38,7 @@ export default async function Page() {
         uuid={productDescription?.uuid}
       />
       <Disclaimer />
-      <Suspense fallback={<Skeleton/>}>
+      <Suspense fallback={<SkeletonTags />}>
         <Tags tagsPromise={tags} />
       </Suspense>
       <ImageContainer {...productDescription} />
