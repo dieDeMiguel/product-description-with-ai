@@ -2,25 +2,25 @@ import { Skeleton } from "./skeleton";
 
 const EditorPlaceholder: React.FC = () => {
   return (
-    <div className="animate-pulse space-y-4 max-w-maxWidthEditorContent] m-auto">
-      <Skeleton className="h-8 bg-gray-300 rounded w-3/4" />
-      <Skeleton className="h-6 bg-gray-300 rounded w-full" />
-      <Skeleton className="h-6 bg-gray-300 rounded w-full" />
-      <Skeleton className="h-6 bg-gray-300 rounded w-full" />
-      <Skeleton className="h-6 bg-gray-300 rounded w-full" />
-      <Skeleton className="h-6 bg-gray-300 rounded w-full" />
-      <Skeleton className="h-8 bg-gray-300 rounded w-3/4" />
-      <Skeleton className="h-6 bg-gray-300 rounded w-full" />
-      <Skeleton className="h-6 bg-gray-300 rounded w-full" />
-      <Skeleton className="h-6 bg-gray-300 rounded w-full" />
-      <Skeleton className="h-6 bg-gray-300 rounded w-full" />
-      <Skeleton className="h-8 bg-gray-300 rounded w-full" />
-      <Skeleton className="h-8 bg-gray-300 rounded w-3/4" />
-      <Skeleton className="h-6 bg-gray-300 rounded w-full" />
-      <Skeleton className="h-6 bg-gray-300 rounded w-full" />
-      <Skeleton className="h-6 bg-gray-300 rounded w-full" />
-      <Skeleton className="h-6 bg-gray-300 rounded w-full" />
-      <Skeleton className="h-6 bg-gray-300 rounded w-full" />
+    <div className="animate-pulse  w-3/4 space-y-2 mt-4 m-auto">
+      <Skeleton className="h-8 rounded w-3/4" />
+      <Skeleton className="h-6 rounded w-full" />
+      <Skeleton className="h-6 rounded w-full" />
+      <Skeleton className="h-6 rounded w-full" />
+      <Skeleton className="h-6 rounded w-full" />
+      <Skeleton className="h-6 rounded w-full" />
+      <Skeleton className="h-8 rounded w-3/4" />
+      <Skeleton className="h-6 rounded w-full" />
+      <Skeleton className="h-6 rounded w-full" />
+      <Skeleton className="h-6 rounded w-full" />
+      <Skeleton className="h-6 rounded w-full" />
+      <Skeleton className="h-8 rounded w-full" />
+      <Skeleton className="h-8 rounded w-3/4" />
+      <Skeleton className="h-6 rounded w-full" />
+      <Skeleton className="h-6 rounded w-full" />
+      <Skeleton className="h-6 rounded w-full" />
+      <Skeleton className="h-6 rounded w-full" />
+      <Skeleton className="h-6 rounded w-full" />
     </div>
   );
 };
