@@ -4,10 +4,10 @@
   "description": "A tool to generate compelling product descriptions for e-commerce platforms.",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack -p 3001",
-    "build": "next build",
-    "start": "next start -p 3001",
-    "lint": "next lint"
+    "dev": "pnpm next dev --turbopack -p 3001",
+    "build": "pnpm next build",
+    "start": "pnpm next start -p 3001",
+    "lint": "pnpm next lint"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.61",
