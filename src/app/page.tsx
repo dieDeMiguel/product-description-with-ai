@@ -3,6 +3,7 @@
 import IntermediateComponent from "@/components/editor/intermediate-component/intermediate-component";
 import FormComponent from "@/components/form/form";
 import Stepper from "@/components/ui/stepper";
+import { useAnimatedBlocks } from "@/hooks/useAnimatedBlocks";
 import { ProductDescriptionSchema } from "@/schemas/form-schema";
 import EditorBlocksSchema from "@/schemas/product-description-schema";
 import { OutputBlockData } from "@editorjs/editorjs";
@@ -45,6 +46,12 @@ export default function Page() {
     }
   }, [object?.blocks]);
 
+  const animatedBlocks = useAnimatedBlocks({ blocks: editorData });
+
+  useEffect(() => {
+    console.log("animatedBlocks", animatedBlocks);
+  }, [animatedBlocks]);
+
   return (
     <div className="w-full p-4 flex flex-col gap-xl h-screen items-center justify-around">
       {!isLoading && !object?.blocks && step === 0 && (
@@ -52,7 +59,7 @@ export default function Page() {
       )}
       {editorData.length ? (
         <IntermediateComponent
-          editorData={editorData}
+          editorData={animatedBlocks}
           isLoading={isLoading}
           stop={stop}
           language={language}
