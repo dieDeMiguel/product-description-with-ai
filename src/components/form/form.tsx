@@ -31,7 +31,8 @@ export default function FormComponent({ onSubmit }: FormProps) {
   const form = useForm<FormData>({
     resolver: zodResolver(ProductDescriptionSchema),
     defaultValues: {
-      userInput: "",
+      userInput:
+        "A new Tesla car that is fully electric and has a range of 400 miles.",
       terms: false,
     },
   });

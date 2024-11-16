@@ -1,12 +1,11 @@
 "use client";
 
-import IntermediateComponent from "@/components/editor/intermediate-component/intermediate-component";
 import FormComponent from "@/components/form/form";
-import Stepper from "@/components/ui/stepper";
 import { ProductDescriptionSchema } from "@/schemas/form-schema";
 import EditorBlocksSchema from "@/schemas/product-description-schema";
 import { OutputBlockData } from "@editorjs/editorjs";
 import { experimental_useObject as useObject } from "ai/react";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { z } from "zod";
@@ -17,6 +16,9 @@ export default function Page() {
   const [step, setStep] = useState<number>(0);
   const [language, setLanguage] = useState<string>("");
   const [editorData, setEditorData] = useState<OutputBlockData[]>([]);
+  const [visibleBlocks, setVisibleBlocks] = useState<OutputBlockData[]>([
+    { type: "paragraph", data: { text: "" } },
+  ]);
   const { object, submit, isLoading, stop } = useObject({
     api: "/api/generate-product-description",
     schema: EditorBlocksSchema,
@@ -45,12 +47,30 @@ export default function Page() {
     }
   }, [object?.blocks]);
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setVisibleBlocks((prev) => {
+        if (prev.length < editorData.length) {
+          return [...prev, editorData[prev.length]];
+        }
+        clearInterval(timer);
+        return prev;
+      });
+    }, 200);
+
+    return () => clearInterval(timer);
+  }, [editorData]);
+
+  useEffect(() => {
+    console.log("visibleBlocks: ", visibleBlocks);
+  }, [visibleBlocks]);
+
   return (
     <div className="w-full p-4 flex flex-col gap-xl h-screen items-center justify-around">
       {!isLoading && !object?.blocks && step === 0 && (
         <FormComponent onSubmit={onSubmit} />
       )}
-      {editorData.length ? (
+      {/* {editorData.length ? (
         <IntermediateComponent
           editorData={editorData}
           isLoading={isLoading}
@@ -61,7 +81,33 @@ export default function Page() {
         />
       ) : step > 0 ? (
         <Stepper currentStep={step} />
-      ) : null}
+      ) : null} */}
+      <div className="max-w-2xl mx-auto p-4">
+        <AnimatePresence>
+          {visibleBlocks.map((block) => (
+            <motion.div
+              key={block.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+            >
+              {block.type === "header" && (
+                <motion.h2
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {block.data.text}
+                </motion.h2>
+              )}
+              {block.type === "paragraph" && (
+                <TypingEffect text={block.data.text} />
+              )}
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
       <Link
         href="/impressum"
         className="text-gray-400 hover:text-white cursor-pointer"
@@ -70,4 +116,26 @@ export default function Page() {
       </Link>
     </div>
   );
+}
+
+function TypingEffect({ text }: { text: string }) {
+  const [displayedText, setDisplayedText] = useState("");
+
+  useEffect(() => {
+    let i = 0;
+    const timer = setInterval(() => {
+      setDisplayedText((prev) => {
+        if (i < text.length) {
+          i++;
+          return text.slice(0, i);
+        }
+        clearInterval(timer);
+        return prev;
+      });
+    }, 20); // Adjust this value to control typing speed
+
+    return () => clearInterval(timer);
+  }, [text]);
+
+  return <p className="text-white leading-relaxed">{displayedText}</p>;
 }
