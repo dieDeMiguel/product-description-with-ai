@@ -32,13 +32,6 @@ const IntermediateComponent = ({
     });
     const productDescriptionAsset: ProductDescriptionAsset =
       await response.json();
-    await fetch("/api/generate-product-tags", {
-      method: "POST",
-      body: JSON.stringify({ productDescriptionAsset }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
     router.push(`/product-description/${productDescriptionAsset.uuid}`);
   };
   const handleStartOver = () => {

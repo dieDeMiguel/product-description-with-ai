@@ -1,26 +1,26 @@
 import { Badge } from "../ui/badge";
 
-interface KeywordsListProps {
-  keywords: string[];
+interface TagsListProps {
+  tags: string[];
 }
 
-const KeywordsList: React.FC<KeywordsListProps> = ({ keywords }) => {
-  if (!keywords || keywords.length === 0) {
+const TagsList: React.FC<TagsListProps> = ({ tags }) => {
+  if (!tags || tags.length === 0) {
     return null;
   }
 
   return (
     <ul className="flex flex-wrap gap-2">
-      {keywords.map((keyword, index) => (
+      {tags.map((tag, index) => (
         <Badge
           className="bg-badgeBackground inline-block text-black hover:text-white"
           key={index}
         >
-          {keyword}
+          {tag}
         </Badge>
       ))}
     </ul>
   );
 };
 
-export default KeywordsList;
+export default TagsList;

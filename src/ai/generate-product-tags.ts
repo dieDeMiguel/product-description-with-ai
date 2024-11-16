@@ -14,7 +14,7 @@ Provide tags separated by a comma. Format: "Tags: tag1, tag2, tag3"`;
 
 export async function generateProductTags(
   productDescriptionEntry: ProductDescriptionAsset
-): Promise<void> {
+): Promise<string[]> {
   const uuid = productDescriptionEntry.uuid;
   const prompt = productDescriptionEntry.description;
 
@@ -29,6 +29,7 @@ export async function generateProductTags(
     }
     const tags = tagsPart.split(",").map((tag) => tag.trim());
     await setProductTags(uuid, tags.join(","));
+    return tags;
   } catch (error) {
     console.error("Error generating tags:", error);
     throw error;

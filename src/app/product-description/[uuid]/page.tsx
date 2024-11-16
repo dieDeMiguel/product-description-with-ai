@@ -1,10 +1,14 @@
+import { generateProductTags } from "@/ai/generate-product-tags";
 import Disclaimer from "@/components/editor/disclaimer/disclaimer";
-import ImageKeywordsContainer from "@/components/image-uploader/image-keywords-container";
+import ImageContainer from "@/components/image-uploader/image-keywords-container";
+import Tags from "@/components/tags/tags";
 import EditorPlaceholder from "@/components/ui/editor-placeholder";
+import SkeletonTags from "@/components/ui/SkeletonTags";
 import { getProductDescription, ProductDescriptionAsset } from "@/db";
 import dynamic from "next/dynamic";
 import { headers } from "next/headers";
 import Link from "next/link";
+import { Suspense } from "react";
 
 const Editor = dynamic(() => import("@/components/editor/editor/editor"), {
   loading: () => <EditorPlaceholder />,
@@ -16,6 +20,8 @@ export default async function Page() {
   const uuid = pathname?.split("/").pop() || "";
   const productDescription: ProductDescriptionAsset =
     await getProductDescription(uuid);
+
+  const tags = generateProductTags(productDescription);
 
   if (!productDescription) {
     return <div>Product description not found</div>;
@@ -32,7 +38,10 @@ export default async function Page() {
         uuid={productDescription?.uuid}
       />
       <Disclaimer />
-      <ImageKeywordsContainer {...productDescription} />
+      <Suspense fallback={<SkeletonTags />}>
+        <Tags tagsPromise={tags} />
+      </Suspense>
+      <ImageContainer {...productDescription} />
       <div className="flex justify-center gap-4 mt-6">
         <Link
           href="/"
