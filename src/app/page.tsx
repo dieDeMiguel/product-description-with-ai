@@ -57,9 +57,9 @@ export default function Page() {
       {!isLoading && !object?.blocks && step === 0 && (
         <FormComponent onSubmit={onSubmit} />
       )}
-      {editorData.length ? (
+      {/* {editorData.length ? (
         <IntermediateComponent
-          editorData={animatedBlocks}
+          editorData={editorData}
           isLoading={isLoading}
           stop={stop}
           language={language}
@@ -68,7 +68,26 @@ export default function Page() {
         />
       ) : step > 0 ? (
         <Stepper currentStep={step} />
-      ) : null}
+      ) : null} */}
+      <>
+        {animatedBlocks.map((block) => {
+          if (block.type === "header" && block.data.level === 2) {
+            return (
+              <h2 key={block.id} className="my-8 text-white text-lg">
+                {block.data.text}
+              </h2>
+            );
+          }
+          if (block.type === "paragraph") {
+            return (
+              <p key={block.id} className="my-4 text-white text-sm">
+                {block.data.text}
+              </p>
+            );
+          }
+          return null;
+        })}
+      </>
       <Link
         href="/impressum"
         className="text-gray-400 hover:text-white cursor-pointer"

@@ -31,8 +31,9 @@ export default function FormComponent({ onSubmit }: FormProps) {
   const form = useForm<FormData>({
     resolver: zodResolver(ProductDescriptionSchema),
     defaultValues: {
-      userInput: "",
-      terms: false,
+      userInput:
+        "A new Tesla Model x is coming soon, and it's going to be the best car ever!",
+      terms: true,
     },
   });
 

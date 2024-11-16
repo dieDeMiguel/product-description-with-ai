@@ -1,13 +1,13 @@
 "use client";
 
-import { OutputBlockData } from "@editorjs/editorjs";
 import { animate } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
+import { OutputBlockData } from "@editorjs/editorjs";
 
 type UseAnimatedBlocksProps = {
   blocks: OutputBlockData[];
-  duration?: number; 
-  ease?: 'linear' | 'easeIn' | 'easeOut' | 'easeInOut'; 
+  duration?: number;
+  ease?: "linear" | "easeIn" | "easeOut" | "easeInOut";
 };
 
 export function useAnimatedBlocks({
@@ -20,13 +20,22 @@ export function useAnimatedBlocks({
 
   useEffect(() => {
     const prevBlocks = prevBlocksRef.current;
-    const newBlocks = blocks;
+
+    // Normalize blocks: Ensure each block has type and required properties
+    const normalizedBlocks = blocks.map((block) => ({
+      ...block,
+      type: block.type || "paragraph",
+      data: {
+        ...block.data,
+        text: block.data?.text || "",
+      },
+    }));
 
     // Update the animation only if there's a difference
-    if (JSON.stringify(prevBlocks) !== JSON.stringify(newBlocks)) {
+    if (JSON.stringify(prevBlocks) !== JSON.stringify(normalizedBlocks)) {
       const updatedAnimatedBlocks = [...animatedBlocks];
 
-      newBlocks.forEach((newBlock, index) => {
+      normalizedBlocks.forEach((newBlock, index) => {
         const prevBlock = prevBlocks[index];
 
         // If block is new, add it with empty text
@@ -118,7 +127,7 @@ export function useAnimatedBlocks({
       setAnimatedBlocks(updatedAnimatedBlocks);
     }
 
-    prevBlocksRef.current = blocks;
+    prevBlocksRef.current = normalizedBlocks;
   }, [animatedBlocks, blocks, duration, ease]);
 
   return animatedBlocks;
