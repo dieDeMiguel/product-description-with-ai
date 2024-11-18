@@ -5,7 +5,7 @@ https://github.com/user-attachments/assets/d23f2874-8922-4c06-b18c-67c00e34c573
 ## Generate Product Descriptions with AI on a WYSIWYG Text Editor
 
 <div align="left">
-<a href="https://www.manuelsanchezdev.com/blog/integrating-llm-frontend">
+<a href="https://product-description-ai.vercel.app/">
  Live Site
 </a>
 </div>
