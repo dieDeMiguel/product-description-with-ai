@@ -1,7 +1,7 @@
 "use server";
-import EditorBlocksSchema from "@/schemas/product-description-schema";
+// import EditorBlocksSchema from "@/schemas/product-description-schema";
 import { openai as vercelAi } from "@ai-sdk/openai";
-import { streamObject } from "ai";
+import { smoothStream, streamText } from "ai";
 import { NextRequest, NextResponse } from "next/server";
 import "server-only";
 
@@ -15,7 +15,28 @@ const SYSTEM_CONTEXT = (language: string) => `
   <p>Paragraph text...</p>
   <h2>Sub Title 2</h2>
   <p>Paragraph text...</p>
-`;
+
+  IMPORTANT: Format your response as a JSON string with the following structure:
+  {
+    "blocks": [
+      {
+        "id": "unique-id-1",
+        "type": "header",
+        "data": {
+          "text": "Main Title",
+          "level": 1
+        }
+      },
+      {
+        "id": "unique-id-2",
+        "type": "paragraph",
+        "data": {
+          "text": "Paragraph text..."
+        }
+      }
+    ]
+  }
+`
 const MAX_TOKENS = 1200;
 
 export async function POST(request: NextRequest) {
@@ -29,13 +50,18 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    const result = await streamObject({
+    const result = await streamText({
       model: vercelAi("gpt-4-turbo"),
-      schema: EditorBlocksSchema,
+      // schema: EditorBlocksSchema,
       system: SYSTEM_CONTEXT(detectedLanguage),
       prompt: prompt,
       maxTokens: MAX_TOKENS,
+      experimental_transform: smoothStream({
+        delayInMs: 20, 
+        chunking: 'word',
+      }),    
     });
+
     return result.toTextStreamResponse();
   } catch (error) {
     console.error("Error in POST /api/generate-product-description:", error);
