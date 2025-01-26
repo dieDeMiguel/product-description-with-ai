@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       prompt: prompt,
       maxTokens: MAX_TOKENS,
       experimental_transform: smoothStream({
-        delayInMs: 20, 
+        delayInMs: 25, 
         chunking: 'word',
       }),    
     });
